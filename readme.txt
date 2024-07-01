@@ -1,2 +1,3 @@
-Patrick Egan
 Jacob Seto
+Lina Hao
+Patrick Egan
