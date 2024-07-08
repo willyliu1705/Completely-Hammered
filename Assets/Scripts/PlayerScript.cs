@@ -32,4 +32,14 @@ public class PlayerScript : MonoBehaviour
             transform.position += Vector3.down * speed * Time.deltaTime;
         }
     }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("Collision detected with: " + collision.gameObject.name);
+
+        if (collision.gameObject.CompareTag("wall"))
+        {
+            Debug.Log("Colliding w wall");
+        }
+    }
 }
