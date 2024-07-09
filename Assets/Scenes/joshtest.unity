@@ -317,7 +317,7 @@ PrefabInstance:
     - target: {fileID: 6112631441941317724, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
       propertyPath: sounds.Array.data[0].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 4ab626cc7753ab7419a67e866f8ed48b, type: 3}
+      objectReference: {fileID: 8300000, guid: 95b9c6e53f33d6d4b936b7baa6b7243b, type: 3}
     - target: {fileID: 6112631441941317724, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
       propertyPath: sounds.Array.data[0].name
       value: Bubbles
@@ -325,14 +325,14 @@ PrefabInstance:
     - target: {fileID: 6112631441941317724, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
       propertyPath: sounds.Array.data[1].clip
       value: 
-      objectReference: {fileID: 8300000, guid: cc050947036536247b470b6725ebe03e, type: 3}
+      objectReference: {fileID: 8300000, guid: a2e5285c05ec5054da12d4172819ef55, type: 3}
     - target: {fileID: 6112631441941317724, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
       propertyPath: sounds.Array.data[1].name
       value: Shuriken
       objectReference: {fileID: 0}
     - target: {fileID: 6112631441941317724, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
       propertyPath: sounds.Array.data[0].pitch
-      value: 1.03
+      value: 1.65
       objectReference: {fileID: 0}
     - target: {fileID: 6112631441941317724, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
       propertyPath: sounds.Array.data[1].pitch
