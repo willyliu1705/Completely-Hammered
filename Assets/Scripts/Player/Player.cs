@@ -90,12 +90,9 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private void Jump()
     {
-        if (jump)
-        {
             ApplyAirDrag();
             rb2D.AddForce(rb2D.transform.up * jumpForce, ForceMode2D.Impulse);
             jump = false;
-        }
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -116,13 +113,11 @@ public class Player : MonoBehaviour, IPlayerActions
 
     public void OnSwing(InputAction.CallbackContext context)
     {
-        swing = context.ReadValueAsButton();
+        swing = context.ReadValueAsButton() && IsGrounded;
     }
 
     private void Swing()
     {
-        if (swing)
-        {
             if (Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, aimAxes, raycastBuffer + 2f, groundLayerMask))
             {
                 ApplyAirDrag();
@@ -130,6 +125,5 @@ public class Player : MonoBehaviour, IPlayerActions
                 Debug.Log("Hammer Collision");
             }
             swing = false;
-        }
     }
 }
