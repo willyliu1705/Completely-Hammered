@@ -38,14 +38,22 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private void FixedUpdate()
     {
+
         Move();
-        Swing();
-        if (IsGrounded)
+        if (swing)
         {
-            ApplyGroundDrag();
+            Swing();
+        }
+        else if (jump)
+        {
             Jump();
         }
-        else
+        else if (IsGrounded)
+        {
+            ApplyGroundDrag();
+        }
+
+        if(!IsGrounded)
         {
             ApplyAirDrag();
         }
@@ -65,6 +73,7 @@ public class Player : MonoBehaviour, IPlayerActions
     {
         if (rb2D.velocity.x != 0f && (moveAxis == 0f || IsChangingDirection))
         {
+            print("ground drag");
             rb2D.drag = groundDrag;
         }
         else
@@ -75,6 +84,7 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private void ApplyAirDrag()
     {
+        print("air drag");
         rb2D.drag = airDrag;
     }
 
