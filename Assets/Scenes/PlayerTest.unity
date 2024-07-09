@@ -604,6 +604,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &1995901573 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 4100427336276966522, guid: dcd7de534aaa348088f81e764f0e90bb, type: 3}
+  m_PrefabInstance: {fileID: 5584648908284196817}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5584648908284196817
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -618,7 +623,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1345249564528849338, guid: dcd7de534aaa348088f81e764f0e90bb, type: 3}
       propertyPath: m_CollisionDetection
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1441585024363943775, guid: dcd7de534aaa348088f81e764f0e90bb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -664,6 +669,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 4100427336276966522, guid: dcd7de534aaa348088f81e764f0e90bb, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 35fc57f0e9aa1594fb8271357638b066, type: 2}
+    - target: {fileID: 4100427336276966522, guid: dcd7de534aaa348088f81e764f0e90bb, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6166247429742732118, guid: dcd7de534aaa348088f81e764f0e90bb, type: 3}
+      propertyPath: bc2D
+      value: 
+      objectReference: {fileID: 1995901573}
     - target: {fileID: 6166247429742732118, guid: dcd7de534aaa348088f81e764f0e90bb, type: 3}
       propertyPath: drag
       value: 65
@@ -680,13 +697,13 @@ PrefabInstance:
       propertyPath: groundDrag
       value: 65
       objectReference: {fileID: 0}
-    - target: {fileID: 4100427336276966522, guid: dcd7de534aaa348088f81e764f0e90bb, type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 6200000, guid: 35fc57f0e9aa1594fb8271357638b066, type: 2}
-    - target: {fileID: 4100427336276966522, guid: dcd7de534aaa348088f81e764f0e90bb, type: 3}
-      propertyPath: m_Offset.x
-      value: 0
+    - target: {fileID: 6166247429742732118, guid: dcd7de534aaa348088f81e764f0e90bb, type: 3}
+      propertyPath: raycastBuffer
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 6166247429742732118, guid: dcd7de534aaa348088f81e764f0e90bb, type: 3}
+      propertyPath: groundLayerMask.m_Bits
+      value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 6305773375209617529, guid: dcd7de534aaa348088f81e764f0e90bb, type: 3}
       propertyPath: jumpSpeed
