@@ -123,7 +123,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 2175156278451328759}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 35fc57f0e9aa1594fb8271357638b066, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -172,7 +172,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb2D: {fileID: 1345249564528849338}
-  maxSpeed: 5
+  bc2D: {fileID: 4100427336276966522}
+  raycastBuffer: 0.1
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
+  maxSpeed: 15
   acceleration: 12
-  drag: 8
+  groundDrag: 65
   jumpForce: 15
+  hammerForce: 20
+  airDrag: 0

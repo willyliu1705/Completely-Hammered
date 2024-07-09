@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static Controls;
@@ -22,6 +23,7 @@ public class Player : MonoBehaviour, IPlayerActions
     [SerializeField] private float groundDrag;
 
     [SerializeField] private float jumpForce;
+    [SerializeField] private float hammerForce;
     [SerializeField] private float airDrag;
 
     private bool IsGrounded => Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, Vector3.down, raycastBuffer, groundLayerMask);
@@ -37,6 +39,7 @@ public class Player : MonoBehaviour, IPlayerActions
     private void FixedUpdate()
     {
         Move();
+        Swing();
         if (IsGrounded)
         {
             ApplyGroundDrag();
@@ -60,7 +63,7 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private void ApplyGroundDrag()
     {
-        if (moveAxis == 0f || IsChangingDirection)
+        if (rb2D.velocity.x != 0f && (moveAxis == 0f || IsChangingDirection))
         {
             rb2D.drag = groundDrag;
         }
@@ -98,10 +101,25 @@ public class Player : MonoBehaviour, IPlayerActions
     public void OnAim(InputAction.CallbackContext context)
     {
         aimAxes = context.ReadValue<Vector2>();
+        Debug.Log(aimAxes);
     }
 
     public void OnSwing(InputAction.CallbackContext context)
     {
         swing = context.ReadValueAsButton();
+    }
+
+    private void Swing()
+    {
+        if (swing)
+        {
+            if (Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, aimAxes, raycastBuffer + 2f, groundLayerMask))
+            {
+                ApplyAirDrag();
+                rb2D.AddForce(hammerForce * -aimAxes, ForceMode2D.Impulse);
+                Debug.Log("Hammer Collision");
+            }
+            swing = false;
+        }
     }
 }
