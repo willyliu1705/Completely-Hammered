@@ -7,21 +7,24 @@ using static Controls;
 public class Player : MonoBehaviour, IPlayerActions
 {
     private Controls controls;
-    public Rigidbody2D rb2D;
+    [SerializeField] private Rigidbody2D rb2D;
+    [SerializeField] private BoxCollider2D bc2D;
+    [SerializeField] private float raycastBuffer;
+    [SerializeField] private LayerMask groundLayerMask;
 
     private float moveAxis;
     private bool jump;
     private Vector2 aimAxes;
     private bool swing;
 
-    public float maxSpeed;
-    public float acceleration;
-    public float groundDrag;
+    [SerializeField] private float maxSpeed;
+    [SerializeField] private float acceleration;
+    [SerializeField] private float groundDrag;
 
-    public float jumpForce;
-    public float airDrag;
+    [SerializeField] private float jumpForce;
+    [SerializeField] private float airDrag;
 
-    private bool IsGrounded => Physics2D.Raycast(rb2D.transform.position, -rb2D.transform.up, rb2D.transform.localScale.y / 2 + 0.02f);
+    private bool IsGrounded => Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, Vector3.down, raycastBuffer, groundLayerMask);
     private bool IsChangingDirection => rb2D.velocity.x * moveAxis < 0;
     
     private void Awake()
