@@ -22,7 +22,6 @@ public class Player : MonoBehaviour, IPlayerActions
     private bool swingJustReleased;
     private Vector2 aimAxes;
     private float startTime;
-    private float swingTime;
     private float hammerDuration;
 
     [SerializeField] private float maxSpeedX;
@@ -157,7 +156,7 @@ public class Player : MonoBehaviour, IPlayerActions
     private void Swing()
     {        
         // instant press of space bar leads to weak hammer force
-        if (swingTime < strongThreshold)
+        if (hammerDuration < strongThreshold)
         {
             sprite.color = Color.yellow;
             rb2D.AddForce(-aimAxes * weakHammerForce, ForceMode2D.Impulse);
@@ -170,7 +169,5 @@ public class Player : MonoBehaviour, IPlayerActions
             rb2D.AddForce(-aimAxes * strongHammerForce, ForceMode2D.Impulse);
             // Debug.Log("Strong Hammer Collision");
         }
-
-        swingTime = 0f;
     }
 }
