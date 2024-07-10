@@ -24,12 +24,12 @@ public class Player : MonoBehaviour, IPlayerActions
     private float endTime;
     private float swingTime;
 
-
     [SerializeField] private float maxSpeedX;
     [SerializeField] private float maxSpeedY;
     [SerializeField] private float acceleration;
     [SerializeField] private float dragCoefficient;
     [SerializeField] private float jumpForce;
+    [SerializeField] private float swingCooldown;
 
     private bool IsGrounded => Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, Vector3.down, raycastBuffer, groundLayerMask);
     private bool IsTouchingLeftWall => Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, Vector3.left, raycastBuffer, groundLayerMask);
@@ -51,7 +51,7 @@ public class Player : MonoBehaviour, IPlayerActions
         Move();
         if (IsGrounded)
         {
-            if (swing && aimAxes.y < 0f)
+            if (swingTime > 0f && aimAxes.y < 0f)
             {
                 Swing();
             }
@@ -64,7 +64,7 @@ public class Player : MonoBehaviour, IPlayerActions
                 ApplyDrag();
             }
         }
-        else if (swing && (IsTouchingLeftWall && aimAxes.x < 0f || IsTouchingRightWall && aimAxes.x > 0f))
+        else if (swingTime > 0f && (IsTouchingLeftWall && aimAxes.x < 0f || IsTouchingRightWall && aimAxes.x > 0f))
         {
             Swing();
         }
@@ -138,53 +138,41 @@ public class Player : MonoBehaviour, IPlayerActions
 
     public void OnSwing(InputAction.CallbackContext context)
     {
-        if (context.started && (IsGrounded || touchingWall))
+        if (context.started)
         {
-
             startTime = Time.time;
-            canSwing = false;
         }
         else if (context.canceled)
         {
             endTime = Time.time;
             swingTime = Time.time - startTime;
-            canSwing = true;
             Debug.Log(swingTime);
         }
     }
 
     private void Swing()
     {
-        if (Time.time - endTime > 0.5)
+        if (Time.time - endTime <= swingCooldown)
         {
-            canSwing = false;
+            return;
         }
-
-        if (swingTime > 0 && canSwing)
+        
+        // instant press of space bar leads to weak hammer force
+        if (swingTime < 1f)
+        {
+            sprite.color = Color.yellow;
+            Debug.Log(Time.time - startTime);
+            rb2D.AddForce(-aimAxes * weakHammerForce, ForceMode2D.Impulse);
+            Debug.Log("Weak Hammer Collision");
+        }
+        // holding the bar for more than one second leads to strong hammer force
+        else
         {
             sprite.color = Color.red;
-            if (Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, -aimAxes, raycastBuffer, groundLayerMask) ||
-                Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, -aimAxes, raycastBuffer, wallLayerMask))
-            {
-                // instant press of space bar leads to weak hammer force
-                if (swingTime < 1)
-                {
-                    Debug.Log(Time.time - startTime);
-                    ApplyAirDrag();
-                    rb2D.AddForce(weakHammerForce * aimAxes, ForceMode2D.Impulse);
-                    Debug.Log("Weak Hammer Collision");
-                }
-                // holding the bar for more than one second leads to strong hammer force
-                else
-                {
-                    ApplyAirDrag();
-                    rb2D.AddForce(strongHammerForce * aimAxes, ForceMode2D.Impulse);
-                    Debug.Log("Strong Hammer Collision");
-                }
-
-                swingTime = 0;
-            }
+            rb2D.AddForce(-aimAxes * strongHammerForce, ForceMode2D.Impulse);
+            Debug.Log("Strong Hammer Collision");
         }
-    }
 
+        swingTime = 0f;
+    }
 }

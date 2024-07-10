@@ -177,11 +177,15 @@ MonoBehaviour:
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 64
+  wallLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
   sprite: {fileID: 8779915090768219491}
-  walkSpeed: 0
   maxSpeedX: 20
   maxSpeedY: 20
   acceleration: 40
   dragCoefficient: 500
   jumpForce: 15
-  hammerForce: 25
+  swingCooldown: 0
+  weakHammerForce: 20
+  strongHammerForce: 40
