@@ -18,7 +18,8 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private float moveAxis;
     private bool jump;
-    private bool swingJustReleased = false;
+    private bool swingIsHeld;
+    private bool swingJustReleased;
     private Vector2 aimAxes;
     private float startTime;
     private float endTime;
@@ -48,6 +49,10 @@ public class Player : MonoBehaviour, IPlayerActions
     {
         Debug.DrawRay(bc2D.bounds.center, aimAxes * bc2D.bounds.size);
         Move();
+        if (swingIsHeld && Time.time - startTime >= strongThreshold)
+        {
+            sprite.color = Color.white;
+        }
         if (IsTouching(-rb2D.transform.up))
         {
             if (swingJustReleased && aimAxes.y < 0f)
@@ -144,10 +149,12 @@ public class Player : MonoBehaviour, IPlayerActions
     {
         if (context.started)
         {
+            swingIsHeld = true;
             startTime = Time.time;
         }
         else if (context.canceled)
         {
+            swingIsHeld = false;
             swingJustReleased = true;
             endTime = Time.time;
             swingTime = Time.time - startTime;
