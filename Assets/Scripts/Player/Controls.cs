@@ -154,6 +154,61 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""1586ff1b-99ff-4cc7-9e23-8d2c3faf5908"",
+                    ""path"": ""2DVector(mode=1)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Aim"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""8756a4f9-9055-419d-a78d-d24c462eb0f9"",
+                    ""path"": ""<Keyboard>/o"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard Patrick"",
+                    ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""3ca1c699-e089-4eb4-b97c-7362d49fd238"",
+                    ""path"": ""<Keyboard>/l"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard Patrick"",
+                    ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""a9a12a65-6016-49a9-b7c5-851c19f34560"",
+                    ""path"": ""<Keyboard>/k"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard Patrick"",
+                    ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""245b2a41-3f92-49ef-b29b-a9d174da71bf"",
+                    ""path"": ""<Keyboard>/semicolon"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard Patrick"",
+                    ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": """",
                     ""id"": ""c5d8b193-16fb-401c-8ddd-18828c90413a"",
                     ""path"": ""<Keyboard>/space"",
@@ -182,6 +237,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         {
             ""name"": ""Keyboard"",
             ""bindingGroup"": ""Keyboard"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Keyboard>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Keyboard Patrick"",
+            ""bindingGroup"": ""Keyboard Patrick"",
             ""devices"": [
                 {
                     ""devicePath"": ""<Keyboard>"",
@@ -332,6 +398,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         {
             if (m_KeyboardSchemeIndex == -1) m_KeyboardSchemeIndex = asset.FindControlSchemeIndex("Keyboard");
             return asset.controlSchemes[m_KeyboardSchemeIndex];
+        }
+    }
+    private int m_KeyboardPatrickSchemeIndex = -1;
+    public InputControlScheme KeyboardPatrickScheme
+    {
+        get
+        {
+            if (m_KeyboardPatrickSchemeIndex == -1) m_KeyboardPatrickSchemeIndex = asset.FindControlSchemeIndex("Keyboard Patrick");
+            return asset.controlSchemes[m_KeyboardPatrickSchemeIndex];
         }
     }
     public interface IPlayerActions
