@@ -81,7 +81,6 @@ public class Player : MonoBehaviour, IPlayerActions
     {
         sprite.color = Color.green;
         rb2D.AddForce(rb2D.transform.up * jumpForce, ForceMode2D.Impulse);
-        jump = false;
     }
 
     private void ApplyDrag()
