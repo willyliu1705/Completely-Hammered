@@ -22,8 +22,8 @@ public class Player : MonoBehaviour, IPlayerActions
     private bool swingJustReleased;
     private Vector2 aimAxes;
     private float startTime;
-    private float endTime;
     private float swingTime;
+    private float hammerDuration;
 
     [SerializeField] private float maxSpeedX;
     [SerializeField] private float maxSpeedY;
@@ -48,18 +48,15 @@ public class Player : MonoBehaviour, IPlayerActions
     private void FixedUpdate()
     {
         Debug.DrawRay(bc2D.bounds.center, aimAxes * bc2D.bounds.size);
+        hammerDuration = Time.time - startTime;
         Move();
-        if (swingIsHeld && Time.time - startTime >= strongThreshold)
+        if (swingIsHeld && hammerDuration >= strongThreshold)
         {
-            sprite.color = Color.white;
+            sprite.color = Color.gray;
         }
         if (IsTouching(-rb2D.transform.up))
         {
-            if (swingJustReleased && aimAxes.y < 0f)
-            {
-                Swing();
-            }
-            else if (jump)
+            if (jump)
             {
                 Jump();
             }
@@ -68,7 +65,7 @@ public class Player : MonoBehaviour, IPlayerActions
                 ApplyDrag();
             }
         }
-        else if (swingJustReleased && (IsTouching(-rb2D.transform.right) && aimAxes.x < 0f || IsTouching(rb2D.transform.right) && aimAxes.x > 0f))
+        if(swingJustReleased && IsTouching(aimAxes) && hammerDuration > swingCooldown)
         {
             Swing();
         }
@@ -135,12 +132,10 @@ public class Player : MonoBehaviour, IPlayerActions
         if (context.performed)
         {
             aimAxes = context.ReadValue<Vector2>();
-            // Debug.Log(aimAxes);
         }
         else if (context.canceled)
         {
             aimAxes = Vector2.zero;
-            // Debug.Log(aimAxes);
         }
 
     }
@@ -156,24 +151,15 @@ public class Player : MonoBehaviour, IPlayerActions
         {
             swingIsHeld = false;
             swingJustReleased = true;
-            endTime = Time.time;
-            swingTime = Time.time - startTime;
-            Debug.Log(swingTime);
         }
     }
 
     private void Swing()
-    {
-        if (Time.time - endTime <= swingCooldown)
-        {
-            return;
-        }
-        
+    {        
         // instant press of space bar leads to weak hammer force
         if (swingTime < strongThreshold)
         {
             sprite.color = Color.yellow;
-            // Debug.Log(Time.time - startTime);
             rb2D.AddForce(-aimAxes * weakHammerForce, ForceMode2D.Impulse);
             // Debug.Log("Weak Hammer Collision");
         }
