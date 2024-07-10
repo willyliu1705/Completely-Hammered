@@ -19,7 +19,6 @@ public class Player : MonoBehaviour, IPlayerActions
     private float moveAxis;
     private bool jump;
     private Vector2 aimAxes;
-    private bool canSwing;
     private float startTime;
     private float endTime;
     private float swingTime;
@@ -29,6 +28,7 @@ public class Player : MonoBehaviour, IPlayerActions
     [SerializeField] private float acceleration;
     [SerializeField] private float dragCoefficient;
     [SerializeField] private float jumpForce;
+    [SerializeField] private float strongThreshold;
     [SerializeField] private float swingCooldown;
 
     private bool IsGrounded => Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, Vector3.down, raycastBuffer, groundLayerMask);
@@ -158,7 +158,7 @@ public class Player : MonoBehaviour, IPlayerActions
         }
         
         // instant press of space bar leads to weak hammer force
-        if (swingTime < 1f)
+        if (swingTime < strongThreshold)
         {
             sprite.color = Color.yellow;
             Debug.Log(Time.time - startTime);
