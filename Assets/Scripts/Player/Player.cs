@@ -17,14 +17,17 @@ public class Player : MonoBehaviour, IPlayerActions
     private float moveAxis;
     private bool jump;
     private Vector2 aimAxes;
-    private bool swing;
+    private float startTime;
+    private float swingTime;
+
 
     [SerializeField] private float maxSpeed;
     [SerializeField] private float acceleration;
     [SerializeField] private float groundDrag;
 
     [SerializeField] private float jumpForce;
-    [SerializeField] private float hammerForce;
+    [SerializeField] private float weakHammerForce;
+    [SerializeField] private float strongHammerForce;
     [SerializeField] private float airDrag;
 
     private bool IsGrounded => Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, Vector2.down, raycastBuffer, groundLayerMask);
@@ -124,29 +127,42 @@ public class Player : MonoBehaviour, IPlayerActions
 
     public void OnSwing(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.started && (IsGrounded || touchingWall))
         {
-            swing = true;
-            Debug.Log(swing);
+            startTime = Time.time;
         }
         else if (context.canceled)
         {
-            swing = false;
-            Debug.Log(swing);
+            swingTime = Time.time - startTime;
+            Debug.Log(swingTime);
         }
     }
     
     private void Swing()
     {
-        if (swing)
+        if (swingTime > 0)
         {
             if (Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, -aimAxes, raycastBuffer, groundLayerMask) ||
                 Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, -aimAxes, raycastBuffer, wallLayerMask))
             {
-                ApplyAirDrag();
-                rb2D.AddForce(hammerForce * aimAxes, ForceMode2D.Impulse);
-                Debug.Log("Hammer Collision");
+                // instant press of space bar leads to weak hammer force
+                if (swingTime < 1)
+                {
+                    Debug.Log(Time.time - startTime);
+                    ApplyAirDrag();
+                    rb2D.AddForce(weakHammerForce * aimAxes, ForceMode2D.Impulse);
+                    Debug.Log("Weak Hammer Collision");
+                }
+                else
+                {
+                    ApplyAirDrag();
+                    rb2D.AddForce(strongHammerForce * aimAxes, ForceMode2D.Impulse);
+                    Debug.Log("Strong Hammer Collision");
+                }
+
+                swingTime = 0;
             }
         }
     }
+
 }
