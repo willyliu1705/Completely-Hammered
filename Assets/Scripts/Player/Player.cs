@@ -11,6 +11,7 @@ public class Player : MonoBehaviour, IPlayerActions
     [SerializeField] private BoxCollider2D bc2D;
     [SerializeField] private float raycastBuffer;
     [SerializeField] private LayerMask groundLayerMask;
+    [SerializeField] private LayerMask wallLayerMask;
 
     // For debug indication of swinging & jumping
     [SerializeField] private SpriteRenderer sprite;
@@ -18,20 +19,26 @@ public class Player : MonoBehaviour, IPlayerActions
     private float moveAxis;
     private bool jump;
     private Vector2 aimAxes;
-    private bool swing;
+    private bool canSwing;
+    private float startTime;
+    private float endTime;
+    private float swingTime;
+
 
     [SerializeField] private float maxSpeedX;
     [SerializeField] private float maxSpeedY;
     [SerializeField] private float acceleration;
     [SerializeField] private float dragCoefficient;
     [SerializeField] private float jumpForce;
-    [SerializeField] private float hammerForce;
 
     private bool IsGrounded => Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, Vector3.down, raycastBuffer, groundLayerMask);
     private bool IsTouchingLeftWall => Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, Vector3.left, raycastBuffer, groundLayerMask);
     private bool IsTouchingRightWall => Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, Vector3.right, raycastBuffer, groundLayerMask);
+    [SerializeField] private float weakHammerForce;
+    [SerializeField] private float strongHammerForce;
+
     private bool IsChangingDirection => rb2D.velocity.x * moveAxis < 0;
-    
+
     private void Awake()
     {
         controls = new Controls();
@@ -77,13 +84,6 @@ public class Player : MonoBehaviour, IPlayerActions
         jump = false;
     }
 
-    private void Swing()
-    {
-        sprite.color = Color.red;
-        rb2D.AddForce(hammerForce * -aimAxes, ForceMode2D.Impulse);
-        swing = false;
-    }
-
     private void ApplyDrag()
     {
         if (moveAxis == 0f || IsChangingDirection)
@@ -111,16 +111,80 @@ public class Player : MonoBehaviour, IPlayerActions
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        jump = context.ReadValueAsButton();
+        if (context.performed)
+        {
+            jump = true;
+        }
+        else if (context.canceled)
+        {
+            jump = false;
+        }
     }
 
     public void OnAim(InputAction.CallbackContext context)
     {
-        aimAxes = context.ReadValue<Vector2>();
+        if (context.performed)
+        {
+            aimAxes = context.ReadValue<Vector2>();
+            Debug.Log(aimAxes);
+        }
+        else if (context.canceled)
+        {
+            aimAxes = Vector2.zero;
+            Debug.Log(aimAxes);
+        }
+
     }
 
     public void OnSwing(InputAction.CallbackContext context)
     {
-        swing = context.ReadValueAsButton();
+        if (context.started && (IsGrounded || touchingWall))
+        {
+
+            startTime = Time.time;
+            canSwing = false;
+        }
+        else if (context.canceled)
+        {
+            endTime = Time.time;
+            swingTime = Time.time - startTime;
+            canSwing = true;
+            Debug.Log(swingTime);
+        }
     }
+
+    private void Swing()
+    {
+        if (Time.time - endTime > 0.5)
+        {
+            canSwing = false;
+        }
+
+        if (swingTime > 0 && canSwing)
+        {
+            sprite.color = Color.red;
+            if (Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, -aimAxes, raycastBuffer, groundLayerMask) ||
+                Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, -aimAxes, raycastBuffer, wallLayerMask))
+            {
+                // instant press of space bar leads to weak hammer force
+                if (swingTime < 1)
+                {
+                    Debug.Log(Time.time - startTime);
+                    ApplyAirDrag();
+                    rb2D.AddForce(weakHammerForce * aimAxes, ForceMode2D.Impulse);
+                    Debug.Log("Weak Hammer Collision");
+                }
+                // holding the bar for more than one second leads to strong hammer force
+                else
+                {
+                    ApplyAirDrag();
+                    rb2D.AddForce(strongHammerForce * aimAxes, ForceMode2D.Impulse);
+                    Debug.Log("Strong Hammer Collision");
+                }
+
+                swingTime = 0;
+            }
+        }
+    }
+
 }

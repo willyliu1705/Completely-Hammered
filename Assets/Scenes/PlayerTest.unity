@@ -485,7 +485,7 @@ GameObject:
   - component: {fileID: 1613144048}
   - component: {fileID: 1613144047}
   - component: {fileID: 1613144049}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Wall
   m_TagString: wall
   m_Icon: {fileID: 0}
@@ -615,7 +615,7 @@ GameObject:
   - component: {fileID: 1660589275}
   - component: {fileID: 1660589274}
   - component: {fileID: 1660589273}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Wall (1)
   m_TagString: wall
   m_Icon: {fileID: 0}
@@ -785,6 +785,26 @@ PrefabInstance:
     - target: {fileID: 2175156278451328759, guid: dcd7de534aaa348088f81e764f0e90bb, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6166247429742732118, guid: dcd7de534aaa348088f81e764f0e90bb, type: 3}
+      propertyPath: hammerForce
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6166247429742732118, guid: dcd7de534aaa348088f81e764f0e90bb, type: 3}
+      propertyPath: weakHammerForce
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6166247429742732118, guid: dcd7de534aaa348088f81e764f0e90bb, type: 3}
+      propertyPath: strongHammerForce
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 6166247429742732118, guid: dcd7de534aaa348088f81e764f0e90bb, type: 3}
+      propertyPath: wallLayerMask.m_Bits
+      value: 128
+      objectReference: {fileID: 0}
+    - target: {fileID: 6166247429742732118, guid: dcd7de534aaa348088f81e764f0e90bb, type: 3}
+      propertyPath: groundLayerMask.m_Bits
+      value: 64
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
