@@ -57,7 +57,7 @@ public class Player : MonoBehaviour, IPlayerActions
                 ApplyDrag();
             }
         }
-        else if (IsTouchingLeftWall && aimAxes.x < 0f || IsTouchingRightWall && aimAxes.x > 0f)
+        else if (swing && (IsTouchingLeftWall && aimAxes.x < 0f || IsTouchingRightWall && aimAxes.x > 0f))
         {
             Swing();
         }
