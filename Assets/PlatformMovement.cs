@@ -10,10 +10,12 @@ public class PlatformMovement : MonoBehaviour
 
     [SerializeField] private float speed = 2f;
 
+    [SerializeField] Transform platform;
+
     // Update is called once per frame
     private void Update()
     {
-        if (Vector2.Distance(Dests[DestIndex].transform.position, transform.position) < .1f)
+        if (Vector2.Distance(Dests[DestIndex].transform.position, platform.position) < .1f)
         {
             DestIndex++;
             if (DestIndex >= Dests.Length)
@@ -21,6 +23,6 @@ public class PlatformMovement : MonoBehaviour
                 DestIndex = 0;
             }
         }
-        transform.position = Vector2.MoveTowards(transform.position, Dests[DestIndex].transform.position, Time.deltaTime * speed);
+        platform.position = Vector2.MoveTowards(platform.position, Dests[DestIndex].transform.position, Time.deltaTime * speed);
     }
 }
