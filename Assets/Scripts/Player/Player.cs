@@ -17,7 +17,9 @@ public class Player : MonoBehaviour, IPlayerActions
     private float moveAxis;
     private bool jump;
     private Vector2 aimAxes;
+    private bool canSwing;
     private float startTime;
+    private float endTime;
     private float swingTime;
 
 
@@ -130,17 +132,25 @@ public class Player : MonoBehaviour, IPlayerActions
         if (context.started && (IsGrounded || touchingWall))
         {
             startTime = Time.time;
+            canSwing = false;
         }
         else if (context.canceled)
         {
+            endTime = Time.time;
             swingTime = Time.time - startTime;
+            canSwing = true;
             Debug.Log(swingTime);
         }
     }
     
     private void Swing()
     {
-        if (swingTime > 0)
+        if (Time.time - endTime > 0.5)
+        {
+            canSwing = false;
+        }
+
+        if (swingTime > 0 && canSwing)
         {
             if (Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, -aimAxes, raycastBuffer, groundLayerMask) ||
                 Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, -aimAxes, raycastBuffer, wallLayerMask))
