@@ -84,7 +84,6 @@ public class Player : MonoBehaviour, IPlayerActions
         {
             ApplyAirDrag();
             rb2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            jump = false;
         }
     }
 
@@ -95,7 +94,14 @@ public class Player : MonoBehaviour, IPlayerActions
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        jump = context.ReadValueAsButton();
+        if (context.performed)
+        {
+            jump = true;
+        }
+        else if (context.canceled)
+        {
+            jump = false;
+        }
     }
 
     public void OnAim(InputAction.CallbackContext context)
