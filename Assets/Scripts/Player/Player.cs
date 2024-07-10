@@ -12,6 +12,7 @@ public class Player : MonoBehaviour, IPlayerActions
     [SerializeField] private BoxCollider2D bc2D;
     [SerializeField] private float raycastBuffer;
     [SerializeField] private LayerMask groundLayerMask;
+    [SerializeField] private LayerMask wallLayerMask;
 
     private float moveAxis;
     private bool jump;
@@ -26,7 +27,9 @@ public class Player : MonoBehaviour, IPlayerActions
     [SerializeField] private float hammerForce;
     [SerializeField] private float airDrag;
 
-    private bool IsGrounded => Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, Vector3.down, raycastBuffer, groundLayerMask);
+    private bool IsGrounded => Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, Vector2.down, raycastBuffer, groundLayerMask);
+    private bool touchingWall => Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, Vector2.left, raycastBuffer, wallLayerMask) ||
+        Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, Vector2.right, raycastBuffer, wallLayerMask);
     private bool IsChangingDirection => rb2D.velocity.x * moveAxis < 0;
     
     private void Awake()
@@ -106,26 +109,44 @@ public class Player : MonoBehaviour, IPlayerActions
 
     public void OnAim(InputAction.CallbackContext context)
     {
-        aimAxes = context.ReadValue<Vector2>();
-        Debug.Log(aimAxes);
+        if (context.performed)
+        {
+            aimAxes = context.ReadValue<Vector2>();
+            Debug.Log(aimAxes);
+        }
+        else if (context.canceled)
+        {
+            aimAxes = Vector2.zero;
+            Debug.Log(aimAxes);
+        }
+        
     }
 
     public void OnSwing(InputAction.CallbackContext context)
     {
-        swing = context.ReadValueAsButton();
+        if (context.performed)
+        {
+            swing = true;
+            Debug.Log(swing);
+        }
+        else if (context.canceled)
+        {
+            swing = false;
+            Debug.Log(swing);
+        }
     }
-
+    
     private void Swing()
     {
         if (swing)
         {
-            if (Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, aimAxes, raycastBuffer + 2f, groundLayerMask))
+            if (Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, -aimAxes, raycastBuffer, groundLayerMask) ||
+                Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, -aimAxes, raycastBuffer, wallLayerMask))
             {
                 ApplyAirDrag();
-                rb2D.AddForce(hammerForce * -aimAxes, ForceMode2D.Impulse);
+                rb2D.AddForce(hammerForce * aimAxes, ForceMode2D.Impulse);
                 Debug.Log("Hammer Collision");
             }
-            swing = false;
         }
     }
 }
