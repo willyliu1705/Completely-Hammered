@@ -83,7 +83,7 @@ public class Player : MonoBehaviour, IPlayerActions
         if (jump)
         {
             ApplyAirDrag();
-            rb2D.AddForce(rb2D.transform.up * jumpForce, ForceMode2D.Impulse);
+            rb2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             jump = false;
         }
     }
