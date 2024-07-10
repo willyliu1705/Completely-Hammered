@@ -186,6 +186,7 @@ MonoBehaviour:
   acceleration: 40
   dragCoefficient: 500
   jumpForce: 15
+  strongThreshold: 1
   swingCooldown: 0
   weakHammerForce: 20
   strongHammerForce: 40

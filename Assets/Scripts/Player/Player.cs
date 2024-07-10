@@ -11,7 +11,6 @@ public class Player : MonoBehaviour, IPlayerActions
     [SerializeField] private BoxCollider2D bc2D;
     [SerializeField] private float raycastBuffer;
     [SerializeField] private LayerMask groundLayerMask;
-    [SerializeField] private LayerMask wallLayerMask;
 
     // For debug indication of swinging & jumping
     [SerializeField] private SpriteRenderer sprite;
@@ -31,9 +30,6 @@ public class Player : MonoBehaviour, IPlayerActions
     [SerializeField] private float strongThreshold;
     [SerializeField] private float swingCooldown;
 
-    private bool IsGrounded => Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, Vector3.down, raycastBuffer, groundLayerMask);
-    private bool IsTouchingLeftWall => Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, Vector3.left, raycastBuffer, groundLayerMask);
-    private bool IsTouchingRightWall => Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, Vector3.right, raycastBuffer, groundLayerMask);
     [SerializeField] private float weakHammerForce;
     [SerializeField] private float strongHammerForce;
 
@@ -49,7 +45,7 @@ public class Player : MonoBehaviour, IPlayerActions
     private void FixedUpdate()
     {
         Move();
-        if (IsGrounded)
+        if (IsTouching(-rb2D.transform.up))
         {
             if (swingTime > 0f && aimAxes.y < 0f)
             {
@@ -64,7 +60,7 @@ public class Player : MonoBehaviour, IPlayerActions
                 ApplyDrag();
             }
         }
-        else if (swingTime > 0f && (IsTouchingLeftWall && aimAxes.x < 0f || IsTouchingRightWall && aimAxes.x > 0f))
+        else if (swingTime > 0f && (IsTouching(-rb2D.transform.right) && aimAxes.x < 0f || IsTouching(rb2D.transform.right) && aimAxes.x > 0f))
         {
             Swing();
         }
@@ -104,6 +100,11 @@ public class Player : MonoBehaviour, IPlayerActions
         }
     }
 
+    private bool IsTouching(Vector3 direction)
+    {
+        return Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, direction, raycastBuffer, groundLayerMask);
+    }
+
     public void OnMove(InputAction.CallbackContext context)
     {
         moveAxis = context.ReadValue<float>();
@@ -126,12 +127,12 @@ public class Player : MonoBehaviour, IPlayerActions
         if (context.performed)
         {
             aimAxes = context.ReadValue<Vector2>();
-            Debug.Log(aimAxes);
+            // Debug.Log(aimAxes);
         }
         else if (context.canceled)
         {
             aimAxes = Vector2.zero;
-            Debug.Log(aimAxes);
+            // Debug.Log(aimAxes);
         }
 
     }
@@ -161,16 +162,16 @@ public class Player : MonoBehaviour, IPlayerActions
         if (swingTime < strongThreshold)
         {
             sprite.color = Color.yellow;
-            Debug.Log(Time.time - startTime);
+            // Debug.Log(Time.time - startTime);
             rb2D.AddForce(-aimAxes * weakHammerForce, ForceMode2D.Impulse);
-            Debug.Log("Weak Hammer Collision");
+            // Debug.Log("Weak Hammer Collision");
         }
         // holding the bar for more than one second leads to strong hammer force
         else
         {
             sprite.color = Color.red;
             rb2D.AddForce(-aimAxes * strongHammerForce, ForceMode2D.Impulse);
-            Debug.Log("Strong Hammer Collision");
+            // Debug.Log("Strong Hammer Collision");
         }
 
         swingTime = 0f;
