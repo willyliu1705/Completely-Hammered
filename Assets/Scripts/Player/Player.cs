@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +18,7 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private float moveAxis;
     private bool jump;
+    private bool swingJustReleased = false;
     private Vector2 aimAxes;
     private float startTime;
     private float endTime;
@@ -48,7 +50,7 @@ public class Player : MonoBehaviour, IPlayerActions
         Move();
         if (IsTouching(-rb2D.transform.up))
         {
-            if (swingTime > 0f && aimAxes.y < 0f)
+            if (swingJustReleased && aimAxes.y < 0f)
             {
                 Swing();
             }
@@ -61,11 +63,12 @@ public class Player : MonoBehaviour, IPlayerActions
                 ApplyDrag();
             }
         }
-        else if (swingTime > 0f && (IsTouching(-rb2D.transform.right) && aimAxes.x < 0f || IsTouching(rb2D.transform.right) && aimAxes.x > 0f))
+        else if (swingJustReleased && (IsTouching(-rb2D.transform.right) && aimAxes.x < 0f || IsTouching(rb2D.transform.right) && aimAxes.x > 0f))
         {
             Swing();
         }
-        LimitVelocity();
+        swingJustReleased = false;
+        // LimitVelocity();
     }
 
     private void Move()
@@ -146,6 +149,7 @@ public class Player : MonoBehaviour, IPlayerActions
         }
         else if (context.canceled)
         {
+            swingJustReleased = true;
             endTime = Time.time;
             swingTime = Time.time - startTime;
             Debug.Log(swingTime);
