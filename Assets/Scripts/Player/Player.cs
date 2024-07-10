@@ -163,6 +163,7 @@ public class Player : MonoBehaviour, IPlayerActions
                     rb2D.AddForce(weakHammerForce * aimAxes, ForceMode2D.Impulse);
                     Debug.Log("Weak Hammer Collision");
                 }
+                // holding the bar for more than one second leads to strong hammer force
                 else
                 {
                     ApplyAirDrag();
