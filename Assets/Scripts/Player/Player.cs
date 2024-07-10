@@ -44,6 +44,7 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private void FixedUpdate()
     {
+        Debug.DrawRay(bc2D.bounds.center, aimAxes * bc2D.bounds.size);
         Move();
         if (IsTouching(-rb2D.transform.up))
         {
