@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: b9b0f17ffc3c3f7409d18d540d82602f, type: 3}
-  m_Color: {r: 1, g: 0.81457806, b: 0, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -177,9 +177,11 @@ MonoBehaviour:
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 64
-  maxSpeed: 15
-  acceleration: 12
-  groundDrag: 65
+  sprite: {fileID: 8779915090768219491}
+  walkSpeed: 0
+  maxSpeedX: 20
+  maxSpeedY: 20
+  acceleration: 40
+  dragCoefficient: 500
   jumpForce: 15
-  hammerForce: 20
-  airDrag: 0
+  hammerForce: 25

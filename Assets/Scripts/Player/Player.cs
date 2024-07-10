@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static Controls;
@@ -13,20 +12,24 @@ public class Player : MonoBehaviour, IPlayerActions
     [SerializeField] private float raycastBuffer;
     [SerializeField] private LayerMask groundLayerMask;
 
+    // For debug indication of swinging & jumping
+    [SerializeField] private SpriteRenderer sprite;
+
     private float moveAxis;
     private bool jump;
     private Vector2 aimAxes;
     private bool swing;
 
-    [SerializeField] private float maxSpeed;
+    [SerializeField] private float maxSpeedX;
+    [SerializeField] private float maxSpeedY;
     [SerializeField] private float acceleration;
-    [SerializeField] private float groundDrag;
-
+    [SerializeField] private float dragCoefficient;
     [SerializeField] private float jumpForce;
     [SerializeField] private float hammerForce;
-    [SerializeField] private float airDrag;
 
     private bool IsGrounded => Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, Vector3.down, raycastBuffer, groundLayerMask);
+    private bool IsTouchingLeftWall => Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, Vector3.left, raycastBuffer, groundLayerMask);
+    private bool IsTouchingRightWall => Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, Vector3.right, raycastBuffer, groundLayerMask);
     private bool IsChangingDirection => rb2D.velocity.x * moveAxis < 0;
     
     private void Awake()
@@ -38,61 +41,67 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private void FixedUpdate()
     {
-
         Move();
-        if (swing)
+        if (IsGrounded)
+        {
+            if (swing && aimAxes.y < 0f)
+            {
+                Swing();
+            }
+            else if (jump)
+            {
+                Jump();
+            }
+            else
+            {
+                ApplyDrag();
+            }
+        }
+        else if (IsTouchingLeftWall && aimAxes.x < 0f || IsTouchingRightWall && aimAxes.x > 0f)
         {
             Swing();
         }
-        else if (jump)
-        {
-            Jump();
-        }
-        else if (IsGrounded)
-        {
-            ApplyGroundDrag();
-        }
-
-        if(!IsGrounded)
-        {
-            ApplyAirDrag();
-        }
+        LimitVelocity();
     }
 
     private void Move()
     {
+        sprite.color = Color.black;
         rb2D.AddForce(new Vector2(moveAxis, 0f) * acceleration);
-
-        if (Mathf.Abs(rb2D.velocity.x) > maxSpeed)
-        {
-            rb2D.velocity = new Vector2(Mathf.Sign(rb2D.velocity.x) * maxSpeed, rb2D.velocity.y);
-        }
-    }
-
-    private void ApplyGroundDrag()
-    {
-        if (rb2D.velocity.x != 0f && (moveAxis == 0f || IsChangingDirection))
-        {
-            print("ground drag");
-            rb2D.drag = groundDrag;
-        }
-        else
-        {
-            rb2D.drag = 0f;
-        }
-    }
-
-    private void ApplyAirDrag()
-    {
-        print("air drag");
-        rb2D.drag = airDrag;
     }
 
     private void Jump()
     {
-            ApplyAirDrag();
-            rb2D.AddForce(rb2D.transform.up * jumpForce, ForceMode2D.Impulse);
-            jump = false;
+        sprite.color = Color.green;
+        rb2D.AddForce(rb2D.transform.up * jumpForce, ForceMode2D.Impulse);
+        jump = false;
+    }
+
+    private void Swing()
+    {
+        sprite.color = Color.red;
+        rb2D.AddForce(hammerForce * -aimAxes, ForceMode2D.Impulse);
+        swing = false;
+    }
+
+    private void ApplyDrag()
+    {
+        if (moveAxis == 0f || IsChangingDirection)
+        {
+            rb2D.AddForce(new Vector2(-rb2D.velocity.x * dragCoefficient * Time.deltaTime, 0f));
+        }
+    }
+
+    private void LimitVelocity()
+    {
+        if (Mathf.Abs(rb2D.velocity.x) > maxSpeedX)
+        {
+            rb2D.velocity = new Vector2(Mathf.Sign(rb2D.velocity.x) * maxSpeedX, rb2D.velocity.y);
+        }
+        if (Mathf.Abs(rb2D.velocity.y) > maxSpeedY)
+        {
+            rb2D.velocity = new Vector2(rb2D.velocity.x, Mathf.Sign(rb2D.velocity.y) * maxSpeedY);
+        }
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -108,22 +117,10 @@ public class Player : MonoBehaviour, IPlayerActions
     public void OnAim(InputAction.CallbackContext context)
     {
         aimAxes = context.ReadValue<Vector2>();
-        Debug.Log(aimAxes);
     }
 
     public void OnSwing(InputAction.CallbackContext context)
     {
-        swing = context.ReadValueAsButton() && IsGrounded;
-    }
-
-    private void Swing()
-    {
-            if (Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, aimAxes, raycastBuffer + 2f, groundLayerMask))
-            {
-                ApplyAirDrag();
-                rb2D.AddForce(hammerForce * -aimAxes, ForceMode2D.Impulse);
-                Debug.Log("Hammer Collision");
-            }
-            swing = false;
+        swing = context.ReadValueAsButton();
     }
 }
