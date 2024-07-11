@@ -15,7 +15,7 @@ public class PlayandStop : MonoBehaviour
     void Update()
     {
 
-        if (i == 100)
+        if (i == 99)
             FindObjectOfType<AudioManager>().Stop("FullCharge");
         i++;
         if (i == 100) i = 0;
