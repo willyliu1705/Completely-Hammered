@@ -179,7 +179,7 @@ MonoBehaviour:
     m_Bits: 64
   sprite: {fileID: 8779915090768219491}
   walkSpeed: 10
-  maxAirSpeed: 0
+  maxVelocity: {x: 0, y: 0}
   acceleration: 40
   dragCoefficient: 500
   jumpForce: 15
