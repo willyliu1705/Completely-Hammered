@@ -6,6 +6,8 @@ TagManager:
   tags:
   - wall
   - lethal
+  - ground
+  - fallingObstacle
   layers:
   - Default
   - TransparentFX
