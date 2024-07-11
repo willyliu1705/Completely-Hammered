@@ -47,6 +47,9 @@ public class Player : MonoBehaviour, IPlayerActions
     private void FixedUpdate()
     {
         Debug.DrawRay(bc2D.bounds.center, aimAxes * bc2D.bounds.size);
+
+        if (!controls.Player.enabled) { return; }
+
         hammerDuration = Time.time - startTime;
         Move();
         if (swingIsHeld && hammerDuration >= strongThreshold)
@@ -61,6 +64,7 @@ public class Player : MonoBehaviour, IPlayerActions
         {
             if (jump)
             {
+                Debug.Log("Can I jump: " + jump);
                 Jump();
             }
             else
@@ -74,6 +78,20 @@ public class Player : MonoBehaviour, IPlayerActions
         swingJustReleased = false;
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("lethal"))
+        {
+            
+            Debug.Log("Did I collide?: " + collision.gameObject.CompareTag("lethal"));
+            rb2D.velocity = Vector2.zero;
+            jump = false;
+            controls.Player.Disable();
+            Debug.Log("Controls status:" + controls.Player.enabled);
+
+        }
+    }
+
     private void Move()
     {
         sprite.color = Color.black;
@@ -84,6 +102,8 @@ public class Player : MonoBehaviour, IPlayerActions
     {
         sprite.color = Color.green;
         rb2D.AddForce(rb2D.transform.up * jumpForce, ForceMode2D.Impulse);
+        // revert back to single tap jumping if necessary
+        // jump = false;
     }
 
     private void ApplyDrag()
@@ -157,8 +177,7 @@ public class Player : MonoBehaviour, IPlayerActions
     }
 
     private void Swing()
-    {        
-        // instant press of space bar leads to weak hammer force
+    {
         if (hammerDuration < strongThreshold)
         {
             sprite.color = Color.yellow;
