@@ -107,8 +107,6 @@ public class Player : MonoBehaviour, IPlayerActions
         sprite.color = Color.green;
         rb2D.AddForce(rb2D.transform.up * jumpForce, ForceMode2D.Impulse);
         isJumping = true;
-        // revert back to single tap jumping if necessary
-        // jump = false;
     }
 
     private void ApplyDrag()
