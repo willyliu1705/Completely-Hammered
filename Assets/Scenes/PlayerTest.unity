@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 143919725}
   - component: {fileID: 143919724}
   - component: {fileID: 143919723}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Lethal Object
   m_TagString: lethal
   m_Icon: {fileID: 0}

@@ -20,9 +20,11 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private float moveAxis;
     private bool jump;
-    private bool isJumping;
+    // private bool isJumping;
     private bool swingIsHeld;
     private bool swingJustReleased;
+    private bool isSwingingWeak;
+    private bool isSwingingStrong;
     private Vector2 aimAxes;
     private float startTime;
     private float hammerDuration;
@@ -64,6 +66,13 @@ public class Player : MonoBehaviour, IPlayerActions
                 sprite.color = Color.gray;
             }
         }
+
+        if (IsTouching(-rb2D.transform.up) || IsTouching(-rb2D.transform.right) || IsTouching(-rb2D.transform.right))
+        {
+            // isJumping = false;
+            isSwingingWeak = false;
+            isSwingingStrong = false;
+        }
         if (swingJustReleased && IsTouching(aimAxes))
         {
             Swing();
@@ -76,13 +85,15 @@ public class Player : MonoBehaviour, IPlayerActions
             }
             else
             {
-                isJumping = false;
                 LimitWalkSpeed();
                 ApplyDrag();
             }
         }
 
-        LimitJumpSpeed();
+        Debug.Log("Weak: " + isSwingingWeak);
+        Debug.Log("Strong: " + isSwingingWeak);
+
+        LimitAirSpeed();
         swingJustReleased = false;
     }
 
@@ -106,7 +117,7 @@ public class Player : MonoBehaviour, IPlayerActions
     {
         sprite.color = Color.green;
         rb2D.AddForce(rb2D.transform.up * jumpForce, ForceMode2D.Impulse);
-        isJumping = true;
+        // isJumping = true;
         // revert back to single tap jumping if necessary
         // jump = false;
     }
@@ -127,9 +138,9 @@ public class Player : MonoBehaviour, IPlayerActions
         }
     }
 
-    private void LimitJumpSpeed()
+    private void LimitAirSpeed()
     {
-        if (isJumping && Mathf.Abs(rb2D.velocity.x) >= maxJumpSpeed)
+        if (!isSwingingWeak && !isSwingingStrong && Mathf.Abs(rb2D.velocity.x) >= maxJumpSpeed)
         {
             rb2D.velocity = new Vector2(Mathf.Sign(rb2D.velocity.x) * maxJumpSpeed, rb2D.velocity.y);
         }
@@ -190,12 +201,14 @@ public class Player : MonoBehaviour, IPlayerActions
         {
             sprite.color = Color.yellow;
             rb2D.AddForce(-aimAxes * weakHammerForce, ForceMode2D.Impulse);
+            isSwingingWeak = true;
         }
         // holding the bar for more than `strongThreshold` seconds leads to strong hammer force
         else
         {
             sprite.color = Color.red;
             rb2D.AddForce(-aimAxes * strongHammerForce, ForceMode2D.Impulse);
+            isSwingingStrong = true;
         }
     }
 }
