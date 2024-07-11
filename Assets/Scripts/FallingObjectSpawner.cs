@@ -6,7 +6,7 @@ public class FallingObjectSpawner : MonoBehaviour
 {
     public GameObject fallingObjectPrefab; // Reference to the obstacle prefab
     public float spawnInterval;  // Time between spawns
-    public Vector2 spawnArea = new Vector2(10, 0); // Area within which obstacles will be spawned
+    private Vector2 spawnArea = new Vector2(0, 0); // Area within which obstacles will be spawned
 
     private float timer;
 

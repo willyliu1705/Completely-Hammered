@@ -6,6 +6,8 @@ TagManager:
   tags:
   - wall
   - ground
+  - fallingObstacle
+  - lethalSpike
   layers:
   - Default
   - TransparentFX
