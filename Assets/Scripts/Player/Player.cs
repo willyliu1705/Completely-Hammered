@@ -1,6 +1,6 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static Controls;
@@ -13,22 +13,30 @@ public class Player : MonoBehaviour, IPlayerActions
     [SerializeField] private float raycastBuffer;
     [SerializeField] private LayerMask groundLayerMask;
 
+    // For debug indication of swinging & jumping
+    [SerializeField] private SpriteRenderer sprite;
+
     private float moveAxis;
     private bool jump;
+    private bool swingIsHeld;
+    private bool swingJustReleased;
     private Vector2 aimAxes;
-    private bool swing;
+    private float startTime;
+    private float hammerDuration;
 
-    [SerializeField] private float maxSpeed;
+    [SerializeField] private float maxSpeedX;
+    [SerializeField] private float maxSpeedY;
     [SerializeField] private float acceleration;
-    [SerializeField] private float groundDrag;
-
+    [SerializeField] private float dragCoefficient;
     [SerializeField] private float jumpForce;
-    [SerializeField] private float hammerForce;
-    [SerializeField] private float airDrag;
+    [SerializeField] private float strongThreshold;
+    [SerializeField] private float swingCooldown;
 
-    private bool IsGrounded => Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, Vector3.down, raycastBuffer, groundLayerMask);
+    [SerializeField] private float weakHammerForce;
+    [SerializeField] private float strongHammerForce;
+
     private bool IsChangingDirection => rb2D.velocity.x * moveAxis < 0;
-    
+
     private void Awake()
     {
         controls = new Controls();
@@ -38,54 +46,67 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private void FixedUpdate()
     {
+        Debug.DrawRay(bc2D.bounds.center, aimAxes * bc2D.bounds.size);
+        hammerDuration = Time.time - startTime;
         Move();
-        Swing();
-        if (IsGrounded)
+        if (swingIsHeld && hammerDuration >= strongThreshold)
         {
-            ApplyGroundDrag();
-            Jump();
+            sprite.color = Color.gray;
         }
-        else
+        if (IsTouching(-rb2D.transform.up))
         {
-            ApplyAirDrag();
+            if (jump)
+            {
+                Jump();
+            }
+            else
+            {
+                ApplyDrag();
+            }
         }
+        if(swingJustReleased && IsTouching(aimAxes) && hammerDuration > swingCooldown)
+        {
+            Swing();
+        }
+        swingJustReleased = false;
+        // LimitVelocity();
     }
 
     private void Move()
     {
+        sprite.color = Color.black;
         rb2D.AddForce(new Vector2(moveAxis, 0f) * acceleration);
-
-        if (Mathf.Abs(rb2D.velocity.x) > maxSpeed)
-        {
-            rb2D.velocity = new Vector2(Mathf.Sign(rb2D.velocity.x) * maxSpeed, rb2D.velocity.y);
-        }
-    }
-
-    private void ApplyGroundDrag()
-    {
-        if (rb2D.velocity.x != 0f && (moveAxis == 0f || IsChangingDirection))
-        {
-            rb2D.drag = groundDrag;
-        }
-        else
-        {
-            rb2D.drag = 0f;
-        }
-    }
-
-    private void ApplyAirDrag()
-    {
-        rb2D.drag = airDrag;
     }
 
     private void Jump()
     {
-        if (jump)
+        sprite.color = Color.green;
+        rb2D.AddForce(rb2D.transform.up * jumpForce, ForceMode2D.Impulse);
+    }
+
+    private void ApplyDrag()
+    {
+        if (moveAxis == 0f || IsChangingDirection)
         {
-            ApplyAirDrag();
-            rb2D.AddForce(rb2D.transform.up * jumpForce, ForceMode2D.Impulse);
-            jump = false;
+            rb2D.AddForce(new Vector2(-rb2D.velocity.x * dragCoefficient * Time.deltaTime, 0f));
         }
+    }
+
+    private void LimitVelocity()
+    {
+        if (Mathf.Abs(rb2D.velocity.x) > maxSpeedX)
+        {
+            rb2D.velocity = new Vector2(Mathf.Sign(rb2D.velocity.x) * maxSpeedX, rb2D.velocity.y);
+        }
+        if (Mathf.Abs(rb2D.velocity.y) > maxSpeedY)
+        {
+            rb2D.velocity = new Vector2(rb2D.velocity.x, Mathf.Sign(rb2D.velocity.y) * maxSpeedY);
+        }
+    }
+
+    private bool IsTouching(Vector3 direction)
+    {
+        return Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, direction, raycastBuffer, groundLayerMask);
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -95,31 +116,58 @@ public class Player : MonoBehaviour, IPlayerActions
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        jump = context.ReadValueAsButton();
+        if (context.performed)
+        {
+            jump = true;
+        }
+        else if (context.canceled)
+        {
+            jump = false;
+        }
     }
 
     public void OnAim(InputAction.CallbackContext context)
     {
-        aimAxes = context.ReadValue<Vector2>();
-        Debug.Log(aimAxes);
+        if (context.performed)
+        {
+            aimAxes = context.ReadValue<Vector2>();
+        }
+        else if (context.canceled)
+        {
+            aimAxes = Vector2.zero;
+        }
+
     }
 
     public void OnSwing(InputAction.CallbackContext context)
     {
-        swing = context.ReadValueAsButton();
+        if (context.started)
+        {
+            swingIsHeld = true;
+            startTime = Time.time;
+        }
+        else if (context.canceled)
+        {
+            swingIsHeld = false;
+            swingJustReleased = true;
+        }
     }
 
     private void Swing()
-    {
-        if (swing)
+    {        
+        // instant press of space bar leads to weak hammer force
+        if (hammerDuration < strongThreshold)
         {
-            if (Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, aimAxes, raycastBuffer + 2f, groundLayerMask))
-            {
-                ApplyAirDrag();
-                rb2D.AddForce(hammerForce * -aimAxes, ForceMode2D.Impulse);
-                Debug.Log("Hammer Collision");
-            }
-            swing = false;
+            sprite.color = Color.yellow;
+            rb2D.AddForce(-aimAxes * weakHammerForce, ForceMode2D.Impulse);
+            // Debug.Log("Weak Hammer Collision");
+        }
+        // holding the bar for more than one second leads to strong hammer force
+        else
+        {
+            sprite.color = Color.red;
+            rb2D.AddForce(-aimAxes * strongHammerForce, ForceMode2D.Impulse);
+            // Debug.Log("Strong Hammer Collision");
         }
     }
 }
