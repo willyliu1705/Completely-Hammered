@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using static Controls;
 
 public class Player : MonoBehaviour, IPlayerActions
@@ -82,13 +84,11 @@ public class Player : MonoBehaviour, IPlayerActions
     {
         if (collision.gameObject.CompareTag("lethal"))
         {
-            
             Debug.Log("Did I collide?: " + collision.gameObject.CompareTag("lethal"));
             rb2D.velocity = Vector2.zero;
-            jump = false;
             controls.Player.Disable();
             Debug.Log("Controls status:" + controls.Player.enabled);
-
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 
