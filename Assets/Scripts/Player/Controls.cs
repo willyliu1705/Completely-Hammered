@@ -101,7 +101,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""2D Vector"",
                     ""id"": ""ce6529e1-dc9e-4e48-b125-da2f97936bf9"",
-                    ""path"": ""2DVector(mode=1)"",
+                    ""path"": ""2DVector"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -156,7 +156,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""2D Vector"",
                     ""id"": ""1586ff1b-99ff-4cc7-9e23-8d2c3faf5908"",
-                    ""path"": ""2DVector(mode=1)"",
+                    ""path"": ""2DVector"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

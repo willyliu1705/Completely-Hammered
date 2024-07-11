@@ -173,16 +173,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb2D: {fileID: 1345249564528849338}
   bc2D: {fileID: 4100427336276966522}
-  raycastBuffer: 0.1
+  raycastBuffer: 0.07
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 64
-  wallLayerMask:
-    serializedVersion: 2
-    m_Bits: 128
   sprite: {fileID: 8779915090768219491}
-  maxSpeedX: 20
-  maxSpeedY: 20
+  walkSpeed: 5
+  maxJumpSpeed: 5
+  maxWeakSwingSpeed: 20
+  maxStrongSwingSpeed: 30
   acceleration: 40
   dragCoefficient: 500
   jumpForce: 15
