@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - wall
+  - ground
+  - fallingObstacle
+  - lethalSpike
   layers:
   - Default
   - TransparentFX
