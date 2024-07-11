@@ -67,7 +67,7 @@ public class Player : MonoBehaviour, IPlayerActions
             }
         }
 
-        if (IsTouching(-rb2D.transform.up) || IsTouching(-rb2D.transform.right) || IsTouching(-rb2D.transform.right))
+        if (IsTouching(-rb2D.transform.up) || IsTouching(-rb2D.transform.right) || IsTouching(rb2D.transform.right))
         {
             // isJumping = false;
             isSwingingWeak = false;
@@ -89,9 +89,6 @@ public class Player : MonoBehaviour, IPlayerActions
                 ApplyDrag();
             }
         }
-
-        Debug.Log("Weak: " + isSwingingWeak);
-        Debug.Log("Strong: " + isSwingingWeak);
 
         LimitAirSpeed();
         swingJustReleased = false;
@@ -173,7 +170,6 @@ public class Player : MonoBehaviour, IPlayerActions
         if (context.performed)
         {
             aimAxes = context.ReadValue<Vector2>();
-            Debug.Log(aimAxes);
         }
         else if (context.canceled)
         {
