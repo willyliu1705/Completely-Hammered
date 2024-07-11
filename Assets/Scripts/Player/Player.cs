@@ -24,8 +24,8 @@ public class Player : MonoBehaviour, IPlayerActions
     private float startTime;
     private float hammerDuration;
 
-    [SerializeField] private float maxSpeedX;
-    [SerializeField] private float maxSpeedY;
+    [SerializeField] private float walkSpeed;
+    [SerializeField] private Vector2 maxVelocity;
     [SerializeField] private float acceleration;
     [SerializeField] private float dragCoefficient;
     [SerializeField] private float jumpForce;
@@ -53,7 +53,11 @@ public class Player : MonoBehaviour, IPlayerActions
         {
             sprite.color = Color.gray;
         }
-        if (IsTouching(-rb2D.transform.up))
+        if (swingJustReleased && IsTouching(aimAxes) && hammerDuration > swingCooldown)
+        {
+            Swing();
+        }
+        else if (IsTouching(-rb2D.transform.up))
         {
             if (jump)
             {
@@ -61,15 +65,13 @@ public class Player : MonoBehaviour, IPlayerActions
             }
             else
             {
+                LimitWalkSpeed();
                 ApplyDrag();
             }
         }
-        if(swingJustReleased && IsTouching(aimAxes) && hammerDuration > swingCooldown)
-        {
-            Swing();
-        }
+        
+        LimitVelocity();
         swingJustReleased = false;
-        // LimitVelocity();
     }
 
     private void Move()
@@ -92,16 +94,18 @@ public class Player : MonoBehaviour, IPlayerActions
         }
     }
 
+    private void LimitWalkSpeed()
+    {
+        if (Mathf.Abs(rb2D.velocity.x) >= walkSpeed)
+        {
+            rb2D.velocity = new Vector2(Mathf.Sign(rb2D.velocity.x) * walkSpeed, rb2D.velocity.y);
+        }
+    }
+
     private void LimitVelocity()
     {
-        if (Mathf.Abs(rb2D.velocity.x) > maxSpeedX)
-        {
-            rb2D.velocity = new Vector2(Mathf.Sign(rb2D.velocity.x) * maxSpeedX, rb2D.velocity.y);
-        }
-        if (Mathf.Abs(rb2D.velocity.y) > maxSpeedY)
-        {
-            rb2D.velocity = new Vector2(rb2D.velocity.x, Mathf.Sign(rb2D.velocity.y) * maxSpeedY);
-        }
+        // If jumping, limit velocity to a lower value
+        // If swinging, don't limit? or limit to a higher value
     }
 
     private bool IsTouching(Vector3 direction)
@@ -136,7 +140,6 @@ public class Player : MonoBehaviour, IPlayerActions
         {
             aimAxes = Vector2.zero;
         }
-
     }
 
     public void OnSwing(InputAction.CallbackContext context)
@@ -160,14 +163,12 @@ public class Player : MonoBehaviour, IPlayerActions
         {
             sprite.color = Color.yellow;
             rb2D.AddForce(-aimAxes * weakHammerForce, ForceMode2D.Impulse);
-            // Debug.Log("Weak Hammer Collision");
         }
-        // holding the bar for more than one second leads to strong hammer force
+        // holding the bar for more than `strongThreshold` seconds leads to strong hammer force
         else
         {
             sprite.color = Color.red;
             rb2D.AddForce(-aimAxes * strongHammerForce, ForceMode2D.Impulse);
-            // Debug.Log("Strong Hammer Collision");
         }
     }
 }
