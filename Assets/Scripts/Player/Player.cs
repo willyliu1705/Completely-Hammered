@@ -20,6 +20,7 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private float moveAxis;
     private bool jump;
+    private bool isJumping;
     private bool swingIsHeld;
     private bool swingJustReleased;
     private Vector2 aimAxes;
@@ -27,12 +28,11 @@ public class Player : MonoBehaviour, IPlayerActions
     private float hammerDuration;
 
     [SerializeField] private float walkSpeed;
-    [SerializeField] private Vector2 maxVelocity;
+    [SerializeField] private float maxJumpSpeed;
     [SerializeField] private float acceleration;
     [SerializeField] private float dragCoefficient;
     [SerializeField] private float jumpForce;
     [SerializeField] private float strongThreshold;
-    [SerializeField] private float swingCooldown;
 
     [SerializeField] private float weakHammerForce;
     [SerializeField] private float strongHammerForce;
@@ -48,17 +48,16 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private void FixedUpdate()
     {
-        Debug.DrawRay(bc2D.bounds.center, aimAxes * bc2D.bounds.size);
-
-        if (!controls.Player.enabled) { return; }
+        Debug.DrawRay(rb2D.position, aimAxes * bc2D.bounds.size);
+    
+        Move();
 
         hammerDuration = Time.time - startTime;
-        Move();
         if (swingIsHeld && hammerDuration >= strongThreshold)
         {
             sprite.color = Color.gray;
         }
-        if (swingJustReleased && IsTouching(aimAxes) && hammerDuration > swingCooldown)
+        if (swingJustReleased && IsTouching(aimAxes))
         {
             Swing();
         }
@@ -66,17 +65,17 @@ public class Player : MonoBehaviour, IPlayerActions
         {
             if (jump)
             {
-                Debug.Log("Can I jump: " + jump);
                 Jump();
             }
             else
             {
+                isJumping = false;
                 LimitWalkSpeed();
                 ApplyDrag();
             }
         }
-        
-        LimitVelocity();
+
+        LimitJumpSpeed();
         swingJustReleased = false;
     }
 
@@ -84,10 +83,8 @@ public class Player : MonoBehaviour, IPlayerActions
     {
         if (collision.gameObject.CompareTag("lethal"))
         {
-            Debug.Log("Did I collide?: " + collision.gameObject.CompareTag("lethal"));
             rb2D.velocity = Vector2.zero;
             controls.Player.Disable();
-            Debug.Log("Controls status:" + controls.Player.enabled);
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
@@ -102,6 +99,7 @@ public class Player : MonoBehaviour, IPlayerActions
     {
         sprite.color = Color.green;
         rb2D.AddForce(rb2D.transform.up * jumpForce, ForceMode2D.Impulse);
+        isJumping = true;
         // revert back to single tap jumping if necessary
         // jump = false;
     }
@@ -122,10 +120,12 @@ public class Player : MonoBehaviour, IPlayerActions
         }
     }
 
-    private void LimitVelocity()
+    private void LimitJumpSpeed()
     {
-        // If jumping, limit velocity to a lower value
-        // If swinging, don't limit? or limit to a higher value
+        if (isJumping && Mathf.Abs(rb2D.velocity.x) >= maxJumpSpeed)
+        {
+            rb2D.velocity = new Vector2(Mathf.Sign(rb2D.velocity.x) * maxJumpSpeed, rb2D.velocity.y);
+        }
     }
 
     private bool IsTouching(Vector3 direction)
