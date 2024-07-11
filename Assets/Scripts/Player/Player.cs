@@ -55,7 +55,14 @@ public class Player : MonoBehaviour, IPlayerActions
         hammerDuration = Time.time - startTime;
         if (swingIsHeld && hammerDuration >= strongThreshold)
         {
-            sprite.color = Color.gray;
+            if (hammerDuration < strongThreshold + 0.1f)
+            {
+                sprite.color = Color.white;
+            }
+            else
+            {
+                sprite.color = Color.gray;
+            }
         }
         if (swingJustReleased && IsTouching(aimAxes))
         {
@@ -155,6 +162,7 @@ public class Player : MonoBehaviour, IPlayerActions
         if (context.performed)
         {
             aimAxes = context.ReadValue<Vector2>();
+            Debug.Log(aimAxes);
         }
         else if (context.canceled)
         {
