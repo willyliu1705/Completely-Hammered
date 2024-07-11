@@ -100,6 +100,8 @@ public class Player : MonoBehaviour, IPlayerActions
     {
         sprite.color = Color.green;
         rb2D.AddForce(rb2D.transform.up * jumpForce, ForceMode2D.Impulse);
+        // revert back to single tap jumping if necessary
+        // jump = false;
     }
 
     private void ApplyDrag()
@@ -173,14 +175,12 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private void Swing()
     {
-        // instant press of space bar leads to weak hammer force
         if (hammerDuration < strongThreshold)
         {
             sprite.color = Color.yellow;
             rb2D.AddForce(-aimAxes * weakHammerForce, ForceMode2D.Impulse);
             // Debug.Log("Weak Hammer Collision");
         }
-        // holding the bar for more than one second leads to strong hammer force
         else
         {
             sprite.color = Color.red;
