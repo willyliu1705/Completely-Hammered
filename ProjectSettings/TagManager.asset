@@ -8,6 +8,7 @@ TagManager:
   - lethal
   - ground
   - fallingObstacle
+  - Lethal
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - UI
   - Ground
   - Wall
-  - 
+  - Lethal
   - 
   - 
   - 

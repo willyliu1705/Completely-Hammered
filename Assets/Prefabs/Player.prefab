@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6166247429742732118}
   m_Layer: 0
   m_Name: Player
-  m_TagString: player
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -179,13 +179,9 @@ MonoBehaviour:
     m_Bits: 64
   sprite: {fileID: 8779915090768219491}
   walkSpeed: 5
-  maxJumpSpeed: 5
-  maxWeakSwingSpeed: 20
-  maxStrongSwingSpeed: 30
   acceleration: 40
   dragCoefficient: 500
   jumpForce: 15
   strongThreshold: 1
-  swingCooldown: 0
-  weakHammerForce: 20
+  weakHammerForce: 25
   strongHammerForce: 40
