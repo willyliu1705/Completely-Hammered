@@ -15,15 +15,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Jump",
-                    "type": "Button",
-                    "id": "6a5b2fb0-7822-4490-8e8c-9d34c04a1029",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Aim",
                     "type": "Value",
                     "id": "96cac965-abe2-44c2-b5ee-c908ec2897ae",
@@ -194,17 +185,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Swing",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "841ef36f-f217-4ccc-8017-e4d74415f557",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

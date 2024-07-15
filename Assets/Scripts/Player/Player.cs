@@ -17,8 +17,6 @@ public class Player : MonoBehaviour, IPlayerActions
     private AudioManager audioManager;
 
     private float moveAxis;
-    private bool jump;
-    // private bool isJumping;
     private bool swingIsHeld;
     private bool swingJustReleased;
     private bool isSwingingWeak;
@@ -63,9 +61,9 @@ public class Player : MonoBehaviour, IPlayerActions
 
         if (IsGrounded(-rb2D.transform.up) || IsGrounded(-rb2D.transform.right) || IsGrounded(rb2D.transform.right))
         {
-            // isJumping = false;
             isSwingingWeak = false;
             isSwingingStrong = false;
+            ApplyDrag();
         }
 
         if (swingJustReleased)
@@ -77,17 +75,6 @@ public class Player : MonoBehaviour, IPlayerActions
             else
             {
                 audioManager.Play("swingMiss");
-            }
-        }
-        else if (IsGrounded(-rb2D.transform.up))
-        {
-            if (jump)
-            {
-                Jump();
-            }
-            else
-            {
-                ApplyDrag();
             }
         }
 
@@ -110,14 +97,6 @@ public class Player : MonoBehaviour, IPlayerActions
     {
         sprite.color = Color.black;
         rb2D.AddForce(new Vector2(moveAxis, 0f) * acceleration);
-    }
-
-    private void Jump()
-    {
-        sprite.color = Color.green;
-        rb2D.AddForce(rb2D.transform.up * jumpForce, ForceMode2D.Impulse);
-        // isJumping = true;
-        audioManager.Play("jump");
     }
 
     private void Swing()
@@ -173,18 +152,6 @@ public class Player : MonoBehaviour, IPlayerActions
     public void OnMove(InputAction.CallbackContext context)
     {
         moveAxis = context.ReadValue<float>();
-    }
-
-    public void OnJump(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            jump = true;
-        }
-        else if (context.canceled)
-        {
-            jump = false;
-        }
     }
 
     public void OnAim(InputAction.CallbackContext context)
