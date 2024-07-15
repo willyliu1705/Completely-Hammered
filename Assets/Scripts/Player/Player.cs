@@ -46,7 +46,6 @@ public class Player : MonoBehaviour, IPlayerActions
     private void FixedUpdate()
     {
         Debug.DrawRay(rb2D.position, aimAxes * bc2D.bounds.size);
-    
         Move();
 
         hammerDuration = Time.time - startTime;
@@ -56,14 +55,12 @@ public class Player : MonoBehaviour, IPlayerActions
             {
                 sprite.color = Color.cyan;
             }
-            
         }
 
         if (IsGrounded(-rb2D.transform.up) || IsGrounded(-rb2D.transform.right) || IsGrounded(rb2D.transform.right))
         {
             isSwingingWeak = false;
             isSwingingStrong = false;
-            ApplyDrag();
         }
 
         if (swingJustReleased)
@@ -76,6 +73,10 @@ public class Player : MonoBehaviour, IPlayerActions
             {
                 audioManager.Play("swingMiss");
             }
+        }
+        else if (IsGrounded(-rb2D.transform.up))
+        {
+            ApplyDrag();
         }
 
         LimitSpeed();
