@@ -24,6 +24,9 @@ public class Player : MonoBehaviour, IPlayerActions
     private Vector2 aimAxes;
     private float startTime;
     private float hammerDuration;
+    private float swingReleaseTime;
+    private float postSwingDuration;
+    private float timeToApplyDrag = 0.2f;
 
     [SerializeField] private float walkSpeed;
     [SerializeField] private float acceleration;
@@ -49,6 +52,7 @@ public class Player : MonoBehaviour, IPlayerActions
         Move();
 
         hammerDuration = Time.time - startTime;
+        postSwingDuration = Time.time - swingReleaseTime;
         if (swingIsHeld)
         {
             if (hammerDuration >= strongThreshold)
@@ -63,15 +67,18 @@ public class Player : MonoBehaviour, IPlayerActions
             isSwingingStrong = false;
         }
 
-        if (swingJustReleased)
+        if (postSwingDuration <= timeToApplyDrag)
         {
-            if (IsGrounded(aimAxes))
+            if (swingJustReleased)
             {
-                Swing();
-            }
-            else
-            {
-                audioManager.Play("swingMiss");
+                if (IsGrounded(aimAxes))
+                {
+                    Swing();
+                }
+                else
+                {
+                    audioManager.Play("swingMiss");
+                }
             }
         }
         else if (IsGrounded(-rb2D.transform.up))
@@ -131,7 +138,7 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private void LimitSpeed()
     {
-        if (isSwingingWeak || isSwingingStrong)
+        if (isSwingingWeak || isSwingingStrong || postSwingDuration <= timeToApplyDrag)
         {
             float maxSwingSpeed = Mathf.Max(Mathf.Abs(initialSwingSpeed), walkSpeed);
             if (Mathf.Abs(rb2D.velocity.x) >= maxSwingSpeed)
@@ -180,6 +187,7 @@ public class Player : MonoBehaviour, IPlayerActions
             swingIsHeld = false;
             swingJustReleased = true;
             audioManager.Stop("swingCharge");
+            swingReleaseTime = Time.time;
         }
     }
 }
