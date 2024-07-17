@@ -37,7 +37,7 @@ public class Player : MonoBehaviour, IPlayerActions
     private float postSwingDuration;
     private float timeToApplyDrag = 0.2f;
     private bool isAlive;
-    private bool isMenuActive = false;
+    private bool isMenuActive;
 
     private float initialSwingSpeed;
     private float aimBufferTime;
@@ -51,6 +51,7 @@ public class Player : MonoBehaviour, IPlayerActions
         controls.Player.AddCallbacks(this);
         controls.Player.Enable();
         isAlive = true;
+        isMenuActive = false;
     }
 
     private void FixedUpdate()
