@@ -182,6 +182,6 @@ MonoBehaviour:
   acceleration: 40
   dragCoefficient: 500
   strongThreshold: 1
-  weakHammerForce: 25
-  strongHammerForce: 40
+  weakHammerForce: 18
+  strongHammerForce: 28
   aimBuffer: 0.04
