@@ -186,4 +186,4 @@ MonoBehaviour:
   weakHammerForce: 20
   strongHammerForce: 30
   aimBuffer: 0.04
-  hammerCooldown: 0.4
+  hammerCooldown: 0.33
