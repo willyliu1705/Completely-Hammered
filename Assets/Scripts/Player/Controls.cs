@@ -53,6 +53,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Reset"",
+                    ""type"": ""Button"",
+                    ""id"": ""04b270e3-9fd7-46a9-ac25-8c3b0adf29a9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -209,6 +218,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""Swing"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""14eebb9f-7ce0-4bba-8a77-ffcc84d91c3d"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reset"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -243,6 +263,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
         m_Player_Swing = m_Player.FindAction("Swing", throwIfNotFound: true);
+        m_Player_Reset = m_Player.FindAction("Reset", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -307,6 +328,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Aim;
     private readonly InputAction m_Player_Swing;
+    private readonly InputAction m_Player_Reset;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
@@ -314,6 +336,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Aim => m_Wrapper.m_Player_Aim;
         public InputAction @Swing => m_Wrapper.m_Player_Swing;
+        public InputAction @Reset => m_Wrapper.m_Player_Reset;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -332,6 +355,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Swing.started += instance.OnSwing;
             @Swing.performed += instance.OnSwing;
             @Swing.canceled += instance.OnSwing;
+            @Reset.started += instance.OnReset;
+            @Reset.performed += instance.OnReset;
+            @Reset.canceled += instance.OnReset;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -345,6 +371,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Swing.started -= instance.OnSwing;
             @Swing.performed -= instance.OnSwing;
             @Swing.canceled -= instance.OnSwing;
+            @Reset.started -= instance.OnReset;
+            @Reset.performed -= instance.OnReset;
+            @Reset.canceled -= instance.OnReset;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -385,5 +414,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
         void OnSwing(InputAction.CallbackContext context);
+        void OnReset(InputAction.CallbackContext context);
     }
 }

@@ -201,4 +201,9 @@ public class Player : MonoBehaviour, IPlayerActions
         //    audioManager.Stop("swingCharge");
         //}
     }
+
+    public void OnReset(InputAction.CallbackContext context)
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 }
