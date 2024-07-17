@@ -24,6 +24,7 @@ public class Player : MonoBehaviour, IPlayerActions
     [SerializeField] private float weakHammerForce;
     [SerializeField] private float strongHammerForce;
     [SerializeField] private float aimBuffer;
+    [SerializeField] private GameObject pauseMenu;
 
     private float moveAxis;
     private bool swingIsHeld;
@@ -32,6 +33,12 @@ public class Player : MonoBehaviour, IPlayerActions
     private bool isSwingingStrong;
     private float startTime;
     private float hammerDuration;
+    private float swingReleaseTime;
+    private float postSwingDuration;
+    private float timeToApplyDrag = 0.2f;
+    private bool isAlive;
+    private bool isMenuActive = false;
+
     private float initialSwingSpeed;
     private float aimBufferTime;
     private Vector2 aimAxes;
@@ -43,14 +50,21 @@ public class Player : MonoBehaviour, IPlayerActions
         controls = new Controls();
         controls.Player.AddCallbacks(this);
         controls.Player.Enable();
+        isAlive = true;
     }
 
     private void FixedUpdate()
     {
         Debug.DrawRay(rb2D.position, aimAxes * bc2D.bounds.size);
+
+        if (!isAlive)
+        {
+            return;
+        }
         Move();
 
         hammerDuration = Time.time - startTime;
+        postSwingDuration = Time.time - swingReleaseTime;
         if (swingIsHeld)
         {
             if (hammerDuration >= strongThreshold)
@@ -65,20 +79,23 @@ public class Player : MonoBehaviour, IPlayerActions
             isSwingingStrong = false;
         }
 
-        if (swingJustReleased)
+        if (postSwingDuration <= timeToApplyDrag)
         {
-            if (Time.time - aimBufferTime <= aimBuffer) 
+            if (Time.time - aimBufferTime <= aimBuffer)
             {
                 aimAxes = aimAxesBuffer;
             }
 
-            if (IsGrounded(aimAxes))
+            if (swingJustReleased)
             {
-                Swing();
-            }
-            else
-            {
-                audioManager.Play("swingMiss");
+                if (IsGrounded(aimAxes))
+                {
+                    Swing();
+                }
+                else
+                {
+                    audioManager.Play("swingMiss");
+                }
             }
             aimAxes = Vector2.zero;
         }
@@ -97,8 +114,8 @@ public class Player : MonoBehaviour, IPlayerActions
         {
             sprite.color = Color.grey;
             audioManager.Stop("swingCharge");
-            controls.Player.Disable();
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            rb2D.velocity = Vector2.zero;
+            isAlive = false;
         }
     }
 
@@ -139,7 +156,7 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private void LimitSpeed()
     {
-        if (isSwingingWeak || isSwingingStrong)
+        if (isSwingingWeak || isSwingingStrong || postSwingDuration <= timeToApplyDrag)
         {
             float maxSwingSpeed = Mathf.Max(Mathf.Abs(initialSwingSpeed), walkSpeed);
             if (Mathf.Abs(rb2D.velocity.x) >= maxSwingSpeed)
@@ -160,36 +177,87 @@ public class Player : MonoBehaviour, IPlayerActions
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        moveAxis = context.ReadValue<float>();
+        if (isAlive && !isMenuActive)
+        {
+            moveAxis = context.ReadValue<float>();
+        }
     }
 
     public void OnAim(InputAction.CallbackContext context)
     {
-        if (context.started)
+
+        if (isAlive && !isMenuActive)
         {
-            swingIsHeld = true;
-            startTime = Time.time;
-            audioManager.Play("swingCharge");
-        }
-        else if (context.performed)
-        {
-            aimAxes = context.ReadValue<Vector2>();
-            if (aimAxes != Vector2.zero && Math.Abs(aimAxes.x / aimAxes.y) == 1)
+            if (context.started)
             {
-                aimAxesBuffer = aimAxes;
+                swingIsHeld = true;
+                startTime = Time.time;
+                audioManager.Play("swingCharge");
             }
-            aimBufferTime = Time.time;
+            else if (context.performed)
+            {
+                aimAxes = context.ReadValue<Vector2>();
+                if (aimAxes != Vector2.zero && Math.Abs(aimAxes.x / aimAxes.y) == 1)
+                {
+                    aimAxesBuffer = aimAxes;
+                }
+                aimBufferTime = Time.time;
+            }
+            else if (context.canceled)
+            {
+                swingIsHeld = false;
+                swingJustReleased = true;
+                audioManager.Stop("swingCharge");
+                swingReleaseTime = Time.time;
+            }
         }
-        else if (context.canceled)
+
+    }
+
+    public void OnSwing(InputAction.CallbackContext context)
+    {
+        if (isAlive && !isMenuActive)
         {
-            swingIsHeld = false;
-            swingJustReleased = true;
-            audioManager.Stop("swingCharge");
+            if (context.started)
+            {
+                swingIsHeld = true;
+                startTime = Time.time;
+                audioManager.Play("swingCharge");
+            }
+            else if (context.canceled)
+            {
+                swingIsHeld = false;
+                swingJustReleased = true;
+                audioManager.Stop("swingCharge");
+                swingReleaseTime = Time.time;
+            }
         }
     }
 
-    public void OnReset(InputAction.CallbackContext context)
+    public void OnRestart(InputAction.CallbackContext context)
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        if (context.performed && !isMenuActive)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
+
+    public void OnMenu(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            isMenuActive = !isMenuActive;
+            pauseMenu.SetActive(isMenuActive);
+
+            if (isMenuActive)
+            {
+                Time.timeScale = 0f;
+            }
+            else
+            {
+                Time.timeScale = 1f;
+            }
+        }
+    }
+
 }
