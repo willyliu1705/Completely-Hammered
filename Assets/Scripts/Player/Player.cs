@@ -16,7 +16,8 @@ public class Player : MonoBehaviour, IPlayerActions
     [SerializeField] private BoxCollider2D bc2D;
     [SerializeField] private LayerMask groundLayerMask;
     [SerializeField] private SpriteRenderer sprite;
-    [SerializeField] private float raycastBuffer;
+    [SerializeField] private float raycastGroundBuffer;
+    [SerializeField] private float raycastHammerBuffer;
     [SerializeField] private float walkSpeed;
     [SerializeField] private float acceleration;
     [SerializeField] private float dragCoefficient;
@@ -24,6 +25,7 @@ public class Player : MonoBehaviour, IPlayerActions
     [SerializeField] private float weakHammerForce;
     [SerializeField] private float strongHammerForce;
     [SerializeField] private float aimBuffer;
+    [SerializeField] private float hammerCooldown;
 
     private float moveAxis;
     private bool swingIsHeld;
@@ -32,6 +34,7 @@ public class Player : MonoBehaviour, IPlayerActions
     private bool isSwingingStrong;
     private float startTime;
     private float hammerDuration;
+    private float previousSwingTime;
     private float initialSwingSpeed;
     private float aimBufferTime;
     private Vector2 aimAxes;
@@ -65,14 +68,14 @@ public class Player : MonoBehaviour, IPlayerActions
             isSwingingStrong = false;
         }
 
-        if (swingJustReleased)
+        if (swingJustReleased && Time.time - previousSwingTime >= hammerCooldown)
         {
             if (Time.time - aimBufferTime <= aimBuffer) 
             {
                 aimAxes = aimAxesBuffer;
             }
 
-            if (IsGrounded(aimAxes))
+            if (CanHammer(aimAxes))
             {
                 Swing();
             }
@@ -110,6 +113,15 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private void Swing()
     {
+        previousSwingTime = Time.time;
+        if (Math.Sign(aimAxes.x) == Math.Sign(rb2D.velocity.x))
+        {
+            rb2D.velocity = new Vector2(0, rb2D.velocity.y);
+        }
+        if (Math.Sign(aimAxes.y) == Math.Sign(rb2D.velocity.y))
+        {
+            rb2D.velocity = new Vector2(rb2D.velocity.x, 0);
+        }
         if (hammerDuration < strongThreshold)
         {
             sprite.color = Color.yellow;
@@ -155,7 +167,12 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private bool IsGrounded(Vector3 direction)
     {
-        return Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, direction, raycastBuffer, groundLayerMask);
+        return Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, direction, raycastGroundBuffer, groundLayerMask);
+    }
+
+    private bool CanHammer(Vector3 direction)
+    {
+        return Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, direction, raycastHammerBuffer, groundLayerMask);
     }
 
     public void OnMove(InputAction.CallbackContext context)
