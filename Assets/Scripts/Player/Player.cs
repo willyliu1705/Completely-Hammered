@@ -238,6 +238,7 @@ public class Player : MonoBehaviour, IPlayerActions
     {
         if (context.performed && !isMenuActive)
         {
+            Debug.Log(isMenuActive);
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
@@ -246,6 +247,15 @@ public class Player : MonoBehaviour, IPlayerActions
     {
         if (context.performed)
         {
+            if (pauseMenu == null)
+            {
+                pauseMenu = GameObject.Find("PauseMenu");
+                if (pauseMenu == null)
+                {
+                    return;
+                }
+            }
+
             isMenuActive = !isMenuActive;
             pauseMenu.SetActive(isMenuActive);
 
