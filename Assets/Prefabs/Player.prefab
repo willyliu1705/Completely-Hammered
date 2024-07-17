@@ -178,7 +178,7 @@ MonoBehaviour:
     m_Bits: 64
   sprite: {fileID: 8779915090768219491}
   raycastGroundBuffer: 0.07
-  raycastHammerBuffer: 1
+  raycastHammerBuffer: 0.5
   walkSpeed: 5
   acceleration: 40
   dragCoefficient: 500
