@@ -186,22 +186,6 @@ public class Player : MonoBehaviour, IPlayerActions
         }
     }
 
-    public void OnSwing(InputAction.CallbackContext context)
-    {
-        //if (context.started)
-        //{
-        //    swingIsHeld = true;
-        //    startTime = Time.time;
-        //    audioManager.Play("swingCharge");
-        //}
-        //else if (context.canceled)
-        //{
-        //    swingIsHeld = false;
-        //    swingJustReleased = true;
-        //    audioManager.Stop("swingCharge");
-        //}
-    }
-
     public void OnReset(InputAction.CallbackContext context)
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);

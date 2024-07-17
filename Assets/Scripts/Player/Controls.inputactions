@@ -24,15 +24,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Swing",
-                    "type": "Button",
-                    "id": "15b38c16-6495-421d-8e3a-2a3b773f5f07",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Reset",
                     "type": "Button",
                     "id": "04b270e3-9fd7-46a9-ac25-8c3b0adf29a9",
@@ -185,17 +176,6 @@
                     "action": "Aim",
                     "isComposite": false,
                     "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "c5d8b193-16fb-401c-8ddd-18828c90413a",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Swing",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
