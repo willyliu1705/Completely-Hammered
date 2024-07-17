@@ -28,6 +28,36 @@ public class CrumblingPlatform : MonoBehaviour
         yield return new WaitForSeconds(destroytime);
         Toggle(false);
         yield return new WaitForSeconds(respawntime);
+
+        if (IsAreaClear())
+        {
+            Toggle(true);
+        }
+        else
+        {
+            StartCoroutine(CheckClear());
+        }
+    }
+
+    private bool IsAreaClear()
+    {
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(platform.bounds.center, platform.bounds.size, 0f);
+        foreach (Collider2D collider in colliders)
+        {
+            if (collider.tag == "Player")
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private IEnumerator CheckClear()
+    {
+        while (!IsAreaClear())
+        {
+            yield return new WaitForSeconds(0.1f);        
+        }
         Toggle(true);
     }
 
