@@ -39,14 +39,6 @@ public class Player : MonoBehaviour, IPlayerActions
     private bool isAlive;
     private bool isMenuActive = false;
 
-    [SerializeField] private float walkSpeed;
-    [SerializeField] private float acceleration;
-    [SerializeField] private float dragCoefficient;
-    [SerializeField] private float jumpForce;
-    [SerializeField] private float strongThreshold;
-
-    [SerializeField] private float weakHammerForce;
-    [SerializeField] private float strongHammerForce;
     private float initialSwingSpeed;
     private float aimBufferTime;
     private Vector2 aimAxes;
@@ -216,10 +208,12 @@ public class Player : MonoBehaviour, IPlayerActions
                 swingIsHeld = false;
                 swingJustReleased = true;
                 audioManager.Stop("swingCharge");
+                swingReleaseTime = Time.time;
             }
         }
 
     }
+
     public void OnSwing(InputAction.CallbackContext context)
     {
         if (isAlive && !isMenuActive)
