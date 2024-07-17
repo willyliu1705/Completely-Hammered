@@ -14,6 +14,7 @@ public class Player : MonoBehaviour, IPlayerActions
     [SerializeField] private float raycastBuffer;
     [SerializeField] private LayerMask groundLayerMask;
     [SerializeField] private SpriteRenderer sprite;
+    [SerializeField] private GameObject gameOverScreen;
     private AudioManager audioManager;
 
     private float moveAxis;
@@ -27,6 +28,7 @@ public class Player : MonoBehaviour, IPlayerActions
     private float swingReleaseTime;
     private float postSwingDuration;
     private float timeToApplyDrag = 0.2f;
+    private bool isAlive;
 
     [SerializeField] private float walkSpeed;
     [SerializeField] private float acceleration;
@@ -44,11 +46,17 @@ public class Player : MonoBehaviour, IPlayerActions
         controls = new Controls();
         controls.Player.AddCallbacks(this);
         controls.Player.Enable();
+        isAlive = true;
     }
 
     private void FixedUpdate()
     {
         Debug.DrawRay(rb2D.position, aimAxes * bc2D.bounds.size);
+
+        if (!isAlive)
+        {
+            return;
+        }
         Move();
 
         hammerDuration = Time.time - startTime;
@@ -96,8 +104,9 @@ public class Player : MonoBehaviour, IPlayerActions
         {
             sprite.color = Color.grey;
             audioManager.Stop("swingCharge");
-            controls.Player.Disable();
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            rb2D.velocity = Vector2.zero;
+            gameOverScreen.SetActive(true);
+            isAlive = false;
         }
     }
 
@@ -159,35 +168,53 @@ public class Player : MonoBehaviour, IPlayerActions
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        moveAxis = context.ReadValue<float>();
+        if (isAlive)
+        {
+            moveAxis = context.ReadValue<float>();
+        }
     }
 
     public void OnAim(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (isAlive)
         {
-            aimAxes = context.ReadValue<Vector2>();
-        }
-        else if (context.canceled)
-        {
-            aimAxes = Vector2.zero;
+            if (context.performed)
+            {
+                aimAxes = context.ReadValue<Vector2>();
+            }
+            else if (context.canceled)
+            {
+                aimAxes = Vector2.zero;
+            }
         }
     }
 
     public void OnSwing(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (isAlive)
         {
-            swingIsHeld = true;
-            startTime = Time.time;
-            audioManager.Play("swingCharge");
-        }
-        else if (context.canceled)
-        {
-            swingIsHeld = false;
-            swingJustReleased = true;
-            audioManager.Stop("swingCharge");
-            swingReleaseTime = Time.time;
+            if (context.started)
+            {
+                swingIsHeld = true;
+                startTime = Time.time;
+                audioManager.Play("swingCharge");
+            }
+            else if (context.canceled)
+            {
+                swingIsHeld = false;
+                swingJustReleased = true;
+                audioManager.Stop("swingCharge");
+                swingReleaseTime = Time.time;
+            }
         }
     }
+
+    public void OnRestart(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+    }
+
 }
