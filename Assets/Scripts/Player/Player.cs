@@ -72,10 +72,12 @@ public class Player : MonoBehaviour, IPlayerActions
                 aimAxes = aimAxesBuffer;
             }
 
-            if (IsGrounded(aimAxes)) {
+            if (IsGrounded(aimAxes))
+            {
                 Swing();
             }
-            else {
+            else
+            {
                 audioManager.Play("swingMiss");
             }
             aimAxes = Vector2.zero;
