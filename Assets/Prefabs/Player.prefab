@@ -180,8 +180,9 @@ MonoBehaviour:
   raycastBuffer: 0.07
   walkSpeed: 5
   acceleration: 40
-  dragCoefficient: 500
+  dragCoefficient: 10
   strongThreshold: 1
   weakHammerForce: 18
   strongHammerForce: 28
   aimBuffer: 0.04
+  pauseMenu: {fileID: 0}

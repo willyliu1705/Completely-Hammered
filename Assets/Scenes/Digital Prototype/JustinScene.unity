@@ -1213,20 +1213,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 2175156278451328759, guid: dcd7de534aaa348088f81e764f0e90bb, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
     - target: {fileID: 6166247429742732118, guid: dcd7de534aaa348088f81e764f0e90bb, type: 3}
       propertyPath: pauseMenu
-      value: 
-      objectReference: {fileID: 1189424226}
-    - target: {fileID: 6166247429742732118, guid: dcd7de534aaa348088f81e764f0e90bb, type: 3}
-      propertyPath: escapeMenu
-      value: 
-      objectReference: {fileID: 1189424226}
-    - target: {fileID: 6166247429742732118, guid: dcd7de534aaa348088f81e764f0e90bb, type: 3}
-      propertyPath: gameOverScreen
       value: 
       objectReference: {fileID: 1189424226}
     m_RemovedComponents: []
