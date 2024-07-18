@@ -14,7 +14,8 @@ public class Player : MonoBehaviour, IPlayerActions
     [SerializeField] private BoxCollider2D bc2D;
     [SerializeField] private LayerMask groundLayerMask;
     [SerializeField] private SpriteRenderer sprite;
-    [SerializeField] private float raycastBuffer;
+    [SerializeField] private float raycastGroundBuffer;
+    [SerializeField] private float raycastHammerBuffer;
     [SerializeField] private float walkSpeed;
     [SerializeField] private float acceleration;
     [SerializeField] private float dragCoefficient;
@@ -22,11 +23,16 @@ public class Player : MonoBehaviour, IPlayerActions
     [SerializeField] private float weakHammerForce;
     [SerializeField] private float strongHammerForce;
     [SerializeField] private float aimBuffer;
+<<<<<<< HEAD
     [SerializeField] private GameObject pauseMenu;
+=======
+    [SerializeField] private float hammerCooldown;
+>>>>>>> player---patrick
 
     private float moveAxis;
     private bool swingIsHeld;
     private bool swingJustReleased;
+<<<<<<< HEAD
     private bool isAirborneAfterSwing;
     private float swingStartTime;
     private float swingDuration;
@@ -36,6 +42,13 @@ public class Player : MonoBehaviour, IPlayerActions
     private bool isAlive;
     private bool isMenuActive;
 
+=======
+    private bool isSwingingWeak;
+    private bool isSwingingStrong;
+    private float startTime;
+    private float hammerDuration;
+    private float previousSwingTime;
+>>>>>>> player---patrick
     private float initialSwingSpeed;
     private float aimBufferTime;
     private Vector2 aimAxes;
@@ -78,14 +91,22 @@ public class Player : MonoBehaviour, IPlayerActions
             isAirborneAfterSwing = false;
         }
 
+<<<<<<< HEAD
         if (postSwingDuration <= timeToApplyDrag)
+=======
+        if (swingJustReleased && Time.time - previousSwingTime >= hammerCooldown)
+>>>>>>> player---patrick
         {
             if (Time.time - aimBufferTime <= aimBuffer)
             {
                 aimAxes = aimAxesBuffer;
             }
 
+<<<<<<< HEAD
             if (swingJustReleased)
+=======
+            if (CanHammer(aimAxes))
+>>>>>>> player---patrick
             {
                 if (IsGrounded(aimAxes))
                 {
@@ -134,6 +155,7 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private void Swing()
     {
+<<<<<<< HEAD
         Vector2 swingAxes = aimAxes;
         if (swingAxes.x * swingAxes.y != 0)
         {
@@ -141,6 +163,18 @@ public class Player : MonoBehaviour, IPlayerActions
         }
 
         if (swingDuration < strongThreshold)
+=======
+        previousSwingTime = Time.time;
+        if (Math.Sign(aimAxes.x) == Math.Sign(rb2D.velocity.x))
+        {
+            rb2D.velocity = new Vector2(0, rb2D.velocity.y);
+        }
+        if (Math.Sign(aimAxes.y) == Math.Sign(rb2D.velocity.y))
+        {
+            rb2D.velocity = new Vector2(rb2D.velocity.x, 0);
+        }
+        if (hammerDuration < strongThreshold)
+>>>>>>> player---patrick
         {
             sprite.color = Color.yellow;
             initialSwingSpeed = rb2D.velocity.x - swingAxes.x * weakHammerForce / rb2D.mass;
@@ -185,7 +219,12 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private bool IsGrounded(Vector3 direction)
     {
-        return Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, direction, raycastBuffer, groundLayerMask);
+        return Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, direction, raycastGroundBuffer, groundLayerMask);
+    }
+
+    private bool CanHammer(Vector3 direction)
+    {
+        return Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, direction, raycastHammerBuffer, groundLayerMask);
     }
 
     public void OnMove(InputAction.CallbackContext context)
