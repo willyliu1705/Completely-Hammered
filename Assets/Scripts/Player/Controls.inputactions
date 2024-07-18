@@ -15,15 +15,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Jump",
-                    "type": "Button",
-                    "id": "6a5b2fb0-7822-4490-8e8c-9d34c04a1029",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Aim",
                     "type": "Value",
                     "id": "96cac965-abe2-44c2-b5ee-c908ec2897ae",
@@ -33,9 +24,18 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Swing",
+                    "name": "Restart",
                     "type": "Button",
-                    "id": "15b38c16-6495-421d-8e3a-2a3b773f5f07",
+                    "id": "0f1b5582-fa54-4928-9bcb-e6eb121b46b5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Menu",
+                    "type": "Button",
+                    "id": "61c4955f-a7ab-487f-b0fa-57978dd0ab22",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -188,23 +188,23 @@
                 },
                 {
                     "name": "",
-                    "id": "c5d8b193-16fb-401c-8ddd-18828c90413a",
-                    "path": "<Keyboard>/space",
+                    "id": "01530899-d1dd-4fce-a053-b6b128060d40",
+                    "path": "<Keyboard>/r",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Swing",
+                    "action": "Restart",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "841ef36f-f217-4ccc-8017-e4d74415f557",
-                    "path": "<Keyboard>/w",
+                    "id": "ccb450b9-efb8-4a04-aa7f-d991b60d62a7",
+                    "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Jump",
+                    "action": "Menu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
