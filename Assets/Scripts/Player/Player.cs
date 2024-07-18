@@ -9,14 +9,13 @@ using static Controls;
 public class Player : MonoBehaviour, IPlayerActions
 {
     private Controls controls;
-    private AudioManager audioManager;
+    AudioManager audioManager;
     [SerializeField] private Rigidbody2D rb2D;
     [SerializeField] private BoxCollider2D bc2D;
     [SerializeField] private Animator anim2D;
     [SerializeField] private float raycastBuffer;
     [SerializeField] private LayerMask groundLayerMask;
     [SerializeField] private SpriteRenderer sprite;
-    [SerializeField] private float raycastBuffer;
     [SerializeField] private float walkSpeed;
     [SerializeField] private float acceleration;
     [SerializeField] private float dragCoefficient;
@@ -43,15 +42,16 @@ public class Player : MonoBehaviour, IPlayerActions
     private Vector2 aimAxes;
     private Vector2 aimAxesBuffer;
 
+    int counter;
+
     private void Awake()
     {
-        audioManager = FindObjectOfType<AudioManager>();
+        audioManager = GameObject.FindFirstObjectByType<AudioManager>().GetComponent<AudioManager>();
         controls = new Controls();
         controls.Player.AddCallbacks(this);
         controls.Player.Enable();
         isAlive = true;
         isMenuActive = false;
-        DontDestroyOnLoad(GameObject.Find("Canvas"));
     }
 
     private void FixedUpdate()
@@ -142,8 +142,20 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private void Move()
     {
-        sprite.color = Color.black;
         rb2D.AddForce(new Vector2(moveAxis, 0f) * acceleration);
+        sprite.color = Color.white;
+        rb2D.AddForce(new Vector2(moveAxis, 0f) * acceleration);
+        if (moveAxis != 0)
+        {
+            // Set the localScale based on moveAxis direction
+            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * Mathf.Sign(moveAxis), transform.localScale.y, transform.localScale.z);
+            anim2D.SetBool("isIdle", false);
+        }
+        else
+        {
+            anim2D.SetBool("isIdle", true);
+        }
+
     }
 
     private void Swing()
@@ -271,13 +283,10 @@ public class Player : MonoBehaviour, IPlayerActions
 
     public void OnMenu(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.started)
         {
             if (pauseMenu == null)
-            {
-                pauseMenu = GameObject.Find("PauseMenu");
-            }
-
+                return;
             isMenuActive = !isMenuActive;
             pauseMenu.SetActive(isMenuActive);
 

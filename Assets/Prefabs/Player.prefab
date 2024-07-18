@@ -180,13 +180,14 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   sprite: {fileID: 8779915090768219491}
-  raycastBuffer: 0.07
   walkSpeed: 5
   acceleration: 40
   dragCoefficient: 10
   strongThreshold: 1
   weakHammerForce: 25
   strongHammerForce: 40
+  aimBuffer: 0.04
+  pauseMenu: {fileID: 0}
 --- !u!95 &-1364503559642567146
 Animator:
   serializedVersion: 5
@@ -208,7 +209,3 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
-  weakHammerForce: 18
-  strongHammerForce: 28
-  aimBuffer: 0.04
-  pauseMenu: {fileID: 0}
