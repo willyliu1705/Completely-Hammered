@@ -11,6 +11,7 @@ public class Player : MonoBehaviour, IPlayerActions
     private Controls controls;
     [SerializeField] private Rigidbody2D rb2D;
     [SerializeField] private BoxCollider2D bc2D;
+    [SerializeField] private Animator anim2D;
     [SerializeField] private float raycastBuffer;
     [SerializeField] private LayerMask groundLayerMask;
     [SerializeField] private SpriteRenderer sprite;
@@ -108,8 +109,18 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private void Move()
     {
-        sprite.color = Color.black;
+        sprite.color = Color.white;
         rb2D.AddForce(new Vector2(moveAxis, 0f) * acceleration);
+        if (moveAxis != 0)
+        {
+            // Set the localScale based on moveAxis direction
+            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * Mathf.Sign(moveAxis), transform.localScale.y, transform.localScale.z);
+            anim2D.SetBool("isIdle", false);
+        }
+        else
+        {
+            anim2D.SetBool("isIdle", true);
+        }
     }
 
     private void Jump()
