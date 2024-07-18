@@ -1214,15 +1214,9 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 6166247429742732118, guid: dcd7de534aaa348088f81e764f0e90bb, type: 3}
-<<<<<<< HEAD
       propertyPath: pauseMenu
       value: 
       objectReference: {fileID: 1189424226}
-=======
-      propertyPath: hammerCooldown
-      value: 0.33
-      objectReference: {fileID: 0}
->>>>>>> player---patrick
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

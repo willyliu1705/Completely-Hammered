@@ -177,17 +177,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   sprite: {fileID: 8779915090768219491}
-  raycastGroundBuffer: 0.07
-  raycastHammerBuffer: 0.5
+  raycastBuffer: 0.07
   walkSpeed: 5
   acceleration: 40
   dragCoefficient: 10
   strongThreshold: 1
-  weakHammerForce: 20
-  strongHammerForce: 30
+  weakHammerForce: 18
+  strongHammerForce: 28
   aimBuffer: 0.04
-<<<<<<< HEAD
   pauseMenu: {fileID: 0}
-=======
-  hammerCooldown: 0.33
->>>>>>> player---patrick
