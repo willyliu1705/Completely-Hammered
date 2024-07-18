@@ -118,7 +118,14 @@ public class Player : MonoBehaviour, IPlayerActions
             audioManager.Stop("swingCharge");
             rb2D.velocity = Vector2.zero;
             isAlive = false;
+            StartCoroutine(reloadSceneAfterDelay());
         }
+    }
+
+    private IEnumerator reloadSceneAfterDelay()
+    {
+        yield return new WaitForSeconds(1f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private void Move()

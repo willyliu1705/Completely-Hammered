@@ -1306,7 +1306,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'To Keep Hammering,
 
-    Press Esc to unpause.'
+    Press Esc.'
 --- !u!222 &2111351930
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1384,3 +1384,4 @@ SceneRoots:
   - {fileID: 19816551}
   - {fileID: 871109627}
   - {fileID: 1040150812}
+  - {fileID: 1355923882}
