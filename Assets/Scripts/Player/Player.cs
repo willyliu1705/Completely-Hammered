@@ -52,6 +52,7 @@ public class Player : MonoBehaviour, IPlayerActions
         controls.Player.Enable();
         isAlive = true;
         isMenuActive = false;
+        DontDestroyOnLoad(GameObject.Find("Canvas"));
     }
 
     private void FixedUpdate()
@@ -247,6 +248,11 @@ public class Player : MonoBehaviour, IPlayerActions
     {
         if (context.performed)
         {
+            if (pauseMenu == null)
+            {
+                pauseMenu = GameObject.Find("PauseMenu");
+            }
+
             isMenuActive = !isMenuActive;
             pauseMenu.SetActive(isMenuActive);
 
