@@ -9,7 +9,7 @@ using static Controls;
 public class Player : MonoBehaviour, IPlayerActions
 {
     private Controls controls;
-    [SerializeField] AudioManager audioManager;
+    AudioManager audioManager;
     [SerializeField] private Rigidbody2D rb2D;
     [SerializeField] private BoxCollider2D bc2D;
     [SerializeField] private Animator anim2D;
@@ -42,8 +42,11 @@ public class Player : MonoBehaviour, IPlayerActions
     private Vector2 aimAxes;
     private Vector2 aimAxesBuffer;
 
+    int counter;
+
     private void Awake()
     {
+        audioManager = GameObject.FindFirstObjectByType<AudioManager>().GetComponent<AudioManager>();
         controls = new Controls();
         controls.Player.AddCallbacks(this);
         controls.Player.Enable();
@@ -280,13 +283,10 @@ public class Player : MonoBehaviour, IPlayerActions
 
     public void OnMenu(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.started)
         {
             if (pauseMenu == null)
-            {
-                pauseMenu = GameObject.Find("PauseMenu");
-            }
-
+                return;
             isMenuActive = !isMenuActive;
             pauseMenu.SetActive(isMenuActive);
 
