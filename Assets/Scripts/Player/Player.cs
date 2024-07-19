@@ -115,7 +115,6 @@ public class Player : MonoBehaviour, IPlayerActions
         timeSinceLastSwing = Time.time - previousSwingTime;
         if (timeSinceLastSwing >= timeToApplyDrag && isGroundedFloor)
         {
-            Debug.Log("apply drag");
             ApplyDrag();
         }
 
