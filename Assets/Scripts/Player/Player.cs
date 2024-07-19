@@ -69,7 +69,6 @@ public class Player : MonoBehaviour, IPlayerActions
         Move();
 
         chargeDuration = Time.time - chargeStartTime;
-        timeSinceLastSwing = Time.time - previousSwingTime;
         bool isGroundedFloor = IsGrounded(-rb2D.transform.up);
         if (isGroundedFloor)
         {
@@ -78,6 +77,11 @@ public class Player : MonoBehaviour, IPlayerActions
         else
         {
             StartCoroutine(SetGroundedAfterDelay(false));
+        }
+
+        if (isGroundedFloor || IsGrounded(-rb2D.transform.right) || IsGrounded(rb2D.transform.right))
+        {
+            isAirborneAfterSwing = false;
         }
 
         if (isCharging)
@@ -106,14 +110,11 @@ public class Player : MonoBehaviour, IPlayerActions
             aimAxes = Vector2.zero;
         }
 
+        timeSinceLastSwing = Time.time - previousSwingTime;
         if (timeSinceLastSwing >= timeToApplyDrag && isGroundedFloor)
         {
+            Debug.Log("apply drag");
             ApplyDrag();
-        }
-
-        if (isGroundedFloor || IsGrounded(-rb2D.transform.right) || IsGrounded(rb2D.transform.right))
-        {
-            isAirborneAfterSwing = false;
         }
 
         LimitSpeed();
@@ -223,7 +224,7 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private void LimitSpeed()
     {
-        if (isAirborneAfterSwing || timeSinceLastSwing <= timeToApplyDrag)
+        if (isAirborneAfterSwing || (timeSinceLastSwing <= timeToApplyDrag && IsGrounded(-rb2D.transform.up)))
         {
             float maxSwingSpeed = Mathf.Max(Mathf.Abs(initialSwingSpeed), walkSpeed);
             if (Mathf.Abs(rb2D.velocity.x) >= maxSwingSpeed)
