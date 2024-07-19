@@ -174,6 +174,82 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6112631441941317724, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
+      propertyPath: sounds.Array.size
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6112631441941317724, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
+      propertyPath: sounds.Array.data[7].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: eec5be7b97558dd4896ae604393f5ca5, type: 3}
+    - target: {fileID: 6112631441941317724, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
+      propertyPath: sounds.Array.data[7].name
+      value: smack into wall
+      objectReference: {fileID: 0}
+    - target: {fileID: 6112631441941317724, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
+      propertyPath: sounds.Array.data[8].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 24d92051969fb7a4181e0a0dcec44f15, type: 3}
+    - target: {fileID: 6112631441941317724, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
+      propertyPath: sounds.Array.data[8].name
+      value: step 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6112631441941317724, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
+      propertyPath: sounds.Array.data[9].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 11e078d2a61f5cb4ba10c0b201fd27f5, type: 3}
+    - target: {fileID: 6112631441941317724, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
+      propertyPath: sounds.Array.data[9].name
+      value: step 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6112631441941317724, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
+      propertyPath: sounds.Array.data[10].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: bf1e50f2477301e40b832b506782e111, type: 3}
+    - target: {fileID: 6112631441941317724, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
+      propertyPath: sounds.Array.data[10].loop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6112631441941317724, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
+      propertyPath: sounds.Array.data[10].name
+      value: level 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6112631441941317724, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
+      propertyPath: sounds.Array.data[7].pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6112631441941317724, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
+      propertyPath: sounds.Array.data[8].pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6112631441941317724, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
+      propertyPath: sounds.Array.data[9].pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6112631441941317724, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
+      propertyPath: sounds.Array.data[10].pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6112631441941317724, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
+      propertyPath: sounds.Array.data[1].volume
+      value: 0.34
+      objectReference: {fileID: 0}
+    - target: {fileID: 6112631441941317724, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
+      propertyPath: sounds.Array.data[7].volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6112631441941317724, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
+      propertyPath: sounds.Array.data[8].volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6112631441941317724, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
+      propertyPath: sounds.Array.data[9].volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6112631441941317724, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
+      propertyPath: sounds.Array.data[10].volume
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
