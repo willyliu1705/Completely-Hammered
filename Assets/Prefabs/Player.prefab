@@ -191,7 +191,7 @@ MonoBehaviour:
   strongHammerForce: 28
   hammerCooldown: 0.2
   coyoteBuffer: 0.1
-  aimBuffer: 0.04
+  aimBuffer: 0.06
 --- !u!95 &-1364503559642567146
 Animator:
   serializedVersion: 5
