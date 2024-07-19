@@ -19,7 +19,8 @@ public class Player : MonoBehaviour, IPlayerActions
     [SerializeField] private float raycastGroundLength;
     [SerializeField] private float raycastHammerLength;
     [SerializeField] private float walkSpeed;
-    [SerializeField] private float acceleration;
+    [SerializeField] private float groundAcceleration;
+    [SerializeField] private float airAcceleration;
     [SerializeField] private float dragCoefficient;
     [SerializeField] private float strongThreshold;
     [SerializeField] private float weakHammerForce;
@@ -37,6 +38,7 @@ public class Player : MonoBehaviour, IPlayerActions
     private float timeSinceLastSwing;
     private float timeToApplyDrag = 0.2f;
     private float initialSwingSpeed;
+    private bool isGroundedFloor;
     private bool wasGroundedFloor;
     private bool isAirborneAfterSwing;
 
@@ -66,23 +68,23 @@ public class Player : MonoBehaviour, IPlayerActions
             return;
         }
 
-        Move();
-
         chargeDuration = Time.time - chargeStartTime;
-        bool isGroundedFloor = IsGrounded(-rb2D.transform.up);
+        isGroundedFloor = IsGrounded(-rb2D.transform.up);
         if (isGroundedFloor)
         {
             wasGroundedFloor = true;
         }
         else
         {
-            StartCoroutine(SetGroundedAfterDelay(false));
+            StartCoroutine(SetWasGroundedAfterDelay(false));
         }
 
         if (isGroundedFloor || IsGrounded(-rb2D.transform.right) || IsGrounded(rb2D.transform.right))
         {
             isAirborneAfterSwing = false;
         }
+
+        Move();
 
         if (isCharging)
         {
@@ -135,8 +137,6 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private IEnumerator ReloadSceneAfterDelay()
     {
-        sprite.color = Color.white;
-        rb2D.AddForce(new Vector2(moveAxis, 0f) * acceleration);
         if (moveAxis != 0)
         {
             // Set the localScale based on moveAxis direction
@@ -151,7 +151,7 @@ public class Player : MonoBehaviour, IPlayerActions
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    private IEnumerator SetGroundedAfterDelay(bool grounded)
+    private IEnumerator SetWasGroundedAfterDelay(bool grounded)
     {
         yield return new WaitForSeconds(coyoteBuffer);
         wasGroundedFloor = grounded;
@@ -159,8 +159,8 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private void Move()
     {
-        rb2D.AddForce(new Vector2(moveAxis, 0f) * acceleration);
         sprite.color = Color.white;
+        float acceleration = isGroundedFloor ? groundAcceleration : airAcceleration;
         rb2D.AddForce(new Vector2(moveAxis, 0f) * acceleration);
         if (moveAxis != 0)
         {
@@ -224,7 +224,7 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private void LimitSpeed()
     {
-        if (isAirborneAfterSwing || (timeSinceLastSwing <= timeToApplyDrag && IsGrounded(-rb2D.transform.up)))
+        if (isAirborneAfterSwing || timeSinceLastSwing <= timeToApplyDrag && isGroundedFloor)
         {
             float maxSwingSpeed = Mathf.Max(Mathf.Abs(initialSwingSpeed), walkSpeed);
             if (Mathf.Abs(rb2D.velocity.x) >= maxSwingSpeed)

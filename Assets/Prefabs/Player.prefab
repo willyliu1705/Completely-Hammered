@@ -183,7 +183,8 @@ MonoBehaviour:
   raycastGroundLength: 0.07
   raycastHammerLength: 0.5
   walkSpeed: 5
-  acceleration: 40
+  groundAcceleration: 40
+  airAcceleration: 20
   dragCoefficient: 10
   strongThreshold: 1
   weakHammerForce: 18
