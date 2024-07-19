@@ -13,36 +13,41 @@ public class Player : MonoBehaviour, IPlayerActions
     [SerializeField] private Rigidbody2D rb2D;
     [SerializeField] private BoxCollider2D bc2D;
     [SerializeField] private Animator anim2D;
-    [SerializeField] private float raycastBuffer;
-    [SerializeField] private LayerMask groundLayerMask;
     [SerializeField] private SpriteRenderer sprite;
+    [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private LayerMask groundLayerMask;
+    [SerializeField] private float raycastGroundLength;
+    [SerializeField] private float raycastHammerLength;
     [SerializeField] private float walkSpeed;
-    [SerializeField] private float acceleration;
+    [SerializeField] private float groundAcceleration;
+    [SerializeField] private float airAcceleration;
     [SerializeField] private float dragCoefficient;
     [SerializeField] private float strongThreshold;
     [SerializeField] private float weakHammerForce;
     [SerializeField] private float strongHammerForce;
+    [SerializeField] private float hammerCooldown;
+    [SerializeField] private float coyoteBuffer;
     [SerializeField] private float aimBuffer;
-    [SerializeField] private GameObject pauseMenu;
 
     private float moveAxis;
-    private bool swingIsHeld;
-    private bool swingJustReleased;
-    private bool isAirborneAfterSwing;
-    private float swingStartTime;
-    private float swingDuration;
-    private float swingReleaseTime;
-    private float postSwingDuration;
+    private bool swing;
+    private bool isCharging;
+    private float chargeStartTime;
+    private float previousSwingTime;
+    private float chargeDuration;
+    private float timeSinceLastSwing;
     private float timeToApplyDrag = 0.2f;
-    private bool isAlive;
-    private bool isMenuActive;
-
     private float initialSwingSpeed;
+    private bool isGroundedFloor;
+    private bool wasGroundedFloor;
+    private bool isAirborneAfterSwing;
+
     private float aimBufferTime;
     private Vector2 aimAxes;
-    private Vector2 aimAxesBuffer;
+    private Vector2 bufferedAimAxes;
 
-    int counter;
+    private bool isAlive;
+    private bool isMenuActive;
 
     private void Awake()
     {
@@ -62,52 +67,60 @@ public class Player : MonoBehaviour, IPlayerActions
         {
             return;
         }
+
+        chargeDuration = Time.time - chargeStartTime;
+        isGroundedFloor = IsGrounded(-rb2D.transform.up);
+        if (isGroundedFloor)
+        {
+            wasGroundedFloor = true;
+        }
+        else
+        {
+            StartCoroutine(SetWasGroundedAfterDelay(false));
+        }
+
+        if (isGroundedFloor || IsGrounded(-rb2D.transform.right) || IsGrounded(rb2D.transform.right))
+        {
+            isAirborneAfterSwing = false;
+        }
+
         Move();
 
-        swingDuration = Time.time - swingStartTime;
-        postSwingDuration = Time.time - swingReleaseTime;
-
-        if (swingIsHeld)
+        if (isCharging)
         {
-            if (swingDuration >= strongThreshold)
+            if (chargeDuration >= strongThreshold)
             {
                 sprite.color = Color.cyan;
             }
         }
 
-        if (IsGrounded(-rb2D.transform.up) || IsGrounded(-rb2D.transform.right) || IsGrounded(rb2D.transform.right))
-        {
-            isAirborneAfterSwing = false;
-        }
-
-        if (postSwingDuration <= timeToApplyDrag)
+        if (swing && timeSinceLastSwing >= hammerCooldown)
         {
             if (Time.time - aimBufferTime <= aimBuffer)
             {
-                aimAxes = aimAxesBuffer;
+                aimAxes = bufferedAimAxes;
             }
 
-            if (swingJustReleased)
+            if (wasGroundedFloor && aimAxes.y < 0 || CanHammer(aimAxes))
             {
-                if (IsGrounded(aimAxes))
-                {
-                    Swing();
-                }
-                else
-                {
-                    audioManager.Play("swingMiss");
-                }
+                Swing();
             }
-
+            else
+            {
+                audioManager.Play("swingMiss");
+            }
             aimAxes = Vector2.zero;
         }
-        else if (IsGrounded(-rb2D.transform.up))
+
+        timeSinceLastSwing = Time.time - previousSwingTime;
+        if (timeSinceLastSwing >= timeToApplyDrag && isGroundedFloor)
         {
+            Debug.Log("apply drag");
             ApplyDrag();
         }
 
         LimitSpeed();
-        swingJustReleased = false;
+        swing = false;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -124,8 +137,6 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private IEnumerator ReloadSceneAfterDelay()
     {
-        sprite.color = Color.white;
-        rb2D.AddForce(new Vector2(moveAxis, 0f) * acceleration);
         if (moveAxis != 0)
         {
             // Set the localScale based on moveAxis direction
@@ -140,10 +151,16 @@ public class Player : MonoBehaviour, IPlayerActions
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    private IEnumerator SetWasGroundedAfterDelay(bool grounded)
+    {
+        yield return new WaitForSeconds(coyoteBuffer);
+        wasGroundedFloor = grounded;
+    }
+
     private void Move()
     {
-        rb2D.AddForce(new Vector2(moveAxis, 0f) * acceleration);
         sprite.color = Color.white;
+        float acceleration = isGroundedFloor ? groundAcceleration : airAcceleration;
         rb2D.AddForce(new Vector2(moveAxis, 0f) * acceleration);
         if (moveAxis != 0)
         {
@@ -160,20 +177,32 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private void Swing()
     {
+        previousSwingTime = Time.time;
+
         Vector2 swingAxes = aimAxes;
         if (swingAxes.x * swingAxes.y != 0)
         {
             swingAxes = (2 * Mathf.Sign(swingAxes.y) * Vector2.up + Mathf.Sign(swingAxes.x) * Vector2.right).normalized;
         }
 
-        if (swingDuration < strongThreshold)
+        // Set apposing velocity to 0
+        if (swingAxes.x * rb2D.velocity.x > 0)
+        {
+            rb2D.velocity = new Vector2(0, rb2D.velocity.y);
+        }
+        if (swingAxes.y * rb2D.velocity.y > 0)
+        {
+            rb2D.velocity = new Vector2(rb2D.velocity.x, 0);
+        }
+
+        // holding the bar for more than `strongThreshold` seconds leads to strong hammer force
+        if (chargeDuration < strongThreshold)
         {
             sprite.color = Color.yellow;
             initialSwingSpeed = rb2D.velocity.x - swingAxes.x * weakHammerForce / rb2D.mass;
             rb2D.AddForce(-swingAxes * weakHammerForce, ForceMode2D.Impulse);
             audioManager.Play("swingWeak");
         }
-        // holding the bar for more than `strongThreshold` seconds leads to strong hammer force
         else
         {
             sprite.color = Color.red;
@@ -195,7 +224,7 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private void LimitSpeed()
     {
-        if (isAirborneAfterSwing || postSwingDuration <= timeToApplyDrag)
+        if (isAirborneAfterSwing || timeSinceLastSwing <= timeToApplyDrag && isGroundedFloor)
         {
             float maxSwingSpeed = Mathf.Max(Mathf.Abs(initialSwingSpeed), walkSpeed);
             if (Mathf.Abs(rb2D.velocity.x) >= maxSwingSpeed)
@@ -211,65 +240,50 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private bool IsGrounded(Vector3 direction)
     {
-        return Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, direction, raycastBuffer, groundLayerMask);
+        return Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, direction, raycastGroundLength, groundLayerMask);
+    }
+
+    private bool CanHammer(Vector3 direction)
+    {
+        return Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, direction, raycastHammerLength, groundLayerMask);
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        if (isAlive && !isMenuActive)
-        {
-            moveAxis = context.ReadValue<float>();
+
+        if (!isAlive || isMenuActive) {
+            return;
         }
+
+        moveAxis = context.ReadValue<float>();
     }
 
     public void OnAim(InputAction.CallbackContext context)
     {
-
-        if (isAlive && !isMenuActive)
-        {
-            if (context.started)
-            {
-                swingIsHeld = true;
-                swingStartTime = Time.time;
-                audioManager.Play("swingCharge");
-            }
-            else if (context.performed)
-            {
-                aimAxes = context.ReadValue<Vector2>();
-                if (aimAxes != Vector2.zero && Math.Abs(aimAxes.x / aimAxes.y) == 1)
-                {
-                    aimAxesBuffer = aimAxes;
-                }
-                aimBufferTime = Time.time;
-            }
-            else if (context.canceled)
-            {
-                swingIsHeld = false;
-                swingJustReleased = true;
-                audioManager.Stop("swingCharge");
-                swingReleaseTime = Time.time;
-            }
+        if(!isAlive || isMenuActive) {
+            return;
         }
 
-    }
-
-    public void OnSwing(InputAction.CallbackContext context)
-    {
-        if (isAlive && !isMenuActive)
+        if (context.started)
         {
-            if (context.started)
+            isCharging = true;
+            chargeStartTime = Time.time;
+            audioManager.Play("swingCharge");
+        }
+        else if (context.performed)
+        {
+            aimAxes = context.ReadValue<Vector2>();
+            if (aimAxes.x * aimAxes.y != 0)
             {
-                swingIsHeld = true;
-                swingStartTime = Time.time;
-                audioManager.Play("swingCharge");
+                bufferedAimAxes = aimAxes;
             }
-            else if (context.canceled)
-            {
-                swingIsHeld = false;
-                swingJustReleased = true;
-                audioManager.Stop("swingCharge");
-                swingReleaseTime = Time.time;
-            }
+            aimBufferTime = Time.time;
+        }
+        else if (context.canceled)
+        {
+            isCharging = false;
+            swing = true;
+            audioManager.Stop("swingCharge");
         }
     }
 
@@ -300,5 +314,4 @@ public class Player : MonoBehaviour, IPlayerActions
             }
         }
     }
-
 }
