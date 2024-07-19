@@ -13,10 +13,9 @@ public class Player : MonoBehaviour, IPlayerActions
     [SerializeField] private Rigidbody2D rb2D;
     [SerializeField] private BoxCollider2D bc2D;
     [SerializeField] private Animator anim2D;
-    [SerializeField] private float raycastBuffer;
-    [SerializeField] private LayerMask groundLayerMask;
     [SerializeField] private SpriteRenderer sprite;
     [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private LayerMask groundLayerMask;
     [SerializeField] private float raycastGroundLength;
     [SerializeField] private float raycastHammerLength;
     [SerializeField] private float walkSpeed;
@@ -47,8 +46,6 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private bool isAlive;
     private bool isMenuActive;
-
-    int counter;
 
     private void Awake()
     {
