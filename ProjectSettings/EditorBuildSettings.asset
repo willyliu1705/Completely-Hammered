@@ -6,16 +6,22 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Digital Prototype/JustinScene.unity
-    guid: bd58828e455157644b9fe29c88c526e2
-  - enabled: 1
-    path: Assets/Scenes/Digital Prototype/Justin Scene2.unity
+    path: Assets/Scenes/Alpha/Justin Scene2.unity
     guid: 94e8103aef846874bb3b8a0d2eb97adb
   - enabled: 1
-    path: Assets/Scenes/Digital Prototype/CrumbleLevel.unity
+    path: Assets/Scenes/Alpha/CrumbleLevel.unity
     guid: fa918425cb9c6224f92c7a7ce4b60c98
   - enabled: 1
-    path: Assets/Scenes/Digital Prototype/SpawnerLevel.unity
+    path: Assets/Scenes/Alpha/SpawnerLevel.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/Alpha/CamTest0.unity
+    guid: 554816fce5b63df4aa2145ac0e995ae7
+  - enabled: 1
+    path: Assets/Scenes/Alpha/CamTest1.unity
+    guid: 68392a11089dd9b41802946982721698
+  - enabled: 1
+    path: Assets/Scenes/Alpha/JustinScene3.unity
+    guid: 7ac2d8c712d47954bb6b9c24db91d523
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 420499bb50e15a647adf3fd3633f3ab6, type: 2}
