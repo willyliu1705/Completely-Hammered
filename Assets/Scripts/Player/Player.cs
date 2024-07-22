@@ -9,68 +9,99 @@ using static Controls;
 public class Player : MonoBehaviour, IPlayerActions
 {
     private Controls controls;
+    AudioManager audioManager;
     [SerializeField] private Rigidbody2D rb2D;
     [SerializeField] private BoxCollider2D bc2D;
-    [SerializeField] private float raycastBuffer;
-    [SerializeField] private LayerMask groundLayerMask;
+    [SerializeField] private Animator anim2D;
     [SerializeField] private SpriteRenderer sprite;
-    private AudioManager audioManager;
-
-    private float moveAxis;
-    private bool jump;
-    // private bool isJumping;
-    private bool swingIsHeld;
-    private bool swingJustReleased;
-    private bool isSwingingWeak;
-    private bool isSwingingStrong;
-    private Vector2 aimAxes;
-    private float startTime;
-    private float hammerDuration;
-
+    [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private LayerMask groundLayerMask;
+    [SerializeField] private float raycastGroundLength;
+    [SerializeField] private float raycastHammerLength;
     [SerializeField] private float walkSpeed;
-    [SerializeField] private float acceleration;
+    [SerializeField] private float groundAcceleration;
+    [SerializeField] private float airAcceleration;
     [SerializeField] private float dragCoefficient;
-    [SerializeField] private float jumpForce;
     [SerializeField] private float strongThreshold;
-
     [SerializeField] private float weakHammerForce;
     [SerializeField] private float strongHammerForce;
+    [SerializeField] private float hammerCooldown;
+    [SerializeField] private float coyoteBuffer;
+    [SerializeField] private float aimBuffer;
+
+    private float moveAxis;
+    private bool swing;
+    private bool isCharging;
+    private float chargeStartTime;
+    private float previousSwingTime;
+    private float chargeDuration;
+    private float timeSinceLastSwing;
+    private float timeToApplyDrag = 0.2f;
     private float initialSwingSpeed;
+    private bool isGroundedFloor;
+    private bool wasGroundedFloor;
+    private bool isAirborneAfterSwing;
+
+    private float aimBufferTime;
+    private Vector2 aimAxes;
+    private Vector2 bufferedAimAxes;
+
+    private bool isAlive;
+    private bool isMenuActive;
 
     private void Awake()
     {
-        audioManager = FindObjectOfType<AudioManager>();
+        audioManager = GameObject.FindFirstObjectByType<AudioManager>().GetComponent<AudioManager>();
         controls = new Controls();
         controls.Player.AddCallbacks(this);
         controls.Player.Enable();
+        isAlive = true;
+        isMenuActive = false;
     }
 
     private void FixedUpdate()
     {
         Debug.DrawRay(rb2D.position, aimAxes * bc2D.bounds.size);
-    
+
+        if (!isAlive)
+        {
+            return;
+        }
+
+        chargeDuration = Time.time - chargeStartTime;
+        isGroundedFloor = IsGrounded(-rb2D.transform.up);
+        if (isGroundedFloor)
+        {
+            wasGroundedFloor = true;
+        }
+        else
+        {
+            StartCoroutine(SetWasGroundedAfterDelay(false));
+        }
+
+        if (isGroundedFloor || IsGrounded(-rb2D.transform.right) || IsGrounded(rb2D.transform.right))
+        {
+            isAirborneAfterSwing = false;
+        }
+
         Move();
 
-        hammerDuration = Time.time - startTime;
-        if (swingIsHeld)
+        if (isCharging)
         {
-            if (hammerDuration >= strongThreshold)
+            if (chargeDuration >= strongThreshold)
             {
                 sprite.color = Color.cyan;
             }
-            
         }
 
-        if (IsGrounded(-rb2D.transform.up) || IsGrounded(-rb2D.transform.right) || IsGrounded(rb2D.transform.right))
+        if (swing && timeSinceLastSwing >= hammerCooldown)
         {
-            // isJumping = false;
-            isSwingingWeak = false;
-            isSwingingStrong = false;
-        }
+            if (Time.time - aimBufferTime <= aimBuffer)
+            {
+                aimAxes = bufferedAimAxes;
+            }
 
-        if (swingJustReleased)
-        {
-            if (IsGrounded(aimAxes))
+            if (wasGroundedFloor && aimAxes.y < 0 || CanHammer(aimAxes))
             {
                 Swing();
             }
@@ -78,21 +109,18 @@ public class Player : MonoBehaviour, IPlayerActions
             {
                 audioManager.Play("swingMiss");
             }
+            aimAxes = Vector2.zero;
         }
-        else if (IsGrounded(-rb2D.transform.up))
+
+        timeSinceLastSwing = Time.time - previousSwingTime;
+        if (timeSinceLastSwing >= timeToApplyDrag && isGroundedFloor)
         {
-            if (jump)
-            {
-                Jump();
-            }
-            else
-            {
-                ApplyDrag();
-            }
+            Debug.Log("apply drag");
+            ApplyDrag();
         }
 
         LimitSpeed();
-        swingJustReleased = false;
+        swing = false;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -101,57 +129,102 @@ public class Player : MonoBehaviour, IPlayerActions
         {
             sprite.color = Color.grey;
             audioManager.Stop("swingCharge");
-            controls.Player.Disable();
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            rb2D.velocity = Vector2.zero;
+            isAlive = false;
+            StartCoroutine(ReloadSceneAfterDelay());
         }
+    }
+
+    private IEnumerator ReloadSceneAfterDelay()
+    {
+        if (moveAxis != 0)
+        {
+            // Set the localScale based on moveAxis direction
+            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * Mathf.Sign(moveAxis), transform.localScale.y, transform.localScale.z);
+            anim2D.SetBool("isIdle", false);
+        }
+        else
+        {
+            anim2D.SetBool("isIdle", true);
+        }
+        yield return new WaitForSeconds(1f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    private IEnumerator SetWasGroundedAfterDelay(bool grounded)
+    {
+        yield return new WaitForSeconds(coyoteBuffer);
+        wasGroundedFloor = grounded;
     }
 
     private void Move()
     {
-        sprite.color = Color.black;
+        sprite.color = Color.white;
+        float acceleration = isGroundedFloor ? groundAcceleration : airAcceleration;
         rb2D.AddForce(new Vector2(moveAxis, 0f) * acceleration);
-    }
+        if (moveAxis != 0)
+        {
+            // Set the localScale based on moveAxis direction
+            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * Mathf.Sign(moveAxis), transform.localScale.y, transform.localScale.z);
+            anim2D.SetBool("isIdle", false);
+        }
+        else
+        {
+            anim2D.SetBool("isIdle", true);
+        }
 
-    private void Jump()
-    {
-        sprite.color = Color.green;
-        rb2D.AddForce(rb2D.transform.up * jumpForce, ForceMode2D.Impulse);
-        // isJumping = true;
-        audioManager.Play("jump");
     }
 
     private void Swing()
     {
-        if (hammerDuration < strongThreshold)
+        previousSwingTime = Time.time;
+
+        Vector2 swingAxes = aimAxes;
+        if (swingAxes.x * swingAxes.y != 0)
+        {
+            swingAxes = (2 * Mathf.Sign(swingAxes.y) * Vector2.up + Mathf.Sign(swingAxes.x) * Vector2.right).normalized;
+        }
+
+        // Set apposing velocity to 0
+        if (swingAxes.x * rb2D.velocity.x > 0)
+        {
+            rb2D.velocity = new Vector2(0, rb2D.velocity.y);
+        }
+        if (swingAxes.y * rb2D.velocity.y > 0)
+        {
+            rb2D.velocity = new Vector2(rb2D.velocity.x, 0);
+        }
+
+        // holding the bar for more than `strongThreshold` seconds leads to strong hammer force
+        if (chargeDuration < strongThreshold)
         {
             sprite.color = Color.yellow;
-            initialSwingSpeed = rb2D.velocity.x - aimAxes.x * weakHammerForce / rb2D.mass;
-            rb2D.AddForce(-aimAxes * weakHammerForce, ForceMode2D.Impulse);
-            isSwingingWeak = true;
+            initialSwingSpeed = rb2D.velocity.x - swingAxes.x * weakHammerForce / rb2D.mass;
+            rb2D.AddForce(-swingAxes * weakHammerForce, ForceMode2D.Impulse);
             audioManager.Play("swingWeak");
         }
-        // holding the bar for more than `strongThreshold` seconds leads to strong hammer force
         else
         {
             sprite.color = Color.red;
-            initialSwingSpeed = rb2D.velocity.x - aimAxes.x * strongHammerForce / rb2D.mass;
-            rb2D.AddForce(-aimAxes * strongHammerForce, ForceMode2D.Impulse);
-            isSwingingStrong = true;
+            initialSwingSpeed = rb2D.velocity.x - swingAxes.x * strongHammerForce / rb2D.mass;
+            rb2D.AddForce(-swingAxes * strongHammerForce, ForceMode2D.Impulse);
             audioManager.Play("swingStrong");
         }
+
+        isAirborneAfterSwing = true;
     }
 
     private void ApplyDrag()
     {
         if (moveAxis == 0f || rb2D.velocity.x * moveAxis < 0)
         {
-            rb2D.AddForce(new Vector2(-rb2D.velocity.x * dragCoefficient * Time.deltaTime, 0f));
+            rb2D.AddForce(new Vector2(-rb2D.velocity.x * dragCoefficient, 0f));
         }
     }
 
     private void LimitSpeed()
     {
-        if (isSwingingWeak || isSwingingStrong)
+        if (isAirborneAfterSwing || timeSinceLastSwing <= timeToApplyDrag && isGroundedFloor)
         {
             float maxSwingSpeed = Mathf.Max(Mathf.Abs(initialSwingSpeed), walkSpeed);
             if (Mathf.Abs(rb2D.velocity.x) >= maxSwingSpeed)
@@ -167,51 +240,78 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private bool IsGrounded(Vector3 direction)
     {
-        return Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, direction, raycastBuffer, groundLayerMask);
+        return Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, direction, raycastGroundLength, groundLayerMask);
+    }
+
+    private bool CanHammer(Vector3 direction)
+    {
+        return Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, direction, raycastHammerLength, groundLayerMask);
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        moveAxis = context.ReadValue<float>();
-    }
 
-    public void OnJump(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            jump = true;
+        if (!isAlive || isMenuActive) {
+            return;
         }
-        else if (context.canceled)
-        {
-            jump = false;
-        }
+
+        moveAxis = context.ReadValue<float>();
     }
 
     public void OnAim(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if(!isAlive || isMenuActive) {
+            return;
+        }
+
+        if (context.started)
+        {
+            isCharging = true;
+            chargeStartTime = Time.time;
+            audioManager.Play("swingCharge");
+        }
+        else if (context.performed)
         {
             aimAxes = context.ReadValue<Vector2>();
+            if (aimAxes.x * aimAxes.y != 0)
+            {
+                bufferedAimAxes = aimAxes;
+            }
+            aimBufferTime = Time.time;
         }
         else if (context.canceled)
         {
-            aimAxes = Vector2.zero;
+            isCharging = false;
+            swing = true;
+            audioManager.Stop("swingCharge");
         }
     }
 
-    public void OnSwing(InputAction.CallbackContext context)
+    public void OnRestart(InputAction.CallbackContext context)
+    {
+        if (context.performed && !isMenuActive)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+    }
+
+    public void OnMenu(InputAction.CallbackContext context)
     {
         if (context.started)
         {
-            swingIsHeld = true;
-            startTime = Time.time;
-            audioManager.Play("swingCharge");
-        }
-        else if (context.canceled)
-        {
-            swingIsHeld = false;
-            swingJustReleased = true;
-            audioManager.Stop("swingCharge");
+            if (pauseMenu == null)
+                return;
+            isMenuActive = !isMenuActive;
+            pauseMenu.SetActive(isMenuActive);
+
+            if (isMenuActive)
+            {
+                Time.timeScale = 0f;
+            }
+            else
+            {
+                Time.timeScale = 1f;
+            }
         }
     }
 }
