@@ -17,5 +17,14 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Digital Prototype/SpawnerLevel.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/Digital Prototype/UI Scenes/MainMenu.unity
+    guid: f74d5221701c04c60a004c69ff5aa74f
+  - enabled: 1
+    path: Assets/Scenes/Digital Prototype/UI Scenes/LevelSelector.unity
+    guid: 2ea341365391a4c1886dd739db71023e
+  - enabled: 1
+    path: Assets/Scenes/Digital Prototype/UI Scenes/A.unity
+    guid: cabf0d2c07d37498f998696160baacb6
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 420499bb50e15a647adf3fd3633f3ab6, type: 2}
