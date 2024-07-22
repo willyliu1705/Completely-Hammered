@@ -188,7 +188,7 @@ MonoBehaviour:
   dragCoefficient: 10
   strongThreshold: 1
   weakHammerForce: 18
-  strongHammerForce: 28
+  strongHammerForce: 25
   hammerCooldown: 0.2
   coyoteBuffer: 0.1
   aimBuffer: 0.06

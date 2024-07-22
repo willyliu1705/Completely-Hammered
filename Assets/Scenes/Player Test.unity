@@ -1031,18 +1031,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1441585024363943775, guid: dcd7de534aaa348088f81e764f0e90bb, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1441585024363943775, guid: dcd7de534aaa348088f81e764f0e90bb, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1441585024363943775, guid: dcd7de534aaa348088f81e764f0e90bb, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1441585024363943775, guid: dcd7de534aaa348088f81e764f0e90bb, type: 3}
       propertyPath: m_LocalPosition.x
       value: -9.92
       objectReference: {fileID: 0}
@@ -1085,14 +1073,6 @@ PrefabInstance:
     - target: {fileID: 2175156278451328759, guid: dcd7de534aaa348088f81e764f0e90bb, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 6166247429742732118, guid: dcd7de534aaa348088f81e764f0e90bb, type: 3}
-      propertyPath: weakHammerForce
-      value: 18
-      objectReference: {fileID: 0}
-    - target: {fileID: 6166247429742732118, guid: dcd7de534aaa348088f81e764f0e90bb, type: 3}
-      propertyPath: strongHammerForce
-      value: 25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
