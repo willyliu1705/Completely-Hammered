@@ -778,7 +778,7 @@ GameObject:
   - component: {fileID: 1314174255}
   - component: {fileID: 1314174254}
   - component: {fileID: 1314174253}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Spikes
   m_TagString: Lethal
   m_Icon: {fileID: 0}
