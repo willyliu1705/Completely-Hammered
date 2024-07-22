@@ -45,5 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fallingObjectPrefab: {fileID: 8869703743150461701, guid: 2cdd4626f3bff4b77b60d1fdb3e0210f, type: 3}
-  spawnInterval: 0
-  spawnArea: {x: 10, y: 0}
+  spawnInterval: 3
