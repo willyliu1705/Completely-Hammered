@@ -128,6 +128,7 @@ public class Player : MonoBehaviour, IPlayerActions
         {
             sprite.color = Color.grey;
             audioManager.Stop("swingCharge");
+            audioManager.Play("death");
             rb2D.velocity = Vector2.zero;
             isAlive = false;
             StartCoroutine(ReloadSceneAfterDelay());
