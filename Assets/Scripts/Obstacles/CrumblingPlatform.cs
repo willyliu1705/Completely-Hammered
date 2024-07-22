@@ -11,7 +11,16 @@ public class CrumblingPlatform : MonoBehaviour
     [SerializeField] private float destroytime = 1f;
     [SerializeField] private float respawntime = 3f;
     [SerializeField] public SpriteRenderer sprite;
-    [SerializeField] public Collider2D platform; 
+    [SerializeField] public Collider2D platform;
+    private Vector2 center;
+    private Vector2 size;
+
+
+    private void Start()
+    {
+        center = platform.bounds.center;
+        size = platform.bounds.size;
+    }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
@@ -28,6 +37,36 @@ public class CrumblingPlatform : MonoBehaviour
         yield return new WaitForSeconds(destroytime);
         Toggle(false);
         yield return new WaitForSeconds(respawntime);
+
+        if (IsAreaClear())
+        {
+            Toggle(true);
+        }
+        else
+        {
+            StartCoroutine(CheckClear());
+        }
+    }
+
+    private bool IsAreaClear()
+    {
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(center, size, 0f);
+        foreach (Collider2D collider in colliders)
+        {
+            if (collider.CompareTag("Player"))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private IEnumerator CheckClear()
+    {
+        while (!IsAreaClear())
+        {
+            yield return new WaitForSeconds(0.5f);
+        }
         Toggle(true);
     }
 

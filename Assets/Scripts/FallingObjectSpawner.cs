@@ -5,13 +5,14 @@ using UnityEngine;
 public class FallingObjectSpawner : MonoBehaviour
 {
     public GameObject fallingObjectPrefab; // Reference to the obstacle prefab
-    public float spawnInterval = 3f;  // Time between spawns
+    public float spawnInterval = 3;  // Time between spawns
     private Vector2 spawnArea = new Vector2(0, 0); // Area within which obstacles will be spawned
 
     private float timer;
 
     void Start()
     {
+        //spawnInterval = Random.Range(1, 10);
         timer = spawnInterval;
     }
 
