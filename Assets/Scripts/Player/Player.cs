@@ -47,7 +47,6 @@ public class Player : MonoBehaviour, IPlayerActions
     private Vector2 bufferedAimAxes;
 
     private bool isAlive;
-    private bool isMenuActive;
 
     private void Awake()
     {
@@ -56,7 +55,6 @@ public class Player : MonoBehaviour, IPlayerActions
         controls.Player.AddCallbacks(this);
         controls.Player.Enable();
         isAlive = true;
-        isMenuActive = false;
     }
 
     private void FixedUpdate()
@@ -251,7 +249,7 @@ public class Player : MonoBehaviour, IPlayerActions
     public void OnMove(InputAction.CallbackContext context)
     {
 
-        if (!isAlive || isMenuActive) {
+        if (!isAlive) {
             return;
         }
 
@@ -260,7 +258,7 @@ public class Player : MonoBehaviour, IPlayerActions
 
     public void OnAim(InputAction.CallbackContext context)
     {
-        if(!isAlive || isMenuActive) {
+        if(!isAlive) {
             return;
         }
 
@@ -287,31 +285,4 @@ public class Player : MonoBehaviour, IPlayerActions
         }
     }
 
-    public void OnRestart(InputAction.CallbackContext context)
-    {
-        if (context.performed && !isMenuActive)
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
-    }
-
-    public void OnMenu(InputAction.CallbackContext context)
-    {
-        if (context.started)
-        {
-            if (pauseMenu == null)
-                return;
-            isMenuActive = !isMenuActive;
-            pauseMenu.SetActive(isMenuActive);
-
-            if (isMenuActive)
-            {
-                Time.timeScale = 0f;
-            }
-            else
-            {
-                Time.timeScale = 1f;
-            }
-        }
-    }
 }
