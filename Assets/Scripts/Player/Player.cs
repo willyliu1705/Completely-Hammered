@@ -22,6 +22,7 @@ public class Player : MonoBehaviour, IPlayerActions
     [SerializeField] private float groundAcceleration;
     [SerializeField] private float airAcceleration;
     [SerializeField] private float dragCoefficient;
+    [SerializeField] private float maxHorizontalSpeed;
     [SerializeField] private float strongThreshold;
     [SerializeField] private float weakHammerForce;
     [SerializeField] private float strongHammerForce;
@@ -58,7 +59,7 @@ public class Player : MonoBehaviour, IPlayerActions
     }
 
     private void FixedUpdate()
-    {
+    { 
         Debug.DrawRay(rb2D.position, aimAxes * bc2D.bounds.size);
 
         if (!isAlive)
@@ -159,7 +160,9 @@ public class Player : MonoBehaviour, IPlayerActions
     {
         sprite.color = Color.white;
         float acceleration = isGroundedFloor ? groundAcceleration : airAcceleration;
+        if (walkSpeed - rb2D.velocity.x * moveAxis < 0) { acceleration = 0; }
         rb2D.AddForce(new Vector2(moveAxis, 0f) * acceleration);
+
         if (moveAxis != 0)
         {
             // Set the localScale based on moveAxis direction
@@ -214,25 +217,28 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private void ApplyDrag()
     {
-        if (moveAxis == 0f || rb2D.velocity.x * moveAxis < 0)
+        if (rb2D.velocity.x * moveAxis <= 0)
         {
             rb2D.AddForce(new Vector2(-rb2D.velocity.x * dragCoefficient, 0f));
+        }
+        else if (walkSpeed - rb2D.velocity.x * moveAxis < 0)
+        {
+            rb2D.AddForce(new Vector2(-rb2D.velocity.x * dragCoefficient/5, 0f));
         }
     }
 
     private void LimitSpeed()
     {
-        if (isAirborneAfterSwing || timeSinceLastSwing <= timeToApplyDrag && isGroundedFloor)
+        float maxSpeed = maxHorizontalSpeed;
+        //if (isAirborneAfterSwing || timeSinceLastSwing <= timeToApplyDrag && isGroundedFloor)
+        //{
+        //    maxSpeed = Mathf.Abs(initialSwingSpeed);
+        //}
+        //maxSpeed = Mathf.Max(maxSpeed, walkSpeed);
+
+        if (Mathf.Abs(rb2D.velocity.x) >= maxSpeed)
         {
-            float maxSwingSpeed = Mathf.Max(Mathf.Abs(initialSwingSpeed), walkSpeed);
-            if (Mathf.Abs(rb2D.velocity.x) >= maxSwingSpeed)
-            {
-                rb2D.velocity = new Vector2(Mathf.Sign(rb2D.velocity.x) * maxSwingSpeed, rb2D.velocity.y);
-            }
-        }
-        else if (Mathf.Abs(rb2D.velocity.x) >= walkSpeed)
-        {
-            rb2D.velocity = new Vector2(Mathf.Sign(rb2D.velocity.x) * walkSpeed, rb2D.velocity.y);
+            rb2D.velocity = new Vector2(Mathf.Sign(rb2D.velocity.x) * maxSpeed, rb2D.velocity.y);
         }
     }
 
