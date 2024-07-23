@@ -129,10 +129,15 @@ public class Player : MonoBehaviour, IPlayerActions
         {
             sprite.color = Color.grey;
             audioManager.Stop("swingCharge");
+            audioManager.Play("death");
             rb2D.velocity = Vector2.zero;
             isAlive = false;
             StartCoroutine(ReloadSceneAfterDelay());
         }
+        if (collision.transform.position.y < transform.position.y ){
+            audioManager.Play("wallHit");
+        }
+
     }
 
     private IEnumerator ReloadSceneAfterDelay()
