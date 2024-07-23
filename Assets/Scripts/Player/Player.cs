@@ -16,6 +16,7 @@ public class Player : MonoBehaviour, IPlayerActions
     [SerializeField] private SpriteRenderer sprite;
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private LayerMask groundLayerMask;
+    [SerializeField] private LayerMask hammerOnlyLayerMask;
     [SerializeField] private float raycastGroundLength;
     [SerializeField] private float raycastHammerLength;
     [SerializeField] private float walkSpeed;
@@ -27,8 +28,9 @@ public class Player : MonoBehaviour, IPlayerActions
     [SerializeField] private float weakHammerForce;
     [SerializeField] private float strongHammerForce;
     [SerializeField] private float hammerCooldown;
-    [SerializeField] private float coyoteBuffer;
+    [SerializeField] private float coyoteTimeBuffer;
     [SerializeField] private float aimBuffer;
+    [SerializeField] private float timeToApplyDrag;
 
     private float moveAxis;
     private bool swing;
@@ -37,11 +39,10 @@ public class Player : MonoBehaviour, IPlayerActions
     private float previousSwingTime;
     private float chargeDuration;
     private float timeSinceLastSwing;
-    private float timeToApplyDrag = 0.2f;
-    private float initialSwingSpeed;
+    // private float initialSwingSpeed;
     private bool isGroundedFloor;
     private bool wasGroundedFloor;
-    private bool isAirborneAfterSwing;
+    // private bool isAirborneAfterSwing;
 
     private float aimBufferTime;
     private Vector2 aimAxes;
@@ -51,7 +52,7 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private void Awake()
     {
-        audioManager = GameObject.FindFirstObjectByType<AudioManager>().GetComponent<AudioManager>();
+        audioManager = FindFirstObjectByType<AudioManager>().GetComponent<AudioManager>();
         controls = new Controls();
         controls.Player.AddCallbacks(this);
         controls.Player.Enable();
@@ -78,10 +79,10 @@ public class Player : MonoBehaviour, IPlayerActions
             StartCoroutine(SetWasGroundedAfterDelay(false));
         }
 
-        if (isGroundedFloor || IsGrounded(-rb2D.transform.right) || IsGrounded(rb2D.transform.right))
-        {
-            isAirborneAfterSwing = false;
-        }
+        // if (isGroundedFloor || IsGrounded(-rb2D.transform.right) || IsGrounded(rb2D.transform.right))
+        // {
+        //     isAirborneAfterSwing = false;
+        // }
 
         Move();
 
@@ -152,7 +153,7 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private IEnumerator SetWasGroundedAfterDelay(bool grounded)
     {
-        yield return new WaitForSeconds(coyoteBuffer);
+        yield return new WaitForSeconds(coyoteTimeBuffer);
         wasGroundedFloor = grounded;
     }
 
@@ -200,19 +201,19 @@ public class Player : MonoBehaviour, IPlayerActions
         if (chargeDuration < strongThreshold)
         {
             sprite.color = Color.yellow;
-            initialSwingSpeed = rb2D.velocity.x - swingAxes.x * weakHammerForce / rb2D.mass;
+            // initialSwingSpeed = rb2D.velocity.x - swingAxes.x * weakHammerForce / rb2D.mass;
             rb2D.AddForce(-swingAxes * weakHammerForce, ForceMode2D.Impulse);
             audioManager.Play("swingWeak");
         }
         else
         {
             sprite.color = Color.red;
-            initialSwingSpeed = rb2D.velocity.x - swingAxes.x * strongHammerForce / rb2D.mass;
+            // initialSwingSpeed = rb2D.velocity.x - swingAxes.x * strongHammerForce / rb2D.mass;
             rb2D.AddForce(-swingAxes * strongHammerForce, ForceMode2D.Impulse);
             audioManager.Play("swingStrong");
         }
 
-        isAirborneAfterSwing = true;
+        // isAirborneAfterSwing = true;
     }
 
     private void ApplyDrag()
@@ -249,7 +250,7 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private bool CanHammer(Vector3 direction)
     {
-        return Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, direction, raycastHammerLength, groundLayerMask);
+        return Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, direction, raycastHammerLength, groundLayerMask | hammerOnlyLayerMask);
     }
 
     public void OnMove(InputAction.CallbackContext context)
