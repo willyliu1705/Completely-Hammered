@@ -26,9 +26,7 @@ public class CrumblingPlatform : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player" && collision.transform.position.y > transform.position.y)
         {
-
             StartCoroutine(RespawnPlatform());
-
         }
     }
 
@@ -36,6 +34,8 @@ public class CrumblingPlatform : MonoBehaviour
     {
         yield return new WaitForSeconds(destroytime);
         Toggle(false);
+        FindObjectOfType<AudioManager>().Play("platformCrumble");
+
         yield return new WaitForSeconds(respawntime);
 
         if (IsAreaClear())

@@ -49,6 +49,9 @@ public class Player : MonoBehaviour, IPlayerActions
     private bool isAlive;
     private bool isMenuActive;
 
+    //the velocity at which the hard impact sound (groundHit, wallHit) plays
+    [SerializeField] private float smackVelocity;
+
     private void Awake()
     {
         audioManager = GameObject.FindFirstObjectByType<AudioManager>().GetComponent<AudioManager>();
@@ -134,7 +137,8 @@ public class Player : MonoBehaviour, IPlayerActions
             isAlive = false;
             StartCoroutine(ReloadSceneAfterDelay());
         }
-        if (collision.transform.position.y < transform.position.y ){
+        //code for hard impact osund
+        if (collision.transform.position.y < transform.position.y && (rb2D.velocity.y > smackVelocity || rb2D.velocity.x > smackVelocity)){
             audioManager.Play("wallHit");
         }
 
