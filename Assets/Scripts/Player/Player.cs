@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -101,7 +102,7 @@ public class Player : MonoBehaviour, IPlayerActions
                 aimAxes = bufferedAimAxes;
             }
 
-            if (wasGroundedFloor && aimAxes.y < 0 || CanHammer(aimAxes))
+            if (CanHammer(aimAxes) || wasGroundedFloor && aimAxes.y < 0)
             {
                 Swing();
             }
@@ -250,7 +251,16 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private bool CanHammer(Vector3 direction)
     {
-        return Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, direction, raycastHammerLength, groundLayerMask | hammerOnlyLayerMask);
+        RaycastHit2D collision = Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, direction, raycastHammerLength, groundLayerMask | hammerOnlyLayerMask);
+        if (collision)
+        {
+            GameObject hitObject = collision.collider.gameObject;
+            if (hitObject.TryGetComponent(out IHammerable hammerableObject))
+            {
+                hammerableObject.OnHammer();
+            }
+        }
+        return (collision);
     }
 
     public void OnMove(InputAction.CallbackContext context)
