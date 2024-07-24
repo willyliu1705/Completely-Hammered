@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3754387509847882795}
   - component: {fileID: 4504759517443965795}
   - component: {fileID: 1562459580501363215}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Crumbling Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}

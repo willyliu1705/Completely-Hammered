@@ -12,7 +12,6 @@ public class FallingObjectSpawner : MonoBehaviour
 
     void Start()
     {
-        //spawnInterval = Random.Range(1, 10);
         timer = spawnInterval;
     }
 
