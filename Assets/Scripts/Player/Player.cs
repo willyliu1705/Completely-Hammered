@@ -12,7 +12,7 @@ public class Player : MonoBehaviour, IPlayerActions
     private Controls controls;
     AudioManager audioManager;
     [SerializeField] private Rigidbody2D rb2D;
-    [SerializeField] private BoxCollider2D bc2D;
+    [SerializeField] private Collider2D bc2D;
     [SerializeField] private Animator anim2D;
     [SerializeField] private SpriteRenderer sprite;
     [SerializeField] private GameObject pauseMenu;
@@ -176,7 +176,7 @@ public class Player : MonoBehaviour, IPlayerActions
         if (moveAxis != 0)
         {
             // Set the localScale based on moveAxis direction
-            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * Mathf.Sign(moveAxis), transform.localScale.y, transform.localScale.z);
+            sprite.transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * Mathf.Sign(moveAxis), transform.localScale.y, transform.localScale.z);
             anim2D.SetBool("isIdle", false);
         }
         else
