@@ -130,7 +130,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -147,18 +147,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.3125}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 3.4375, y: 2.5}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.9375, y: 1.875}
   m_EdgeRadius: 0
 --- !u!114 &6166247429742732118
 MonoBehaviour:
@@ -180,18 +180,23 @@ MonoBehaviour:
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 64
+  hammerOnlyLayerMask:
+    serializedVersion: 2
+    m_Bits: 512
   raycastGroundLength: 0.07
   raycastHammerLength: 0.5
-  walkSpeed: 5
+  walkSpeed: 6
   groundAcceleration: 40
   airAcceleration: 20
   dragCoefficient: 10
+  maxHorizontalSpeed: 30
   strongThreshold: 1
-  weakHammerForce: 18
-  strongHammerForce: 28
+  weakHammerForce: 19
+  strongHammerForce: 26
   hammerCooldown: 0.2
-  coyoteBuffer: 0.1
-  aimBuffer: 0.04
+  coyoteTimeBuffer: 0.06
+  aimBuffer: 0.06
+  timeToApplyDrag: 0.2
 --- !u!95 &-1364503559642567146
 Animator:
   serializedVersion: 5
