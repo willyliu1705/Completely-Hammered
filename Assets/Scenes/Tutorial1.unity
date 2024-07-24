@@ -707,7 +707,7 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
-  - first: {x: -10, y: 0, z: 0}
+  - first: {x: 8, y: -1, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 0
@@ -717,7 +717,7 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
-  - first: {x: 8, y: 0, z: 0}
+  - first: {x: -10, y: 0, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 0
@@ -1080,9 +1080,9 @@ CompositeCollider2D:
       - X: 100000000
         Y: 40000000
       - X: 100000000
-        Y: 20000000
+        Y: 10000000
       - X: 70000000
-        Y: 20000000
+        Y: 10000000
       - X: 70000000
         Y: -50000000
       - X: 0
@@ -1115,8 +1115,8 @@ CompositeCollider2D:
       - {x: -8, y: -4.9999704}
       - {x: -7.9999704, y: 4}
       - {x: 10, y: 3.9999704}
-      - {x: 9.99997, y: 2}
-      - {x: 7, y: 1.9999708}
+      - {x: 9.99997, y: 1}
+      - {x: 7, y: 0.99997073}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
   m_UseDelaunayMesh: 0

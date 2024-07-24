@@ -240,9 +240,9 @@ CompositeCollider2D:
       - X: -60000000
         Y: -70000000
       - X: -60000000
-        Y: 40000000
+        Y: 30000000
       - X: -90000000
-        Y: 40000000
+        Y: 30000000
       - X: -90000000
         Y: -70000000
       - X: -120000000
@@ -277,8 +277,8 @@ CompositeCollider2D:
       - {x: -3, y: 1.9999708}
       - {x: -3.0000293, y: -7}
       - {x: -6, y: -6.9999704}
-      - {x: -6.000029, y: 4}
-      - {x: -9, y: 3.999971}
+      - {x: -6.000029, y: 3}
+      - {x: -9, y: 2.999971}
       - {x: -9.00003, y: -7}
       - {x: -12, y: -6.9999704}
       - {x: -11.99997, y: 6}
@@ -1648,7 +1648,7 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
-  - first: {x: -8, y: 2, z: 0}
+  - first: {x: -8, y: 1, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 0
