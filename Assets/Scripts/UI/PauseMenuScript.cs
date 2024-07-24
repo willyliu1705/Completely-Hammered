@@ -13,6 +13,7 @@ public class PauseMenuScript: MonoBehaviour, IUIActions
 
     private UIControls controls;
     private bool isMenuActive;
+    private bool isRestarting;
 
     private void Awake()
     {
@@ -20,6 +21,7 @@ public class PauseMenuScript: MonoBehaviour, IUIActions
         controls.UI.AddCallbacks(this);
         controls.UI.Enable();
         isMenuActive = false;
+        isRestarting = false;
     }
 
     public void OnPause(InputAction.CallbackContext context)
@@ -54,23 +56,11 @@ public class PauseMenuScript: MonoBehaviour, IUIActions
 
     public void OnRestart(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.performed && context.duration >= 1f && !isRestarting)
         {
-            if (pauseMenu == null || playerScript == null)
-            {
-                Debug.Log("Could not find pause menu or playerScript!");
-                return;
-            }
+            isRestarting = true;
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            StartCoroutine(DisableInputTemp());
         }
     }
 
-    private IEnumerator DisableInputTemp()
-    {
-        playerScript.DisablePlayerInput();
-        controls.UI.Disable();
-        yield return new WaitForSeconds(1f);
-        playerScript.EnablePlayerInput();
-    }
 }
