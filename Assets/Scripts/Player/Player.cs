@@ -3,13 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using static Controls;
 
-public class Player : MonoBehaviour, IPlayerActions
+public class Player : MonoBehaviour
 {
-    private Controls controls;
     AudioManager audioManager;
     [SerializeField] private Rigidbody2D rb2D;
     [SerializeField] private BoxCollider2D bc2D;
@@ -53,9 +50,6 @@ public class Player : MonoBehaviour, IPlayerActions
     private void Awake()
     {
         audioManager = FindFirstObjectByType<AudioManager>().GetComponent<AudioManager>();
-        controls = new Controls();
-        controls.Player.AddCallbacks(this);
-        controls.Player.Enable();
         isAlive = true;
     }
 
@@ -262,70 +256,43 @@ public class Player : MonoBehaviour, IPlayerActions
         return (collision);
     }
 
-    public void OnMove(InputAction.CallbackContext context)
-    {
+    //public void OnMove(InputAction.CallbackContext context)
+    //{
 
-        if (!isAlive) {
-            return;
-        }
+    //    if (!isAlive) {
+    //        return;
+    //    }
 
-        moveAxis = context.ReadValue<float>();
-    }
+    //    moveAxis = context.ReadValue<float>();
+    //}
 
-    public void OnAim(InputAction.CallbackContext context)
-    {
-        if(!isAlive) {
-            return;
-        }
+    //public void OnAim(InputAction.CallbackContext context)
+    //{
+    //    if(!isAlive) {
+    //        return;
+    //    }
 
-        if (context.started)
-        {
-            isCharging = true;
-            chargeStartTime = Time.time;
-            audioManager.Play("swingCharge");
-        }
-        else if (context.performed)
-        {
-            aimAxes = context.ReadValue<Vector2>();
-            if (aimAxes.x * aimAxes.y != 0)
-            {
-                bufferedAimAxes = aimAxes;
-            }
-            aimBufferTime = Time.time;
-        }
-        else if (context.canceled)
-        {
-            isCharging = false;
-            swing = true;
-            audioManager.Stop("swingCharge");
-        }
-    }
-
-    public void EnablePlayerInput()
-    {
-        if (controls == null)
-        {
-            Debug.Log("Controls do not exist!");
-            return;
-        }
-        else
-        {
-            controls.Player.Enable();
-        }
-        
-    }
-
-    public void DisablePlayerInput()
-    {
-        if (controls == null)
-        {
-            Debug.Log("Controls do not exist!");
-            return;
-        }
-        else
-        {
-            controls.Player.Disable();
-        }
-    }
+    //    if (context.started)
+    //    {
+    //        isCharging = true;
+    //        chargeStartTime = Time.time;
+    //        audioManager.Play("swingCharge");
+    //    }
+    //    else if (context.performed)
+    //    {
+    //        aimAxes = context.ReadValue<Vector2>();
+    //        if (aimAxes.x * aimAxes.y != 0)
+    //        {
+    //            bufferedAimAxes = aimAxes;
+    //        }
+    //        aimBufferTime = Time.time;
+    //    }
+    //    else if (context.canceled)
+    //    {
+    //        isCharging = false;
+    //        swing = true;
+    //        audioManager.Stop("swingCharge");
+    //    }
+    //}
 
 }
