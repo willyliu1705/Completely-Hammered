@@ -52,4 +52,25 @@ public class PauseMenuScript: MonoBehaviour, IUIActions
         }
     }
 
+    public void OnRestart(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            if (pauseMenu == null || playerScript == null)
+            {
+                Debug.Log("Could not find pause menu or playerScript!");
+                return;
+            }
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            StartCoroutine(DisableInputTemp());
+        }
+    }
+
+    private IEnumerator DisableInputTemp()
+    {
+        playerScript.DisablePlayerInput();
+        controls.UI.Disable();
+        yield return new WaitForSeconds(1f);
+        playerScript.EnablePlayerInput();
+    }
 }
