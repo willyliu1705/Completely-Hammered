@@ -125,7 +125,7 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Lethal"))
+        if (isAlive && collision.gameObject.layer == LayerMask.NameToLayer("Lethal"))
         {
             sprite.color = Color.grey;
             audioManager.Stop("swingCharge");
