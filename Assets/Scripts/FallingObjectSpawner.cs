@@ -12,7 +12,6 @@ public class FallingObjectSpawner : MonoBehaviour
 
     void Start()
     {
-        //spawnInterval = Random.Range(1, 10);
         timer = spawnInterval;
     }
 
@@ -23,7 +22,6 @@ public class FallingObjectSpawner : MonoBehaviour
         if (timer <= 0)
         {
             SpawnObstacle();
-            spawnInterval = Random.Range(0, 10);
             timer = spawnInterval;
         }
     }
