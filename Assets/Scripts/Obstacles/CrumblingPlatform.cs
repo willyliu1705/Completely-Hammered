@@ -4,7 +4,7 @@ using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class CrumblingPlatform : MonoBehaviour
+public class CrumblingPlatform : MonoBehaviour, IHammerable
 {
     // Start is called before the first frame update
 
@@ -26,9 +26,7 @@ public class CrumblingPlatform : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player" && collision.transform.position.y > transform.position.y)
         {
-
             StartCoroutine(RespawnPlatform());
-
         }
     }
 
@@ -36,6 +34,8 @@ public class CrumblingPlatform : MonoBehaviour
     {
         yield return new WaitForSeconds(destroytime);
         Toggle(false);
+        FindObjectOfType<AudioManager>().Play("platformCrumble");
+
         yield return new WaitForSeconds(respawntime);
 
         if (IsAreaClear())
@@ -74,5 +74,11 @@ public class CrumblingPlatform : MonoBehaviour
     {
         sprite.enabled = b;
         platform.enabled = b;
+    }
+
+    public void OnHammer()
+    {
+        Toggle(false);
+        StartCoroutine(RespawnPlatform());
     }
 }

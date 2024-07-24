@@ -46,7 +46,6 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning("Sound: " + name + " not found!");
             return;
         }
-        Debug.Log("Stopping sound: " + name);
         if (s != null)
         {
             s.source.Stop();
