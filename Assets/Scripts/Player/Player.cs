@@ -15,7 +15,6 @@ public class Player : MonoBehaviour, IPlayerActions
     [SerializeField] private BoxCollider2D bc2D;
     [SerializeField] private Animator anim2D;
     [SerializeField] private SpriteRenderer sprite;
-    [SerializeField] private GameObject pauseMenu;
     [SerializeField] private LayerMask groundLayerMask;
     [SerializeField] private LayerMask hammerOnlyLayerMask;
     [SerializeField] private float raycastGroundLength;
@@ -299,6 +298,33 @@ public class Player : MonoBehaviour, IPlayerActions
             isCharging = false;
             swing = true;
             audioManager.Stop("swingCharge");
+        }
+    }
+
+    public void EnablePlayerInput()
+    {
+        if (controls == null)
+        {
+            Debug.Log("Controls do not exist!");
+            return;
+        }
+        else
+        {
+            controls.Player.Enable();
+        }
+        
+    }
+
+    public void DisablePlayerInput()
+    {
+        if (controls == null)
+        {
+            Debug.Log("Controls do not exist!");
+            return;
+        }
+        else
+        {
+            controls.Player.Disable();
         }
     }
 

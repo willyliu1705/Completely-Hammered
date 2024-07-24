@@ -176,7 +176,6 @@ MonoBehaviour:
   bc2D: {fileID: 4100427336276966522}
   anim2D: {fileID: -1364503559642567146}
   sprite: {fileID: 8779915090768219491}
-  pauseMenu: {fileID: 0}
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 64
