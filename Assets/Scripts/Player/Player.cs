@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -16,18 +17,21 @@ public class Player : MonoBehaviour, IPlayerActions
     [SerializeField] private SpriteRenderer sprite;
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private LayerMask groundLayerMask;
+    [SerializeField] private LayerMask hammerOnlyLayerMask;
     [SerializeField] private float raycastGroundLength;
     [SerializeField] private float raycastHammerLength;
     [SerializeField] private float walkSpeed;
     [SerializeField] private float groundAcceleration;
     [SerializeField] private float airAcceleration;
     [SerializeField] private float dragCoefficient;
+    [SerializeField] private float maxHorizontalSpeed;
     [SerializeField] private float strongThreshold;
     [SerializeField] private float weakHammerForce;
     [SerializeField] private float strongHammerForce;
     [SerializeField] private float hammerCooldown;
-    [SerializeField] private float coyoteBuffer;
+    [SerializeField] private float coyoteTimeBuffer;
     [SerializeField] private float aimBuffer;
+    [SerializeField] private float timeToApplyDrag;
 
     private float moveAxis;
     private bool swing;
@@ -36,31 +40,28 @@ public class Player : MonoBehaviour, IPlayerActions
     private float previousSwingTime;
     private float chargeDuration;
     private float timeSinceLastSwing;
-    private float timeToApplyDrag = 0.2f;
-    private float initialSwingSpeed;
+    // private float initialSwingSpeed;
     private bool isGroundedFloor;
     private bool wasGroundedFloor;
-    private bool isAirborneAfterSwing;
+    // private bool isAirborneAfterSwing;
 
     private float aimBufferTime;
     private Vector2 aimAxes;
     private Vector2 bufferedAimAxes;
 
     private bool isAlive;
-    private bool isMenuActive;
 
     private void Awake()
     {
-        audioManager = GameObject.FindFirstObjectByType<AudioManager>().GetComponent<AudioManager>();
+        audioManager = FindFirstObjectByType<AudioManager>().GetComponent<AudioManager>();
         controls = new Controls();
         controls.Player.AddCallbacks(this);
         controls.Player.Enable();
         isAlive = true;
-        isMenuActive = false;
     }
 
     private void FixedUpdate()
-    {
+    { 
         Debug.DrawRay(rb2D.position, aimAxes * bc2D.bounds.size);
 
         if (!isAlive)
@@ -79,10 +80,10 @@ public class Player : MonoBehaviour, IPlayerActions
             StartCoroutine(SetWasGroundedAfterDelay(false));
         }
 
-        if (isGroundedFloor || IsGrounded(-rb2D.transform.right) || IsGrounded(rb2D.transform.right))
-        {
-            isAirborneAfterSwing = false;
-        }
+        // if (isGroundedFloor || IsGrounded(-rb2D.transform.right) || IsGrounded(rb2D.transform.right))
+        // {
+        //     isAirborneAfterSwing = false;
+        // }
 
         Move();
 
@@ -101,7 +102,7 @@ public class Player : MonoBehaviour, IPlayerActions
                 aimAxes = bufferedAimAxes;
             }
 
-            if (wasGroundedFloor && aimAxes.y < 0 || CanHammer(aimAxes))
+            if (CanHammer(aimAxes) || wasGroundedFloor && aimAxes.y < 0)
             {
                 Swing();
             }
@@ -115,7 +116,6 @@ public class Player : MonoBehaviour, IPlayerActions
         timeSinceLastSwing = Time.time - previousSwingTime;
         if (timeSinceLastSwing >= timeToApplyDrag && isGroundedFloor)
         {
-            Debug.Log("apply drag");
             ApplyDrag();
         }
 
@@ -129,6 +129,7 @@ public class Player : MonoBehaviour, IPlayerActions
         {
             sprite.color = Color.grey;
             audioManager.Stop("swingCharge");
+            audioManager.Play("death");
             rb2D.velocity = Vector2.zero;
             isAlive = false;
             StartCoroutine(ReloadSceneAfterDelay());
@@ -153,7 +154,7 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private IEnumerator SetWasGroundedAfterDelay(bool grounded)
     {
-        yield return new WaitForSeconds(coyoteBuffer);
+        yield return new WaitForSeconds(coyoteTimeBuffer);
         wasGroundedFloor = grounded;
     }
 
@@ -161,7 +162,9 @@ public class Player : MonoBehaviour, IPlayerActions
     {
         sprite.color = Color.white;
         float acceleration = isGroundedFloor ? groundAcceleration : airAcceleration;
+        if (walkSpeed - rb2D.velocity.x * moveAxis < 0) { acceleration = 0; }
         rb2D.AddForce(new Vector2(moveAxis, 0f) * acceleration);
+
         if (moveAxis != 0)
         {
             // Set the localScale based on moveAxis direction
@@ -199,42 +202,45 @@ public class Player : MonoBehaviour, IPlayerActions
         if (chargeDuration < strongThreshold)
         {
             sprite.color = Color.yellow;
-            initialSwingSpeed = rb2D.velocity.x - swingAxes.x * weakHammerForce / rb2D.mass;
+            // initialSwingSpeed = rb2D.velocity.x - swingAxes.x * weakHammerForce / rb2D.mass;
             rb2D.AddForce(-swingAxes * weakHammerForce, ForceMode2D.Impulse);
             audioManager.Play("swingWeak");
         }
         else
         {
             sprite.color = Color.red;
-            initialSwingSpeed = rb2D.velocity.x - swingAxes.x * strongHammerForce / rb2D.mass;
+            // initialSwingSpeed = rb2D.velocity.x - swingAxes.x * strongHammerForce / rb2D.mass;
             rb2D.AddForce(-swingAxes * strongHammerForce, ForceMode2D.Impulse);
             audioManager.Play("swingStrong");
         }
 
-        isAirborneAfterSwing = true;
+        // isAirborneAfterSwing = true;
     }
 
     private void ApplyDrag()
     {
-        if (moveAxis == 0f || rb2D.velocity.x * moveAxis < 0)
+        if (rb2D.velocity.x * moveAxis <= 0)
         {
             rb2D.AddForce(new Vector2(-rb2D.velocity.x * dragCoefficient, 0f));
+        }
+        else if (walkSpeed - rb2D.velocity.x * moveAxis < 0)
+        {
+            rb2D.AddForce(new Vector2(-rb2D.velocity.x * dragCoefficient/5, 0f));
         }
     }
 
     private void LimitSpeed()
     {
-        if (isAirborneAfterSwing || timeSinceLastSwing <= timeToApplyDrag && isGroundedFloor)
+        float maxSpeed = maxHorizontalSpeed;
+        //if (isAirborneAfterSwing || timeSinceLastSwing <= timeToApplyDrag && isGroundedFloor)
+        //{
+        //    maxSpeed = Mathf.Abs(initialSwingSpeed);
+        //}
+        //maxSpeed = Mathf.Max(maxSpeed, walkSpeed);
+
+        if (Mathf.Abs(rb2D.velocity.x) >= maxSpeed)
         {
-            float maxSwingSpeed = Mathf.Max(Mathf.Abs(initialSwingSpeed), walkSpeed);
-            if (Mathf.Abs(rb2D.velocity.x) >= maxSwingSpeed)
-            {
-                rb2D.velocity = new Vector2(Mathf.Sign(rb2D.velocity.x) * maxSwingSpeed, rb2D.velocity.y);
-            }
-        }
-        else if (Mathf.Abs(rb2D.velocity.x) >= walkSpeed)
-        {
-            rb2D.velocity = new Vector2(Mathf.Sign(rb2D.velocity.x) * walkSpeed, rb2D.velocity.y);
+            rb2D.velocity = new Vector2(Mathf.Sign(rb2D.velocity.x) * maxSpeed, rb2D.velocity.y);
         }
     }
 
@@ -245,13 +251,22 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private bool CanHammer(Vector3 direction)
     {
-        return Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, direction, raycastHammerLength, groundLayerMask);
+        RaycastHit2D collision = Physics2D.BoxCast(bc2D.bounds.center, bc2D.bounds.size, 0f, direction, raycastHammerLength, groundLayerMask | hammerOnlyLayerMask);
+        if (collision)
+        {
+            GameObject hitObject = collision.collider.gameObject;
+            if (hitObject.TryGetComponent(out IHammerable hammerableObject))
+            {
+                hammerableObject.OnHammer();
+            }
+        }
+        return (collision);
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
 
-        if (!isAlive || isMenuActive) {
+        if (!isAlive) {
             return;
         }
 
@@ -260,7 +275,7 @@ public class Player : MonoBehaviour, IPlayerActions
 
     public void OnAim(InputAction.CallbackContext context)
     {
-        if(!isAlive || isMenuActive) {
+        if(!isAlive) {
             return;
         }
 
@@ -287,31 +302,4 @@ public class Player : MonoBehaviour, IPlayerActions
         }
     }
 
-    public void OnRestart(InputAction.CallbackContext context)
-    {
-        if (context.performed && !isMenuActive)
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
-    }
-
-    public void OnMenu(InputAction.CallbackContext context)
-    {
-        if (context.started)
-        {
-            if (pauseMenu == null)
-                return;
-            isMenuActive = !isMenuActive;
-            pauseMenu.SetActive(isMenuActive);
-
-            if (isMenuActive)
-            {
-                Time.timeScale = 0f;
-            }
-            else
-            {
-                Time.timeScale = 1f;
-            }
-        }
-    }
 }

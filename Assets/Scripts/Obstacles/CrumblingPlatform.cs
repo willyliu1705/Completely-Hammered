@@ -4,7 +4,7 @@ using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class CrumblingPlatform : MonoBehaviour
+public class CrumblingPlatform : MonoBehaviour, IHammerable
 {
     // Start is called before the first frame update
 
@@ -74,5 +74,11 @@ public class CrumblingPlatform : MonoBehaviour
     {
         sprite.enabled = b;
         platform.enabled = b;
+    }
+
+    public void OnHammer()
+    {
+        Toggle(false);
+        StartCoroutine(RespawnPlatform());
     }
 }
