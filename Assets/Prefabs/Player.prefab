@@ -196,6 +196,12 @@ MonoBehaviour:
   coyoteTimeBuffer: 0.06
   aimBuffer: 0.06
   timeToApplyDrag: 0.2
+  moveLeft: 97
+  moveRight: 100
+  swingLeft: 276
+  swingRight: 275
+  swingDown: 274
+  swingUp: 273
 --- !u!95 &-1364503559642567146
 Animator:
   serializedVersion: 5
