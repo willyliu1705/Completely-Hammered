@@ -91,11 +91,11 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: bf1e50f2477301e40b832b506782e111, type: 3}
     volume: 1
     pitch: 1
-    loop: 0
+    loop: 1
     source: {fileID: 0}
   - name: musicWhirOfInvention
     clip: {fileID: 8300000, guid: c8ff64d50582a524a94db73083611628, type: 3}
     volume: 1
     pitch: 1
-    loop: 0
+    loop: 1
     source: {fileID: 0}
