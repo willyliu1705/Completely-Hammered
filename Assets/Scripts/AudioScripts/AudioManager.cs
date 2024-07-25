@@ -8,10 +8,8 @@ public class AudioManager : MonoBehaviour
     public Sound[] sounds;
     public static AudioManager instance;
 
-    [SerializeField] AudioSource SFXSource;
-    [SerializeField] AudioSource MusicSource;
-    [SerializeField] List<AudioClip> SFXClips = new List<AudioClip>();
-    [SerializeField] List<AudioClip> MusicClips = new List<AudioClip>();
+    [SerializeField] public List<AudioClip> SFXClips = new List<AudioClip>();
+    [SerializeField] public List<AudioClip> MusicClips = new List<AudioClip>();
 
     // Start is called before the first frame update
     void Awake()
@@ -28,7 +26,6 @@ public class AudioManager : MonoBehaviour
                 s.source.volume = s.volume;
                 s.source.pitch = s.pitch;
                 s.source.loop = s.loop;
-                s.source.outputAudioMixerGroup = s.mixerGroup;
             }
         }
         else
@@ -36,7 +33,7 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        
+       LoadVolume();
     }
 
     public void Play (string name)
@@ -80,4 +77,25 @@ public class AudioManager : MonoBehaviour
             }
         }
     }
+    public void LoadVolume()
+    {
+        float musicVolume = PlayerPrefs.GetFloat("MusicKey", 1f);
+        float sfxVolume = PlayerPrefs.GetFloat("SFXKey", 1f);
+
+        foreach(Sound s in sounds)
+        {
+            if (MusicClips.Contains(s.clip))
+            {
+                s.source.volume = musicVolume;
+            }
+            else
+            {
+                s.source.volume = sfxVolume;
+            }
+        }
+
+    }
+
+
+
 }

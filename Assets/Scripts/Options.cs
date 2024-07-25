@@ -5,70 +5,112 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
+using Unity.VisualScripting;
 
 public class Options : MonoBehaviour
 {
-    [SerializeField] private TMP_Text volumeNumber = null;
-    [SerializeField] private Slider volumeSlider = null;
+    private AudioManager audioManager;
+
     [SerializeField] private float defaultVolume = 1.0f;
-    [SerializeField] AudioMixer mixer;
 
-    private float appliedVolume = 1.0f;
-    private float tempVolume = 1.0f;
+    [SerializeField] private Slider musicSlider = null;
+    [SerializeField] private Slider sfxSlider = null;
+    [SerializeField] private TMP_Text musicNumber = null;
+    [SerializeField] private TMP_Text sfxNumber = null;
 
-    const string MIXER_MUSIC = "MusicVolume";
-    const string MIXER_SFX = "SFXVolume";
+
+    private float tempMusicVol = 1.0f;
+    private float tempSFXVol = 1.0f;
+
+    public const string MIXER_MUSIC = "MusicVolume";
+    public const string MIXER_SFX = "SFXVolume";
 
     // Start is called before the first frame update
     void Start()
     {
-        appliedVolume = PlayerPrefs.GetFloat("masterVolume", defaultVolume);
-        tempVolume = appliedVolume;
         DisplayVolume();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void DisplayVolume()
     {
-        volumeSlider.value = appliedVolume;
-        volumeNumber.text = appliedVolume.ToString("0.0");
-    }
+        float musicvol = PlayerPrefs.GetFloat("MusicKey", 1f);
+        float sfxvol = PlayerPrefs.GetFloat("SFXKey", 1f);
 
-    public void ChangeVolume(float v)
-    {
-        tempVolume = v;
-        volumeNumber.text = v.ToString("0.0");
-    }
-
-    public void ApplyVolume()
-    {
-        AudioListener.volume = tempVolume;
-        appliedVolume = tempVolume;
-        PlayerPrefs.SetFloat("masterVolume", AudioListener.volume);
-        PlayerPrefs.Save();
-        volumeNumber.text = PlayerPrefs.GetFloat("masterVolume").ToString("0.0");
+        musicSlider.value = musicvol;
+        musicNumber.text = musicvol.ToString("0.0");
+        sfxSlider.value = sfxvol;
+        sfxNumber.text = sfxvol.ToString("0.0");
     }
 
     public void DefaultVolume()
     {
-        tempVolume = defaultVolume;
-        volumeSlider.value = defaultVolume;
-        volumeNumber.text = defaultVolume.ToString("0.0");
-        ApplyVolume();
+        tempMusicVol = defaultVolume;
+        tempSFXVol = defaultVolume;
+
+        musicSlider.value = defaultVolume;
+        sfxSlider.value = defaultVolume;
+
+        musicNumber.text = defaultVolume.ToString("0.0");
+        sfxNumber.text = defaultVolume.ToString("0.0");
+
+        ApplyMusicVolume();
+        ApplySFXVolume();
+
     }
 
-    public void setMusicVolume(float v)
+    public void ChangeMusicVolume(float v)
     {
-        mixer.SetFloat(MIXER_MUSIC, Mathf.Log10(v) * 20);
+        tempMusicVol = v;
+        musicNumber.text = v.ToString("0.0");
     }
 
-    public void setSFXVolume(float v)
+    public void ChangeSFXVolume(float v)
     {
-        mixer.SetFloat(MIXER_SFX, Mathf.Log10(v) * 20);
+        tempSFXVol = v;
+        sfxNumber.text = v.ToString("0.0");
     }
+
+    public void ApplyMusicVolume()
+    {
+        PlayerPrefs.SetFloat("MusicKey", tempMusicVol);
+        PlayerPrefs.Save();
+        UpdateVolumeLevels();
+    }
+
+    public void ApplySFXVolume()
+    {
+        PlayerPrefs.SetFloat("SFXKey", tempSFXVol);
+        PlayerPrefs.Save();
+        UpdateVolumeLevels();
+    }
+
+
+    public void tempStart()
+    {
+        SceneManager.LoadScene("CamTest0");
+    }
+
+    private void UpdateVolumeLevels()
+    {
+        if (audioManager == null)
+        {
+            audioManager = AudioManager.instance; 
+        }
+
+        float musicVolume = PlayerPrefs.GetFloat("MusicKey", 1f);
+        float sfxVolume = PlayerPrefs.GetFloat("SFXKey", 1f);
+
+        foreach (Sound s in audioManager.sounds)
+        {
+            if (audioManager.MusicClips.Contains(s.clip))
+            {
+                s.source.volume = musicVolume;
+            }
+            else
+            {
+                s.source.volume = sfxVolume;
+            }
+        }
+    }
+
 }
