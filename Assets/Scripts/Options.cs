@@ -84,12 +84,6 @@ public class Options : MonoBehaviour
         UpdateVolumeLevels();
     }
 
-
-    public void tempStart()
-    {
-        SceneManager.LoadScene("CamTest0");
-    }
-
     private void UpdateVolumeLevels()
     {
         if (audioManager == null)
