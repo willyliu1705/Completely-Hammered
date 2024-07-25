@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 920927d2064fc2641adf8efcebeb84fe
+guid: c2336e0ad07d7714baacedd3efbf5ec9
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -45,7 +45,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 32
@@ -93,30 +93,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: dudeWalk_0
+      name: tileset_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 160
-        width: 110
-        height: 80
+        x: 32
+        y: 736
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,20 +111,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9e81a486e38471445b9ff5373f2d215f
-      internalID: -1388388255
+      spriteID: 3a2282c4b64efe9428610e30c8348845
+      internalID: 1275025834
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dudeWalk_1
+      name: tileset_1
       rect:
         serializedVersion: 2
-        x: 110
-        y: 160
-        width: 110
-        height: 80
+        x: 64
+        y: 736
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -145,20 +132,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eccaedc781d92d64bb3b7ae6829fa786
-      internalID: 1289407969
+      spriteID: 21a509ea241f89c4db36eba89feffbab
+      internalID: -1462732856
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dudeWalk_2
+      name: tileset_2
       rect:
         serializedVersion: 2
-        x: 220
-        y: 160
-        width: 110
-        height: 80
+        x: 128
+        y: 736
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -166,20 +153,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 56ba2450877df1941a2612d4b3f3bd67
-      internalID: 495338223
+      spriteID: 852c9cdf26f6713479168cd92c93fdad
+      internalID: -403990461
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dudeWalk_3
+      name: tileset_3
       rect:
         serializedVersion: 2
-        x: 0
-        y: 80
-        width: 110
-        height: 80
+        x: 160
+        y: 736
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -187,20 +174,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8d6ab34e1f0807e4bab74e0806ca1e6a
-      internalID: -794875994
+      spriteID: fc92b127bac639744ac2ebb3169d3fc5
+      internalID: -784265379
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dudeWalk_4
+      name: tileset_4
       rect:
         serializedVersion: 2
-        x: 110
-        y: 80
-        width: 110
-        height: 80
+        x: 192
+        y: 736
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -208,20 +195,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 34ecb4c4baef75f4e9114185fdacfd72
-      internalID: 1638950277
+      spriteID: ceec9dd85700b0240a0f97e12e7b8e48
+      internalID: 1498304179
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dudeWalk_5
+      name: tileset_5
       rect:
         serializedVersion: 2
-        x: 220
-        y: 80
-        width: 110
-        height: 80
+        x: 224
+        y: 736
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -229,20 +216,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7fbc7db2bdbe413479f279c1ddb7ae5d
-      internalID: -490742522
+      spriteID: 72a8a9fbda831b7449af3f8cdc42aadc
+      internalID: 1829756175
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dudeWalk_6
+      name: tileset_6
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 110
-        height: 80
+        x: 256
+        y: 736
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -250,20 +237,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 251d76ed86c53814ea3c8a00fb63af13
-      internalID: -732910117
+      spriteID: b13be1c9da4af3242af0253dcee834b9
+      internalID: 756547236
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dudeWalk_7
+      name: tileset_7
       rect:
         serializedVersion: 2
-        x: 110
-        y: 0
-        width: 110
-        height: 80
+        x: 288
+        y: 736
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -271,8 +258,134 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: db06431b3fd48564ab15af396a8470c4
-      internalID: 339879902
+      spriteID: d03734cbd56f1f64897bd49cc7370c31
+      internalID: 1122921520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tileset_8
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 704
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66646494867744d42a66e03f0946bdbe
+      internalID: 1077848492
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tileset_9
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 704
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16c3927ae35df3d45964436acb9c33e4
+      internalID: 1109808134
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tileset_10
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 704
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b1487b164292f1e4693f5b4f5313ef47
+      internalID: -537302752
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tileset_11
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 704
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 327acb6817c75f24c9e342e0c7a4e4ce
+      internalID: 1312588998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tileset_12
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 704
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d6c8a7a0ceac01848b58b6ded468144e
+      internalID: -631066104
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tileset_13
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 704
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd5ea732563acb34f8c96dc8ebdc0b36
+      internalID: -1363924020
       vertices: []
       indices: 
       edges: []
@@ -288,14 +401,20 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      dudeWalk_0: -1388388255
-      dudeWalk_1: 1289407969
-      dudeWalk_2: 495338223
-      dudeWalk_3: -794875994
-      dudeWalk_4: 1638950277
-      dudeWalk_5: -490742522
-      dudeWalk_6: -732910117
-      dudeWalk_7: 339879902
+      tileset_0: 1275025834
+      tileset_1: -1462732856
+      tileset_10: -537302752
+      tileset_11: 1312588998
+      tileset_12: -631066104
+      tileset_13: -1363924020
+      tileset_2: -403990461
+      tileset_3: -784265379
+      tileset_4: 1498304179
+      tileset_5: 1829756175
+      tileset_6: 756547236
+      tileset_7: 1122921520
+      tileset_8: 1077848492
+      tileset_9: 1109808134
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
