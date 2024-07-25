@@ -8,14 +8,34 @@ public class PauseMenuScript : MonoBehaviour
 
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private Player playerScript;
+    [SerializeField] private KeyCode restartKey;
 
     private bool isMenuActive;
     private bool isRestarting;
+    private float restartHoldTime;
 
     private void Awake()
     {
         isMenuActive = false;
         isRestarting = false;
+        restartHoldTime = 0f;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKey(restartKey))
+        {
+            restartHoldTime += Time.deltaTime;
+
+            if (restartHoldTime >= 1f)
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            }
+        }
+        else
+        {
+            restartHoldTime = 0f;
+        }
     }
 
     //public void OnPause(InputAction.CallbackContext context)
@@ -43,15 +63,6 @@ public class PauseMenuScript : MonoBehaviour
     //            }
     //        }
 
-    //    }
-    //}
-
-    //public void OnRestart(InputAction.CallbackContext context)
-    //{
-    //    if (context.performed && context.duration >= 1f && !isRestarting)
-    //    {
-    //        isRestarting = true;
-    //        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     //    }
     //}
 
