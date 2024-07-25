@@ -55,4 +55,21 @@ public class AudioManager : MonoBehaviour
             s.source.Stop();
         }
     }
+
+    public void PlayMusic(string name)
+    {
+        StopMusic();
+        Play(name);
+    }
+
+    private void StopMusic()
+    {
+        foreach (Sound s in sounds)
+        {
+            if (s.name.StartsWith("music"))
+            {
+                s.source.Stop();
+            }
+        }
+    }
 }
