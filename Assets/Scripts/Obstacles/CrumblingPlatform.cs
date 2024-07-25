@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class CrumblingPlatform : MonoBehaviour, IHammerable
 {
@@ -34,7 +32,6 @@ public class CrumblingPlatform : MonoBehaviour, IHammerable
     {
         yield return new WaitForSeconds(destroytime);
         Toggle(false);
-        FindObjectOfType<AudioManager>().Play("platformCrumble");
 
         yield return new WaitForSeconds(respawntime);
 
@@ -72,6 +69,10 @@ public class CrumblingPlatform : MonoBehaviour, IHammerable
 
     private void Toggle(bool b)
     {
+        if (!b && sprite.enabled && platform.enabled)
+        {
+            FindObjectOfType<AudioManager>().Play("platformCrumble");
+        }
         sprite.enabled = b;
         platform.enabled = b;
     }
