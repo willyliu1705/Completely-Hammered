@@ -38,5 +38,14 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Tutorial3.unity
     guid: a322df7543647dd4da9a2b7a505bc602
+  - enabled: 1
+    path: Assets/Scenes/Beta/Movement Tutorial/MovementTutorial1.unity
+    guid: ea164426c0e477445a1a3d83fcb77597
+  - enabled: 1
+    path: Assets/Scenes/Beta/Movement Tutorial/MovementTutorial2.unity
+    guid: 20853e85648f3e74da09583cf8abcf16
+  - enabled: 1
+    path: Assets/Scenes/Beta/Movement Tutorial/MovementTutorial3.unity
+    guid: b7d6fd4cb1e37ee4d91a6ad095c66f43
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 420499bb50e15a647adf3fd3633f3ab6, type: 2}
