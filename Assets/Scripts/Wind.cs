@@ -13,7 +13,7 @@ public class Wind : MonoBehaviour
     private void Start()
     {
         rb2D = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody2D>();
-        rb2D2 = GameObject.FindGameObjectWithTag("Obstacle").GetComponent<Rigidbody2D>();
+        rb2D2 = GameObject.FindGameObjectWithTag("fallingObstacle").GetComponent<Rigidbody2D>();
     }
 
     private void OnTriggerStay2D(Collider2D collision)  
