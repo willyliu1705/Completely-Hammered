@@ -62,7 +62,7 @@ public class AudioManager : MonoBehaviour
     {
         foreach (Sound s in sounds)
         {
-            if (s.name.StartsWith("music"))
+            if (s != null && s.name.StartsWith("music"))
             {
                 s.source.Stop();
             }

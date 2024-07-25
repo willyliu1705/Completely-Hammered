@@ -783,6 +783,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
+--- !u!1001 &1630701639
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2183604919553573010, guid: 13e0e08ab3e60b44dae50dc90e121f07, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2183604919553573010, guid: 13e0e08ab3e60b44dae50dc90e121f07, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2183604919553573010, guid: 13e0e08ab3e60b44dae50dc90e121f07, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2183604919553573010, guid: 13e0e08ab3e60b44dae50dc90e121f07, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2183604919553573010, guid: 13e0e08ab3e60b44dae50dc90e121f07, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2183604919553573010, guid: 13e0e08ab3e60b44dae50dc90e121f07, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2183604919553573010, guid: 13e0e08ab3e60b44dae50dc90e121f07, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2183604919553573010, guid: 13e0e08ab3e60b44dae50dc90e121f07, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2183604919553573010, guid: 13e0e08ab3e60b44dae50dc90e121f07, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2183604919553573010, guid: 13e0e08ab3e60b44dae50dc90e121f07, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2255697383403151021, guid: 13e0e08ab3e60b44dae50dc90e121f07, type: 3}
+      propertyPath: m_Name
+      value: MusicPlayerWhirOfInvention
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 13e0e08ab3e60b44dae50dc90e121f07, type: 3}
 --- !u!1001 &2125578735
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -861,3 +918,4 @@ SceneRoots:
   - {fileID: 2125578735}
   - {fileID: 1173788943}
   - {fileID: 1545364483}
+  - {fileID: 1630701639}
