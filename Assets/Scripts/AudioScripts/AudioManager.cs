@@ -1,11 +1,18 @@
 using UnityEngine.Audio;
 using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class AudioManager : MonoBehaviour
 {
     public Sound[] sounds;
     public static AudioManager instance;
+
+    [SerializeField] AudioSource SFXSource;
+    [SerializeField] AudioSource MusicSource;
+    [SerializeField] List<AudioClip> SFXClips = new List<AudioClip>();
+    [SerializeField] List<AudioClip> MusicClips = new List<AudioClip>();
+
     // Start is called before the first frame update
     void Awake()
     {
