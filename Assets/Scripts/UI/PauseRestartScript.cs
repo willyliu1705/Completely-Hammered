@@ -12,13 +12,11 @@ public class PauseRestartScript : MonoBehaviour
     [SerializeField] private KeyCode pauseKey;
 
     private bool isMenuActive;
-    private bool isRestarting;
     private float restartHoldTime;
 
     private void Awake()
     {
         isMenuActive = false;
-        isRestarting = false;
         restartHoldTime = 0f;
     }
 
@@ -38,50 +36,23 @@ public class PauseRestartScript : MonoBehaviour
             restartHoldTime = 0f;
         }
 
-        //if (Input.GetKeyDown(pauseKey))
-        //{
-        //    isMenuActive = !isMenuActive;
-        //    pauseMenu.SetActive(isMenuActive);
+        if (Input.GetKeyDown(pauseKey))
+        {
+            isMenuActive = !isMenuActive;
+            pauseMenu.SetActive(isMenuActive);
 
-        //    if (isMenuActive)
-        //    {
-        //        Time.timeScale = 0f;
-        //    }
-        //    else
-        //    {
-        //        Time.timeScale = 1f;
-        //    }
-        //}
-
+            if (isMenuActive)
+            {
+                Time.timeScale = 0f;
+                playerScript.DisablePlayerInput();
+            }
+            else
+            {
+                Time.timeScale = 1f;
+                playerScript.EnablePlayerInput();
+            }
+        }
 
     }
-
-    //public void OnPause(InputAction.CallbackContext context)
-    //{
-    //    if (context.started)
-    //    {
-    //        if (pauseMenu == null)
-    //        {
-    //            Debug.Log("pause menu does not exist!");
-    //            return;
-    //        }
-    //        else
-    //        {
-    //            Debug.Log("Exists!");
-    //            isMenuActive = !isMenuActive;
-    //            pauseMenu.SetActive(isMenuActive);
-
-    //            if (isMenuActive)
-    //            {
-    //                Time.timeScale = 0f;
-    //            }
-    //            else
-    //            {
-    //                Time.timeScale = 1f;
-    //            }
-    //        }
-
-    //    }
-    //}
 
 }

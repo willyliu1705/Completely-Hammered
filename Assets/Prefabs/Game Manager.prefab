@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenu: {fileID: 4373986795815596477}
-  playerScript: {fileID: 0}
+  playerScript: {fileID: 6166247429742732118, guid: dcd7de534aaa348088f81e764f0e90bb, type: 3}
   restartKey: 114
   pauseKey: 27
 --- !u!1 &6434298892532212695

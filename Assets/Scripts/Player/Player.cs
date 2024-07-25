@@ -52,6 +52,7 @@ public class Player : MonoBehaviour
     private Vector2 bufferedAimAxes;
 
     private bool isAlive;
+    private bool inputActive;
 
     //the velocity at which the hard impact sound (groundHit, wallHit) plays
     [SerializeField] private float smackVelocity;
@@ -60,11 +61,12 @@ public class Player : MonoBehaviour
     {
         audioManager = FindFirstObjectByType<AudioManager>().GetComponent<AudioManager>();
         isAlive = true;
+        inputActive = true;
     }
 
     private void Update()
     {
-        if (!isAlive)
+        if (!isAlive || !inputActive)
         {
             return;
         }
@@ -133,7 +135,7 @@ public class Player : MonoBehaviour
     { 
         Debug.DrawRay(rb2D.position, aimAxes * bc2D.bounds.size);
 
-        if (!isAlive)
+        if (!isAlive || !inputActive)
         {
             return;
         }
@@ -320,6 +322,16 @@ public class Player : MonoBehaviour
             }
         }
         return (collision);
+    }
+
+    public void DisablePlayerInput()
+    {
+        inputActive = false;
+    }
+
+    public void EnablePlayerInput()
+    {
+        inputActive = true;
     }
 
 }
