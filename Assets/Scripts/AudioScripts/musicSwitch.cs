@@ -10,7 +10,6 @@ public class NewBehaviourScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-    AudioManager audi = FindObjectOfType<AudioManager>();
-    audi.PlayMusic(musicName);
+        FindObjectOfType<AudioManager>().PlayMusic(musicName);
     }
 }
