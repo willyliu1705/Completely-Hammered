@@ -150,6 +150,7 @@ MonoBehaviour:
   pauseMenu: {fileID: 4373986795815596477}
   playerScript: {fileID: 0}
   restartKey: 114
+  pauseKey: 27
 --- !u!1 &6434298892532212695
 GameObject:
   m_ObjectHideFlags: 0

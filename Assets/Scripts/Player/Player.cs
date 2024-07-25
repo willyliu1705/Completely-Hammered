@@ -35,8 +35,12 @@ public class Player : MonoBehaviour
     [SerializeField] private KeyCode swingRight;
     [SerializeField] private KeyCode swingDown;
     [SerializeField] private KeyCode swingUp;
+    //private bool leftArrowHeld;
+    //private bool rightArrowHeld;
+    //private bool downArrowHeld;
+    //private bool upArrowHeld;
+    private int numArrowKeysHeld;
     
-
     private float moveAxis;
     private bool swing;
     private bool isCharging;
@@ -79,11 +83,17 @@ public class Player : MonoBehaviour
             moveAxis = 1f;
         }
 
+        numArrowKeysHeld = 0;
+        if (Input.GetKey(swingLeft)) numArrowKeysHeld++;
+        if (Input.GetKey(swingRight)) numArrowKeysHeld++;
+        if (Input.GetKey(swingDown)) numArrowKeysHeld++;
+        if (Input.GetKey(swingUp)) numArrowKeysHeld++;
+
         if (Input.GetKeyDown(swingLeft) || Input.GetKeyDown(swingRight) || Input.GetKeyDown(swingDown) || Input.GetKeyDown(swingUp))
         {
             isCharging = true;
             chargeStartTime = Time.time;
-            audioManager.Play("swingCharge");
+            if (numArrowKeysHeld == 1) audioManager.Play("swingCharge");
 
             if (Input.GetKey(swingLeft) && Input.GetKey(swingDown))
             {
@@ -105,25 +115,13 @@ public class Player : MonoBehaviour
             }
             else
             {
-                if (Input.GetKey(swingLeft))
-                {
-                    aimAxes = Vector2.left;
-                }
+                if (Input.GetKey(swingLeft)) aimAxes = Vector2.left;
 
-                if (Input.GetKey(swingRight))
-                {
-                    aimAxes = Vector2.right;
-                }
+                if (Input.GetKey(swingRight)) aimAxes = Vector2.right;
 
-                if (Input.GetKey(swingDown))
-                {
-                    aimAxes = Vector2.down;
-                }
+                if (Input.GetKey(swingDown)) aimAxes = Vector2.down;
 
-                if (Input.GetKey(swingUp))
-                {
-                    aimAxes = Vector2.up;
-                }
+                if (Input.GetKey(swingUp)) aimAxes = Vector2.up;
             }
         }
         else if (Input.GetKeyUp(swingLeft) || Input.GetKeyUp(swingRight) || Input.GetKeyUp(swingDown) || Input.GetKeyUp(swingUp))
@@ -131,7 +129,7 @@ public class Player : MonoBehaviour
             isCharging = false;
             swing = true;
             audioManager.Stop("swingCharge");
-        }
+        } 
 
     }
 

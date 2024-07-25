@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PauseMenuScript : MonoBehaviour
+public class PauseRestartScript : MonoBehaviour
 {
 
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private Player playerScript;
     [SerializeField] private KeyCode restartKey;
+    [SerializeField] private KeyCode pauseKey;
 
     private bool isMenuActive;
     private bool isRestarting;
@@ -36,6 +37,23 @@ public class PauseMenuScript : MonoBehaviour
         {
             restartHoldTime = 0f;
         }
+
+        //if (Input.GetKeyDown(pauseKey))
+        //{
+        //    isMenuActive = !isMenuActive;
+        //    pauseMenu.SetActive(isMenuActive);
+
+        //    if (isMenuActive)
+        //    {
+        //        Time.timeScale = 0f;
+        //    }
+        //    else
+        //    {
+        //        Time.timeScale = 1f;
+        //    }
+        //}
+
+
     }
 
     //public void OnPause(InputAction.CallbackContext context)
