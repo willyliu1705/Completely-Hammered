@@ -304,11 +304,33 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicPlayerHammerTime
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4344653293103492601, guid: ef8a233c2ee77f84b8d72701250fa568, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8693194923290792173, guid: ef8a233c2ee77f84b8d72701250fa568, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 801800794}
   m_SourcePrefab: {fileID: 100100000, guid: ef8a233c2ee77f84b8d72701250fa568, type: 3}
+--- !u!1 &801800793 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8693194923290792173, guid: ef8a233c2ee77f84b8d72701250fa568, type: 3}
+  m_PrefabInstance: {fileID: 801800792}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &801800794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 801800793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9326e33b6dc10d3468d03b1b9933d4b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musicName: musicHammerTime
 --- !u!1 &806959489
 GameObject:
   m_ObjectHideFlags: 0
