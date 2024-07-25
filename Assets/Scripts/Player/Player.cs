@@ -35,10 +35,6 @@ public class Player : MonoBehaviour
     [SerializeField] private KeyCode swingRight;
     [SerializeField] private KeyCode swingDown;
     [SerializeField] private KeyCode swingUp;
-    //private bool leftArrowHeld;
-    //private bool rightArrowHeld;
-    //private bool downArrowHeld;
-    //private bool upArrowHeld;
     private int numArrowKeysHeld;
     
     private float moveAxis;
