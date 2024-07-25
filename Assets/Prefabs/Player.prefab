@@ -185,7 +185,7 @@ MonoBehaviour:
     m_Bits: 512
   raycastGroundLength: 0.07
   raycastHammerLength: 0.5
-  walkSpeed: 6
+  walkSpeed: 7
   groundAcceleration: 40
   airAcceleration: 20
   dragCoefficient: 10
@@ -193,10 +193,11 @@ MonoBehaviour:
   strongThreshold: 1
   weakHammerForce: 19
   strongHammerForce: 26
-  hammerCooldown: 0.2
+  hammerCooldown: 0.1
   coyoteTimeBuffer: 0.06
   aimBuffer: 0.06
   timeToApplyDrag: 0.2
+  smackVelocity: 0
 --- !u!95 &-1364503559642567146
 Animator:
   serializedVersion: 5
