@@ -7,23 +7,27 @@ public class CamMove : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField] private Camera cam;
-    [SerializeField] private float camSpeed = 1;
+    [SerializeField] private float camSpeed = 30;
     private GameObject dest;
+    private GameObject ld;
+    private bool done= false;
     void Start()
     {
-        dest = GameObject.Find("camTransition");
+        dest = GameObject.Find("camSet");
+        ld = GameObject.Find("LoadMangement");
     }
 
     // Update is called once per frame
     void Update()
-    {
-        if (cam.transform.position != dest.transform.position)
+    {   
+
+        if ((cam.transform.position != dest.transform.position) && !done)
         {
             cam.transform.position = Vector3.MoveTowards(cam.transform.position, dest.transform.position, Time.deltaTime * camSpeed);
         }
         if(cam.transform.position == dest.transform.position)
         {
-            print("Equal");
+            done = true;
         }
     }
 }
