@@ -7,6 +7,7 @@ TagManager:
   - ground
   - whirlWind
   - fallingObstacle
+  - Lethal
   layers:
   - Default
   - TransparentFX
@@ -41,8 +42,14 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 3143312701
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Foreground
+    uniqueID: 1646919189
     locked: 0
   - name: Player
     uniqueID: 1904903623
