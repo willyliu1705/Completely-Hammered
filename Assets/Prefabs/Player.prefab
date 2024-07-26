@@ -74,8 +74,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1904903623
-  m_SortingLayer: 2
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -1053922409, guid: e33fd62ae76a7bf4faca06806aa110ad, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -147,7 +147,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.25}
+  m_Offset: {x: 0, y: -0.3125}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -156,9 +156,9 @@ BoxCollider2D:
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
-  m_AutoTiling: 1
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 0.9375, y: 1.875}
   m_EdgeRadius: 0
 --- !u!114 &6166247429742732118
 MonoBehaviour:
@@ -176,7 +176,6 @@ MonoBehaviour:
   bc2D: {fileID: 4100427336276966522}
   anim2D: {fileID: -1364503559642567146}
   sprite: {fileID: 8779915090768219491}
-  pauseMenu: {fileID: 0}
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -185,7 +184,7 @@ MonoBehaviour:
     m_Bits: 512
   raycastGroundLength: 0.07
   raycastHammerLength: 0.5
-  walkSpeed: 6
+  walkSpeed: 7
   groundAcceleration: 40
   airAcceleration: 20
   dragCoefficient: 10
@@ -193,11 +192,17 @@ MonoBehaviour:
   strongThreshold: 1
   weakHammerForce: 19
   strongHammerForce: 26
-  hammerCooldown: 0.2
+  hammerCooldown: 0.1
   coyoteTimeBuffer: 0.06
   aimBuffer: 0.06
   timeToApplyDrag: 0.2
   smackVelocity: 0
+  moveLeft: 97
+  moveRight: 100
+  swingLeft: 276
+  swingRight: 275
+  swingDown: 274
+  swingUp: 273
 --- !u!95 &-1364503559642567146
 Animator:
   serializedVersion: 5

@@ -3,19 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using static Controls;
 
-public class Player : MonoBehaviour, IPlayerActions
+public class Player : MonoBehaviour
 {
-    private Controls controls;
     AudioManager audioManager;
     [SerializeField] private Rigidbody2D rb2D;
     [SerializeField] private Collider2D bc2D;
     [SerializeField] private Animator anim2D;
     [SerializeField] private SpriteRenderer sprite;
-    [SerializeField] private GameObject pauseMenu;
     [SerializeField] private LayerMask groundLayerMask;
     [SerializeField] private LayerMask hammerOnlyLayerMask;
     [SerializeField] private float raycastGroundLength;
@@ -33,6 +29,14 @@ public class Player : MonoBehaviour, IPlayerActions
     [SerializeField] private float aimBuffer;
     [SerializeField] private float timeToApplyDrag;
 
+    [SerializeField] private KeyCode moveLeft;
+    [SerializeField] private KeyCode moveRight;
+    [SerializeField] private KeyCode swingLeft;
+    [SerializeField] private KeyCode swingRight;
+    [SerializeField] private KeyCode swingDown;
+    [SerializeField] private KeyCode swingUp;
+
+
     private float moveAxis;
     private bool swing;
     private bool isCharging;
@@ -40,10 +44,8 @@ public class Player : MonoBehaviour, IPlayerActions
     private float previousSwingTime;
     private float chargeDuration;
     private float timeSinceLastSwing;
-    // private float initialSwingSpeed;
     private bool isGroundedFloor;
     private bool wasGroundedFloor;
-    // private bool isAirborneAfterSwing;
 
     private float aimBufferTime;
     private Vector2 aimAxes;
@@ -57,14 +59,84 @@ public class Player : MonoBehaviour, IPlayerActions
     private void Awake()
     {
         audioManager = FindFirstObjectByType<AudioManager>().GetComponent<AudioManager>();
-        controls = new Controls();
-        controls.Player.AddCallbacks(this);
-        controls.Player.Enable();
         isAlive = true;
     }
 
+    private void Update()
+    {
+        if (!isAlive)
+        {
+            return;
+        }
+
+        moveAxis = 0f;
+        if (Input.GetKey(moveLeft))
+        {
+            moveAxis = -1f;
+        }
+        if (Input.GetKey(moveRight))
+        {
+            moveAxis = 1f;
+        }
+
+        if (Input.GetKeyDown(swingLeft) || Input.GetKeyDown(swingRight) || Input.GetKeyDown(swingDown) || Input.GetKeyDown(swingUp))
+        {
+            isCharging = true;
+            chargeStartTime = Time.time;
+            audioManager.Play("swingCharge");
+
+            if (Input.GetKey(swingLeft) && Input.GetKey(swingDown))
+            {
+                aimAxes = Vector2.left + Vector2.down;
+                if (aimAxes.x * aimAxes.y != 0)
+                {
+                    bufferedAimAxes = aimAxes;
+                }
+                aimBufferTime = Time.time;
+            }
+            else if (Input.GetKey(swingRight) && Input.GetKey(swingDown))
+            {
+                aimAxes = Vector2.right + Vector2.down;
+                if (aimAxes.x * aimAxes.y != 0)
+                {
+                    bufferedAimAxes = aimAxes;
+                }
+                aimBufferTime = Time.time;
+            }
+            else
+            {
+                if (Input.GetKey(swingLeft))
+                {
+                    aimAxes = Vector2.left;
+                }
+
+                if (Input.GetKey(swingRight))
+                {
+                    aimAxes = Vector2.right;
+                }
+
+                if (Input.GetKey(swingDown))
+                {
+                    aimAxes = Vector2.down;
+                }
+
+                if (Input.GetKey(swingUp))
+                {
+                    aimAxes = Vector2.up;
+                }
+            }
+        }
+        else if (Input.GetKeyUp(swingLeft) || Input.GetKeyUp(swingRight) || Input.GetKeyUp(swingDown) || Input.GetKeyUp(swingUp))
+        {
+            isCharging = false;
+            swing = true;
+            audioManager.Stop("swingCharge");
+        }
+
+    }
+
     private void FixedUpdate()
-    { 
+    {
         Debug.DrawRay(rb2D.position, aimAxes * bc2D.bounds.size);
 
         if (!isAlive)
@@ -73,8 +145,8 @@ public class Player : MonoBehaviour, IPlayerActions
         }
 
 
-	anim2D.SetBool("isCharging", isCharging);
-	anim2D.SetBool("shouldSwing", false);
+        anim2D.SetBool("isCharging", isCharging);
+        anim2D.SetBool("shouldSwing", false);
 
 
         chargeDuration = Time.time - chargeStartTime;
@@ -87,11 +159,6 @@ public class Player : MonoBehaviour, IPlayerActions
         {
             StartCoroutine(SetWasGroundedAfterDelay(false));
         }
-
-        // if (isGroundedFloor || IsGrounded(-rb2D.transform.right) || IsGrounded(rb2D.transform.right))
-        // {
-        //     isAirborneAfterSwing = false;
-        // }
 
         Move();
 
@@ -133,7 +200,7 @@ public class Player : MonoBehaviour, IPlayerActions
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Lethal"))
+        if (isAlive && collision.gameObject.layer == LayerMask.NameToLayer("Lethal"))
         {
             sprite.color = Color.grey;
             audioManager.Stop("swingCharge");
@@ -143,7 +210,8 @@ public class Player : MonoBehaviour, IPlayerActions
             StartCoroutine(ReloadSceneAfterDelay());
         }
         //code for hard impact osund
-        if (collision.transform.position.y < transform.position.y && (rb2D.velocity.y > smackVelocity || rb2D.velocity.x > smackVelocity)){
+        if (collision.transform.position.y < transform.position.y && (rb2D.velocity.y > smackVelocity || rb2D.velocity.x > smackVelocity))
+        {
             audioManager.Play("wallHit");
         }
 
@@ -194,7 +262,7 @@ public class Player : MonoBehaviour, IPlayerActions
     private void Swing()
     {
         previousSwingTime = Time.time;
- 
+
         Vector2 swingAxes = aimAxes;
         if (swingAxes.x * swingAxes.y != 0)
         {
@@ -215,20 +283,18 @@ public class Player : MonoBehaviour, IPlayerActions
         if (chargeDuration < strongThreshold)
         {
             sprite.color = Color.yellow;
-            // initialSwingSpeed = rb2D.velocity.x - swingAxes.x * weakHammerForce / rb2D.mass;
             rb2D.AddForce(-swingAxes * weakHammerForce, ForceMode2D.Impulse);
             audioManager.Play("swingWeak");
         }
         else
         {
             sprite.color = Color.red;
-            // initialSwingSpeed = rb2D.velocity.x - swingAxes.x * strongHammerForce / rb2D.mass;
             rb2D.AddForce(-swingAxes * strongHammerForce, ForceMode2D.Impulse);
             audioManager.Play("swingStrong");
         }
 
 
-	anim2D.SetBool("shouldSwing", true);
+        anim2D.SetBool("shouldSwing", true);
         // isAirborneAfterSwing = true;
     }
 
@@ -240,19 +306,13 @@ public class Player : MonoBehaviour, IPlayerActions
         }
         else if (walkSpeed - rb2D.velocity.x * moveAxis < 0)
         {
-            rb2D.AddForce(new Vector2(-rb2D.velocity.x * dragCoefficient/5, 0f));
+            rb2D.AddForce(new Vector2(-rb2D.velocity.x * dragCoefficient / 5, 0f));
         }
     }
 
     private void LimitSpeed()
     {
         float maxSpeed = maxHorizontalSpeed;
-        //if (isAirborneAfterSwing || timeSinceLastSwing <= timeToApplyDrag && isGroundedFloor)
-        //{
-        //    maxSpeed = Mathf.Abs(initialSwingSpeed);
-        //}
-        //maxSpeed = Mathf.Max(maxSpeed, walkSpeed);
-
         if (Mathf.Abs(rb2D.velocity.x) >= maxSpeed)
         {
             rb2D.velocity = new Vector2(Mathf.Sign(rb2D.velocity.x) * maxSpeed, rb2D.velocity.y);
@@ -276,45 +336,6 @@ public class Player : MonoBehaviour, IPlayerActions
             }
         }
         return (collision);
-    }
-
-    public void OnMove(InputAction.CallbackContext context)
-    {
-
-        if (!isAlive) {
-            return;
-        }
-
-        moveAxis = context.ReadValue<float>();
-    }
-
-    public void OnAim(InputAction.CallbackContext context)
-    {
-        if(!isAlive) {
-            return;
-        }
-
-        if (context.started)
-        {
-            isCharging = true;
-            chargeStartTime = Time.time;
-            audioManager.Play("swingCharge");
-        }
-        else if (context.performed)
-        {
-            aimAxes = context.ReadValue<Vector2>();
-            if (aimAxes.x * aimAxes.y != 0)
-            {
-                bufferedAimAxes = aimAxes;
-            }
-            aimBufferTime = Time.time;
-        }
-        else if (context.canceled)
-        {
-            isCharging = false;
-            swing = true;
-            audioManager.Stop("swingCharge");
-        }
     }
 
 }
