@@ -72,6 +72,11 @@ public class Player : MonoBehaviour, IPlayerActions
             return;
         }
 
+
+	anim2D.SetBool("isCharging", isCharging);
+	anim2D.SetBool("shouldSwing", false);
+
+
         chargeDuration = Time.time - chargeStartTime;
         isGroundedFloor = IsGrounded(-rb2D.transform.up);
         if (isGroundedFloor)
@@ -189,7 +194,7 @@ public class Player : MonoBehaviour, IPlayerActions
     private void Swing()
     {
         previousSwingTime = Time.time;
-
+ 
         Vector2 swingAxes = aimAxes;
         if (swingAxes.x * swingAxes.y != 0)
         {
@@ -222,6 +227,8 @@ public class Player : MonoBehaviour, IPlayerActions
             audioManager.Play("swingStrong");
         }
 
+
+	anim2D.SetBool("shouldSwing", true);
         // isAirborneAfterSwing = true;
     }
 
