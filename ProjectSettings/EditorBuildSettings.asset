@@ -23,37 +23,37 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Alpha/JustinScene3.unity
     guid: 7ac2d8c712d47954bb6b9c24db91d523
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Tutorial1.unity
     guid: 7212457a9b8d686488812536787dfa61
-  - enabled: 1
-    path: Assets/Scenes/Beta/Tutorial/Tutorial1-2.unity
-    guid: 364a9aa7ce4d3834b8569192d6c38477
-  - enabled: 1
-    path: Assets/Scenes/Beta/Tutorial/Tutorial1-3.unity
-    guid: 9ee4c1f28b69d4a429507e90a897b210
-  - enabled: 1
-    path: Assets/Scenes/Beta/Tutorial/Tutorial2.unity
-    guid: 526b40bf6391ee141b4315f56034ecee
-  - enabled: 1
-    path: Assets/Scenes/Beta/Tutorial/Tutorial3.unity
-    guid: a322df7543647dd4da9a2b7a505bc602
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Beta/Tutorial/MovementTutorial1.unity
     guid: ea164426c0e477445a1a3d83fcb77597
-  - enabled: 1
+  - enabled: 0
+    path: Assets/Scenes/Beta/Tutorial/Tutorial1-2.unity
+    guid: 364a9aa7ce4d3834b8569192d6c38477
+  - enabled: 0
+    path: Assets/Scenes/Beta/Tutorial/Tutorial1-3.unity
+    guid: 9ee4c1f28b69d4a429507e90a897b210
+  - enabled: 0
+    path: Assets/Scenes/Beta/Tutorial/Tutorial2.unity
+    guid: 526b40bf6391ee141b4315f56034ecee
+  - enabled: 0
+    path: Assets/Scenes/Beta/Tutorial/Tutorial3.unity
+    guid: a322df7543647dd4da9a2b7a505bc602
+  - enabled: 0
     path: Assets/Scenes/Beta/Tutorial/MovementTutorial2.unity
     guid: 20853e85648f3e74da09583cf8abcf16
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Beta/Tutorial/MovementTutorial3.unity
     guid: b7d6fd4cb1e37ee4d91a6ad095c66f43
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Beta/Tutorial/MovementTutorial4.unity
     guid: 76e7e5b1e3b5ada418bf48816989fdd5
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Beta/Tutorial/MovementTutorial5.unity
     guid: 82ad3f1bc98f6b947a779c397bf97cc4
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Beta/Tutorial/MovementTutorial6.unity
     guid: 9b26c781208e73c42b1aa02fba0ecbf4
   - enabled: 1
