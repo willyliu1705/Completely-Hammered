@@ -114,7 +114,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 160
+        y: 80
         width: 110
         height: 80
       alignment: 0
@@ -135,7 +135,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 110
-        y: 160
+        y: 80
         width: 110
         height: 80
       alignment: 0
@@ -156,7 +156,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 220
-        y: 160
+        y: 80
         width: 110
         height: 80
       alignment: 0
@@ -176,7 +176,7 @@ TextureImporter:
       name: dudeWalk_3
       rect:
         serializedVersion: 2
-        x: 0
+        x: 330
         y: 80
         width: 110
         height: 80
@@ -197,8 +197,8 @@ TextureImporter:
       name: dudeWalk_4
       rect:
         serializedVersion: 2
-        x: 110
-        y: 80
+        x: 0
+        y: 0
         width: 110
         height: 80
       alignment: 0
@@ -218,8 +218,8 @@ TextureImporter:
       name: dudeWalk_5
       rect:
         serializedVersion: 2
-        x: 220
-        y: 80
+        x: 110
+        y: 0
         width: 110
         height: 80
       alignment: 0
@@ -239,7 +239,7 @@ TextureImporter:
       name: dudeWalk_6
       rect:
         serializedVersion: 2
-        x: 0
+        x: 220
         y: 0
         width: 110
         height: 80
@@ -260,7 +260,7 @@ TextureImporter:
       name: dudeWalk_7
       rect:
         serializedVersion: 2
-        x: 110
+        x: 330
         y: 0
         width: 110
         height: 80

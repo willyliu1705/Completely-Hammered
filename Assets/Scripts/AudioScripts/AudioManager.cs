@@ -1,30 +1,39 @@
 using UnityEngine.Audio;
 using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class AudioManager : MonoBehaviour
 {
     public Sound[] sounds;
     public static AudioManager instance;
+
+    [SerializeField] public List<AudioClip> SFXClips = new List<AudioClip>();
+    [SerializeField] public List<AudioClip> MusicClips = new List<AudioClip>();
+
     // Start is called before the first frame update
     void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+        
         if (instance == null)
+        { 
             instance = this;
+            DontDestroyOnLoad(gameObject);
+            foreach (Sound s in sounds)
+            {
+                s.source = gameObject.AddComponent<AudioSource>();
+                s.source.clip = s.clip;
+                s.source.volume = s.volume;
+                s.source.pitch = s.pitch;
+                s.source.loop = s.loop;
+            }
+        }
         else
         {
             Destroy(gameObject);
             return;
         }
-        foreach (Sound s in sounds)
-        {
-            s.source = gameObject.AddComponent<AudioSource>();
-            s.source.clip = s.clip;
-            s.source.volume = s.volume;
-            s.source.pitch = s.pitch;
-            s.source.loop = s.loop;
-        }
+       LoadVolume();
     }
 
     public void Play (string name)
@@ -51,4 +60,42 @@ public class AudioManager : MonoBehaviour
             s.source.Stop();
         }
     }
+
+    public void PlayMusic(string name)
+    {
+        StopMusic();
+        Play(name);
+    }
+
+    private void StopMusic()
+    {
+        foreach (Sound s in sounds)
+        {
+            if (s.name.StartsWith("music"))
+            {
+                s.source.Stop();
+            }
+        }
+    }
+    public void LoadVolume()
+    {
+        float musicVolume = PlayerPrefs.GetFloat("MusicKey", 1f);
+        float sfxVolume = PlayerPrefs.GetFloat("SFXKey", 1f);
+
+        foreach(Sound s in sounds)
+        {
+            if (MusicClips.Contains(s.clip))
+            {
+                s.source.volume = musicVolume;
+            }
+            else
+            {
+                s.source.volume = sfxVolume;
+            }
+        }
+
+    }
+
+
+
 }

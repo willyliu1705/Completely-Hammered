@@ -36,7 +36,7 @@ public class Player : MonoBehaviour
     [SerializeField] private KeyCode swingDown;
     [SerializeField] private KeyCode swingUp;
     private int numArrowKeysHeld;
-    
+
     private float moveAxis;
     private bool swing;
     private bool isCharging;
@@ -127,18 +127,23 @@ public class Player : MonoBehaviour
             isCharging = false;
             swing = true;
             audioManager.Stop("swingCharge");
-        } 
+        }
 
     }
 
     private void FixedUpdate()
-    { 
+    {
         Debug.DrawRay(rb2D.position, aimAxes * bc2D.bounds.size);
 
         if (!isAlive || !inputActive)
         {
             return;
         }
+
+
+        anim2D.SetBool("isCharging", isCharging);
+        anim2D.SetBool("shouldSwing", false);
+
 
         chargeDuration = Time.time - chargeStartTime;
         isGroundedFloor = IsGrounded(-rb2D.transform.up);
@@ -191,7 +196,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Lethal"))
+        if (isAlive && collision.gameObject.layer == LayerMask.NameToLayer("Lethal"))
         {
             sprite.color = Color.grey;
             audioManager.Stop("swingCharge");
@@ -201,7 +206,8 @@ public class Player : MonoBehaviour
             StartCoroutine(ReloadSceneAfterDelay());
         }
         //code for hard impact osund
-        if (collision.transform.position.y < transform.position.y && (rb2D.velocity.y > smackVelocity || rb2D.velocity.x > smackVelocity)){
+        if (collision.transform.position.y < transform.position.y && (rb2D.velocity.y > smackVelocity || rb2D.velocity.x > smackVelocity))
+        {
             audioManager.Play("wallHit");
         }
 
@@ -282,6 +288,10 @@ public class Player : MonoBehaviour
             rb2D.AddForce(-swingAxes * strongHammerForce, ForceMode2D.Impulse);
             audioManager.Play("swingStrong");
         }
+
+
+        anim2D.SetBool("shouldSwing", true);
+        // isAirborneAfterSwing = true;
     }
 
     private void ApplyDrag()
@@ -292,7 +302,7 @@ public class Player : MonoBehaviour
         }
         else if (walkSpeed - rb2D.velocity.x * moveAxis < 0)
         {
-            rb2D.AddForce(new Vector2(-rb2D.velocity.x * dragCoefficient/5, 0f));
+            rb2D.AddForce(new Vector2(-rb2D.velocity.x * dragCoefficient / 5, 0f));
         }
     }
 
