@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 920927d2064fc2641adf8efcebeb84fe
+guid: af9b53945baa6204d874f283fdde8cbe
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -45,7 +45,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 32
@@ -93,113 +93,16 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: dudeWalk_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 80
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9e81a486e38471445b9ff5373f2d215f
-      internalID: -1388388255
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: dudeWalk_1
-      rect:
-        serializedVersion: 2
-        x: 110
-        y: 80
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: eccaedc781d92d64bb3b7ae6829fa786
-      internalID: 1289407969
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: dudeWalk_2
-      rect:
-        serializedVersion: 2
-        x: 220
-        y: 80
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 56ba2450877df1941a2612d4b3f3bd67
-      internalID: 495338223
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: dudeWalk_3
-      rect:
-        serializedVersion: 2
-        x: 330
-        y: 80
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8d6ab34e1f0807e4bab74e0806ca1e6a
-      internalID: -794875994
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: dudeWalk_4
+      name: dudeSwing_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 110
+        width: 200
         height: 80
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -208,19 +111,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 34ecb4c4baef75f4e9114185fdacfd72
-      internalID: 1638950277
+      spriteID: c889e5735ed4fde4cae06bcdb2c84dcb
+      internalID: -6719394
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dudeWalk_5
+      name: dudeSwing_1
       rect:
         serializedVersion: 2
-        x: 110
+        x: 200
         y: 0
-        width: 110
+        width: 200
         height: 80
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -229,19 +132,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7fbc7db2bdbe413479f279c1ddb7ae5d
-      internalID: -490742522
+      spriteID: fea5a77f5574a544783b2eaf316aba88
+      internalID: 1799179062
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dudeWalk_6
+      name: dudeSwing_2
       rect:
         serializedVersion: 2
-        x: 220
+        x: 400
         y: 0
-        width: 110
+        width: 200
         height: 80
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -250,19 +153,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 251d76ed86c53814ea3c8a00fb63af13
-      internalID: -732910117
+      spriteID: cb4ed427b0bfbb245b46823cdefa6b0d
+      internalID: -816215557
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dudeWalk_7
+      name: dudeSwing_3
       rect:
         serializedVersion: 2
-        x: 330
+        x: 600
         y: 0
-        width: 110
+        width: 200
         height: 80
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -271,8 +174,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: db06431b3fd48564ab15af396a8470c4
-      internalID: 339879902
+      spriteID: 4b24f8f50de4d3145ad2a7c56e406066
+      internalID: -35442773
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dudeSwing_4
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 0
+        width: 200
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9bb6d50b6e5701047814f4d9b0089d7a
+      internalID: -1297552725
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dudeSwing_5
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 0
+        width: 200
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a769139bca0d0c444b3d958f80aa2131
+      internalID: 671634690
       vertices: []
       indices: 
       edges: []
@@ -288,14 +233,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      dudeWalk_0: -1388388255
-      dudeWalk_1: 1289407969
-      dudeWalk_2: 495338223
-      dudeWalk_3: -794875994
-      dudeWalk_4: 1638950277
-      dudeWalk_5: -490742522
-      dudeWalk_6: -732910117
-      dudeWalk_7: 339879902
+      dudeSwing_0: -6719394
+      dudeSwing_1: 1799179062
+      dudeSwing_2: -816215557
+      dudeSwing_3: -35442773
+      dudeSwing_4: -1297552725
+      dudeSwing_5: 671634690
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
