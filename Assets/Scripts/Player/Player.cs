@@ -35,7 +35,9 @@ public class Player : MonoBehaviour
     [SerializeField] private KeyCode swingRight;
     [SerializeField] private KeyCode swingDown;
     [SerializeField] private KeyCode swingUp;
-    
+
+    [SerializeField] private GameObject deathScreenPrefab;
+    private GameObject deathScreenInstance;
 
     private float moveAxis;
     private bool swing;
@@ -202,8 +204,19 @@ public class Player : MonoBehaviour
             audioManager.Play("death");
             rb2D.velocity = Vector2.zero;
             isAlive = false;
+
+            if (deathScreenPrefab != null)
+            {
+                deathScreenInstance = Instantiate(deathScreenPrefab, Vector3.zero, Quaternion.identity);
+
+                Canvas canvas = deathScreenInstance.GetComponentInChildren<Canvas>();
+                if (canvas != null)
+                {
+                    canvas.sortingOrder = 10; 
+                }
+            }
+
             StartCoroutine(ReloadSceneAfterDelay());
-            //Play Death Screen
         }
         //code for hard impact osund
         if (collision.transform.position.y < transform.position.y && (rb2D.velocity.y > smackVelocity || rb2D.velocity.x > smackVelocity)){
