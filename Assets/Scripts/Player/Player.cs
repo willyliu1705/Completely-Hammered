@@ -203,6 +203,7 @@ public class Player : MonoBehaviour
             rb2D.velocity = Vector2.zero;
             isAlive = false;
             StartCoroutine(ReloadSceneAfterDelay());
+            //Play Death Screen
         }
         //code for hard impact osund
         if (collision.transform.position.y < transform.position.y && (rb2D.velocity.y > smackVelocity || rb2D.velocity.x > smackVelocity)){
