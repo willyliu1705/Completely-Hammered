@@ -258,7 +258,7 @@ GameObject:
   - component: {fileID: 8839994581893999583}
   - component: {fileID: 7835068219739421124}
   - component: {fileID: 4178311794578991363}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TObj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
