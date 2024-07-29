@@ -183,7 +183,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   raycastGroundLength: 0.07
-  raycastHammerLength: 1
+  raycastHammerLength: 0.75
   walkSpeed: 7
   groundAcceleration: 40
   airAcceleration: 20
