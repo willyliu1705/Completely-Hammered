@@ -203,6 +203,9 @@ public class Player : MonoBehaviour
             audioManager.Play("death");
             rb2D.velocity = Vector2.zero;
             isAlive = false;
+
+            GameManagerScript.Instance.StartFadeIn();
+
             StartCoroutine(ReloadSceneAfterDelay());
         }
         //code for hard impact osund
