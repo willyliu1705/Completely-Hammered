@@ -62,6 +62,7 @@ public class Player : MonoBehaviour
         audioManager = FindFirstObjectByType<AudioManager>().GetComponent<AudioManager>();
         isAlive = true;
         inputActive = true;
+        isCharging = false;
     }
 
     private void Update()
@@ -80,6 +81,7 @@ public class Player : MonoBehaviour
         {
             moveAxis = 1f;
         }
+        // could add a separate statement to increase moveAxis value to get more control in the air
 
         numArrowKeysHeld = 0;
         if (Input.GetKey(swingLeft)) numArrowKeysHeld++;
@@ -87,11 +89,16 @@ public class Player : MonoBehaviour
         if (Input.GetKey(swingDown)) numArrowKeysHeld++;
         if (Input.GetKey(swingUp)) numArrowKeysHeld++;
 
-        if (Input.GetKeyDown(swingLeft) || Input.GetKeyDown(swingRight) || Input.GetKeyDown(swingDown) || Input.GetKeyDown(swingUp))
+        if (Input.GetKeyUp(swingLeft)) numArrowKeysHeld--;
+        if (Input.GetKeyUp(swingRight)) numArrowKeysHeld--;
+        if (Input.GetKeyUp(swingDown)) numArrowKeysHeld--;
+        if (Input.GetKeyUp(swingUp)) numArrowKeysHeld--;
+
+        if ((Input.GetKeyDown(swingLeft) || Input.GetKeyDown(swingRight) || Input.GetKeyDown(swingDown) || Input.GetKeyDown(swingUp)) && !isCharging)
         {
             isCharging = true;
             chargeStartTime = Time.time;
-            if (numArrowKeysHeld == 1) audioManager.Play("swingCharge");
+            audioManager.Play("swingCharge");
 
             if (Input.GetKey(swingLeft) && Input.GetKey(swingDown))
             {
@@ -122,7 +129,33 @@ public class Player : MonoBehaviour
                 if (Input.GetKey(swingUp)) aimAxes = Vector2.up;
             }
         }
-        else if (Input.GetKeyUp(swingLeft) || Input.GetKeyUp(swingRight) || Input.GetKeyUp(swingDown) || Input.GetKeyUp(swingUp))
+        else if ((Input.GetKeyDown(swingLeft) || Input.GetKeyDown(swingRight) || Input.GetKeyDown(swingDown) || Input.GetKeyDown(swingUp)) && isCharging)
+        {
+            if (Input.GetKey(swingLeft)) aimAxes += Vector2.left;
+            if (Input.GetKey(swingRight)) aimAxes += Vector2.right;
+            if (Input.GetKey(swingDown)) aimAxes += Vector2.down;
+            if (Input.GetKey(swingUp)) aimAxes += Vector2.up;
+
+            if (Input.GetKey(swingLeft) && Input.GetKey(swingDown))
+            {
+                if (aimAxes.x * aimAxes.y != 0)
+                {
+                    bufferedAimAxes = aimAxes;
+                }
+                aimBufferTime = Time.time;
+            }
+            else if (Input.GetKey(swingRight) && Input.GetKey(swingDown))
+            {
+                if (aimAxes.x * aimAxes.y != 0)
+                {
+                    bufferedAimAxes = aimAxes;
+                }
+                aimBufferTime = Time.time;
+            }
+
+        }
+
+        if (Input.GetKeyUp(swingLeft) || Input.GetKeyUp(swingRight) || Input.GetKeyUp(swingDown) || Input.GetKeyUp(swingUp))
         {
             isCharging = false;
             swing = true;
