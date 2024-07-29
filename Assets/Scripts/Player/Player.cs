@@ -54,6 +54,9 @@ public class Player : MonoBehaviour
     private bool isAlive;
     private bool inputActive;
 
+    private Rigidbody2D platformRb2D;
+    private Vector2 relativeVelocity => platformRb2D != null ? rb2D.velocity - platformRb2D.velocity : rb2D.velocity;
+
     //the velocity at which the hard impact sound (groundHit, wallHit) plays
     [SerializeField] private float smackVelocity;
 
@@ -196,7 +199,8 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (isAlive && collision.gameObject.layer == LayerMask.NameToLayer("Lethal"))
+        if (!isAlive) { return; }
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Lethal"))
         {
             sprite.color = Color.grey;
             audioManager.Stop("swingCharge");
@@ -205,12 +209,24 @@ public class Player : MonoBehaviour
             isAlive = false;
             StartCoroutine(ReloadSceneAfterDelay());
         }
+        else if (collision.gameObject.tag == "Moving Platform")
+        {
+            platformRb2D = collision.gameObject.GetComponent<Rigidbody2D>();
+        }
         //code for hard impact osund
         if (collision.transform.position.y < transform.position.y && (rb2D.velocity.y > smackVelocity || rb2D.velocity.x > smackVelocity))
         {
             audioManager.Play("wallHit");
         }
 
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Moving Platform")
+        {
+            platformRb2D = null;
+        }
     }
 
     private IEnumerator ReloadSceneAfterDelay()
@@ -239,7 +255,7 @@ public class Player : MonoBehaviour
     {
         sprite.color = Color.white;
         float acceleration = isGroundedFloor ? groundAcceleration : airAcceleration;
-        if (walkSpeed - rb2D.velocity.x * moveAxis < 0) { acceleration = 0; }
+        if (walkSpeed - relativeVelocity.x * moveAxis < 0) { acceleration = 0; }
         rb2D.AddForce(new Vector2(moveAxis, 0f) * acceleration);
 
         if (moveAxis != 0)
@@ -296,13 +312,13 @@ public class Player : MonoBehaviour
 
     private void ApplyDrag()
     {
-        if (rb2D.velocity.x * moveAxis <= 0)
+        if (relativeVelocity.x * moveAxis <= 0)
         {
-            rb2D.AddForce(new Vector2(-rb2D.velocity.x * dragCoefficient, 0f));
+            rb2D.AddForce(new Vector2(-relativeVelocity.x * dragCoefficient, 0f));
         }
-        else if (walkSpeed - rb2D.velocity.x * moveAxis < 0)
+        else if (walkSpeed - relativeVelocity.x * moveAxis < 0)
         {
-            rb2D.AddForce(new Vector2(-rb2D.velocity.x * dragCoefficient / 5, 0f));
+            rb2D.AddForce(new Vector2(-relativeVelocity.x * dragCoefficient, 0f));
         }
     }
 

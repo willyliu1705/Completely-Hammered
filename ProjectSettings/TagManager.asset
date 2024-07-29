@@ -8,6 +8,7 @@ TagManager:
   - whirlWind
   - fallingObstacle
   - Lethal
+  - Moving Platform
   layers:
   - Default
   - TransparentFX
