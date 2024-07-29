@@ -212,6 +212,10 @@ public class Player : MonoBehaviour
         else if (collision.gameObject.tag == "Moving Platform")
         {
             platformRb2D = collision.gameObject.GetComponent<Rigidbody2D>();
+            if (collision.gameObject.TryGetComponent(out PlatformMovement platform))
+            {
+                platform.AttachRb(rb2D);
+            }
         }
         //code for hard impact osund
         if (collision.transform.position.y < transform.position.y && (rb2D.velocity.y > smackVelocity || rb2D.velocity.x > smackVelocity))
@@ -226,6 +230,10 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag == "Moving Platform")
         {
             platformRb2D = null;
+            if (collision.gameObject.TryGetComponent(out PlatformMovement platform))
+            {
+                platform.DetachRb();
+            }
         }
     }
 
