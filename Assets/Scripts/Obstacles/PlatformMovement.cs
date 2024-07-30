@@ -7,7 +7,7 @@ public class PlatformMovement : MonoBehaviour
 
     [SerializeField] private GameObject[] nodes;
     [SerializeField] private Rigidbody2D rb2D;
-    [SerializeField] private float speed = 1f;
+    [SerializeField] private float speed;
     private int nextNode = 0;
     private bool isReturning = false;
 
