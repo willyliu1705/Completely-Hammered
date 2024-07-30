@@ -8,6 +8,8 @@ public class PlatformMovement : MonoBehaviour
     [SerializeField] private GameObject[] nodes;
     [SerializeField] private Rigidbody2D rb2D;
     [SerializeField] private float speed;
+    // Platform will return to Checkpoint A after reaching its last checkpoint
+    [SerializeField] private bool loop;
     private int nextNode = 0;
     private bool isReturning = false;
 
@@ -25,7 +27,15 @@ public class PlatformMovement : MonoBehaviour
         {
             if (nextNode >= nodes.Length - 1) { isReturning = true; }
             else if (nextNode <= 0) { isReturning = false; }
-            nextNode = isReturning ? --nextNode: ++nextNode;
+            if (loop && isReturning)
+            {
+                isReturning = false;
+                nextNode = 0;
+            }
+            else
+            {
+                nextNode = isReturning ? --nextNode : ++nextNode;
+            }
 
             Vector2 previousVelocity = rb2D.velocity;
             rb2D.velocity = (nodes[nextNode].transform.position - transform.position).normalized * speed;
