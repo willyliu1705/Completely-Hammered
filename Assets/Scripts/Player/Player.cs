@@ -171,7 +171,28 @@ public class Player : MonoBehaviour
             swing = true;
             audioManager.Stop("swingCharge");
         }
-        
+        anim2D.SetBool("isCharging", isCharging);
+
+
+        if (swing && timeSinceLastSwing >= hammerCooldown)
+        {
+            if (Time.time - aimBufferTime <= aimBuffer)
+            {
+                aimAxes = bufferedAimAxes;
+            }
+
+            if (CanHammer(aimAxes) || wasGroundedFloor && aimAxes.y < 0)
+            {
+                Debug.Log("swing hammer");
+                Swing();
+            }
+            else
+            {
+                audioManager.Play("swingMiss");
+            }
+            aimAxes = Vector2.zero;
+        }
+        swing = false;
     }
 
     private void FixedUpdate()
@@ -183,8 +204,6 @@ public class Player : MonoBehaviour
             return;
         }
 
-        anim2D.SetBool("isCharging", isCharging);
-        anim2D.SetBool("shouldSwing", false);
 
         chargeDuration = Time.time - chargeStartTime;
         isGroundedFloor = IsGrounded(-rb2D.transform.up);
@@ -199,32 +218,6 @@ public class Player : MonoBehaviour
 
         Move();
 
-        if (isCharging)
-        {
-            if (chargeDuration >= strongThreshold)
-            {
-                sprite.color = Color.cyan;
-            }
-        }
-
-        if (swing && timeSinceLastSwing >= hammerCooldown)
-        {
-            if (Time.time - aimBufferTime <= aimBuffer)
-            {
-                aimAxes = bufferedAimAxes;
-            }
-
-            if (CanHammer(aimAxes) || wasGroundedFloor && aimAxes.y < 0)
-            {
-                Swing();
-            }
-            else
-            {
-                audioManager.Play("swingMiss");
-            }
-            aimAxes = Vector2.zero;
-        }
-
         timeSinceLastSwing = Time.time - previousSwingTime;
         if (timeSinceLastSwing >= timeToApplyDrag && isGroundedFloor)
         {
@@ -232,7 +225,6 @@ public class Player : MonoBehaviour
         }
 
         LimitSpeed();
-        swing = false;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -301,6 +293,7 @@ public class Player : MonoBehaviour
 
     private void Swing()
     {
+        Debug.Log("Swing");
         previousSwingTime = Time.time;
 
         Vector2 swingAxes = aimAxes;
@@ -334,6 +327,12 @@ public class Player : MonoBehaviour
         }
 
         anim2D.SetBool("shouldSwing", true);
+    }
+
+    public void SwingFinished()
+    {
+        Debug.Log("finished swing");
+        anim2D.SetBool("shouldSwing", false);
     }
 
     private void ApplyDrag()
