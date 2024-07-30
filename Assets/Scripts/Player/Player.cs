@@ -240,6 +240,7 @@ public class Player : MonoBehaviour
             audioManager.Play("death");
             rb2D.velocity = Vector2.zero;
             isAlive = false;
+            GameManagerScript.Instance.StartFadeIn();
             StartCoroutine(ReloadSceneAfterDelay());
         }
         else if (collision.gameObject.tag == "Moving Platform")
