@@ -35,7 +35,6 @@ public class Player : MonoBehaviour
     [SerializeField] private KeyCode swingRight;
     [SerializeField] private KeyCode swingDown;
     [SerializeField] private KeyCode swingUp;
-    private int numArrowKeysHeld;
 
     private float moveAxis;
     private bool swing;
@@ -62,6 +61,7 @@ public class Player : MonoBehaviour
         audioManager = FindFirstObjectByType<AudioManager>().GetComponent<AudioManager>();
         isAlive = true;
         inputActive = true;
+        isCharging = false;
     }
 
     private void Update()
@@ -81,21 +81,16 @@ public class Player : MonoBehaviour
             moveAxis = 1f;
         }
 
-        numArrowKeysHeld = 0;
-        if (Input.GetKey(swingLeft)) numArrowKeysHeld++;
-        if (Input.GetKey(swingRight)) numArrowKeysHeld++;
-        if (Input.GetKey(swingDown)) numArrowKeysHeld++;
-        if (Input.GetKey(swingUp)) numArrowKeysHeld++;
-
-        if (Input.GetKeyDown(swingLeft) || Input.GetKeyDown(swingRight) || Input.GetKeyDown(swingDown) || Input.GetKeyDown(swingUp))
+        if ((Input.GetKeyDown(swingLeft) || Input.GetKeyDown(swingRight) || Input.GetKeyDown(swingDown) || Input.GetKeyDown(swingUp)) && !isCharging)
         {
+            aimAxes = Vector2.zero;
             isCharging = true;
             chargeStartTime = Time.time;
-            if (numArrowKeysHeld == 1) audioManager.Play("swingCharge");
+            audioManager.Play("swingCharge");
 
             if (Input.GetKey(swingLeft) && Input.GetKey(swingDown))
             {
-                aimAxes = Vector2.left + Vector2.down;
+                aimAxes += Vector2.left + Vector2.down;
                 if (aimAxes.x * aimAxes.y != 0)
                 {
                     bufferedAimAxes = aimAxes;
@@ -104,7 +99,16 @@ public class Player : MonoBehaviour
             }
             else if (Input.GetKey(swingRight) && Input.GetKey(swingDown))
             {
-                aimAxes = Vector2.right + Vector2.down;
+                aimAxes += Vector2.right + Vector2.down;
+                if (aimAxes.x * aimAxes.y != 0)
+                {
+                    bufferedAimAxes = aimAxes;
+                }
+                aimBufferTime = Time.time;
+            }
+            else if (Input.GetKey(swingLeft) && Input.GetKey(swingRight))
+            {
+                aimAxes += Vector2.left + Vector2.right;
                 if (aimAxes.x * aimAxes.y != 0)
                 {
                     bufferedAimAxes = aimAxes;
@@ -113,22 +117,61 @@ public class Player : MonoBehaviour
             }
             else
             {
-                if (Input.GetKey(swingLeft)) aimAxes = Vector2.left;
+                if (Input.GetKey(swingLeft)) aimAxes += Vector2.left;
 
-                if (Input.GetKey(swingRight)) aimAxes = Vector2.right;
+                if (Input.GetKey(swingRight)) aimAxes += Vector2.right;
 
-                if (Input.GetKey(swingDown)) aimAxes = Vector2.down;
+                if (Input.GetKey(swingDown)) aimAxes += Vector2.down;
 
-                if (Input.GetKey(swingUp)) aimAxes = Vector2.up;
+                if (Input.GetKey(swingUp)) aimAxes += Vector2.up;
             }
         }
-        else if (Input.GetKeyUp(swingLeft) || Input.GetKeyUp(swingRight) || Input.GetKeyUp(swingDown) || Input.GetKeyUp(swingUp))
+        else if ((Input.GetKey(swingLeft) || Input.GetKey(swingRight) || Input.GetKey(swingDown) || Input.GetKey(swingUp)) && isCharging)
+        {
+            if (Input.GetKeyDown(swingLeft)) aimAxes += Vector2.left;
+            if (Input.GetKeyDown(swingRight)) aimAxes += Vector2.right;
+            if (Input.GetKeyDown(swingDown)) aimAxes += Vector2.down;
+            if (Input.GetKeyDown(swingUp)) aimAxes += Vector2.up;
+
+            if (Input.GetKeyUp(swingLeft)) aimAxes -= Vector2.left;
+            if (Input.GetKeyUp(swingRight)) aimAxes -= Vector2.right;
+            if (Input.GetKeyUp(swingDown)) aimAxes -= Vector2.down;
+            if (Input.GetKeyUp(swingUp)) aimAxes -= Vector2.up;
+
+            if (Input.GetKey(swingLeft) && Input.GetKey(swingDown))
+            {
+                if (aimAxes.x * aimAxes.y != 0)
+                {
+                    bufferedAimAxes = aimAxes;
+                }
+                aimBufferTime = Time.time;
+            }
+            else if (Input.GetKey(swingRight) && Input.GetKey(swingDown))
+            {
+                if (aimAxes.x * aimAxes.y != 0)
+                {
+                    bufferedAimAxes = aimAxes;
+                }
+                aimBufferTime = Time.time;
+            }
+            else if (Input.GetKey(swingLeft) && Input.GetKey(swingRight))
+            {
+                if (aimAxes.x * aimAxes.y != 0)
+                {
+                    bufferedAimAxes = aimAxes;
+                }
+                aimBufferTime = Time.time;
+            }
+        }
+
+        if (!Input.GetKey(swingLeft) && !Input.GetKey(swingRight) && !Input.GetKey(swingDown) && !Input.GetKey(swingUp) &&
+            (Input.GetKeyUp(swingLeft) || Input.GetKeyUp(swingRight) || Input.GetKeyUp(swingDown) || Input.GetKeyUp(swingUp)))
         {
             isCharging = false;
             swing = true;
             audioManager.Stop("swingCharge");
         }
-
+        
     }
 
     private void FixedUpdate()
@@ -140,10 +183,8 @@ public class Player : MonoBehaviour
             return;
         }
 
-
         anim2D.SetBool("isCharging", isCharging);
         anim2D.SetBool("shouldSwing", false);
-
 
         chargeDuration = Time.time - chargeStartTime;
         isGroundedFloor = IsGrounded(-rb2D.transform.up);
@@ -208,7 +249,7 @@ public class Player : MonoBehaviour
 
             StartCoroutine(ReloadSceneAfterDelay());
         }
-        //code for hard impact osund
+        //code for hard impact sound
         if (collision.transform.position.y < transform.position.y && (rb2D.velocity.y > smackVelocity || rb2D.velocity.x > smackVelocity))
         {
             audioManager.Play("wallHit");
@@ -292,9 +333,7 @@ public class Player : MonoBehaviour
             audioManager.Play("swingStrong");
         }
 
-
         anim2D.SetBool("shouldSwing", true);
-        // isAirborneAfterSwing = true;
     }
 
     private void ApplyDrag()
