@@ -41,19 +41,19 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Beta/Tutorial/Tutorial3.unity
     guid: a322df7543647dd4da9a2b7a505bc602
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Beta/Tutorial/MovementTutorial2.unity
     guid: 20853e85648f3e74da09583cf8abcf16
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Beta/Tutorial/MovementTutorial3.unity
     guid: b7d6fd4cb1e37ee4d91a6ad095c66f43
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Beta/Tutorial/MovementTutorial4.unity
     guid: 76e7e5b1e3b5ada418bf48816989fdd5
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Beta/Tutorial/MovementTutorial5.unity
     guid: 82ad3f1bc98f6b947a779c397bf97cc4
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Beta/Tutorial/MovementTutorial6.unity
     guid: 9b26c781208e73c42b1aa02fba0ecbf4
   - enabled: 1
@@ -68,5 +68,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Beta/Obstacles/HammerOnly.unity
     guid: c73b53d598e310147ae8c8ff9ce1386a
+  - enabled: 1
+    path: Assets/Scenes/UI Scenes/MainMenu.unity
+    guid: f74d5221701c04c60a004c69ff5aa74f
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 420499bb50e15a647adf3fd3633f3ab6, type: 2}

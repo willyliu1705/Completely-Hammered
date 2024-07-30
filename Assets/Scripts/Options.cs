@@ -107,4 +107,9 @@ public class Options : MonoBehaviour
         }
     }
 
+    public void returnMain()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
 }

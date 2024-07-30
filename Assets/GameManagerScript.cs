@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -11,6 +12,8 @@ public class GameManagerScript : MonoBehaviour
     [SerializeField] private Player playerScript;
     [SerializeField] private KeyCode restartKey;
     [SerializeField] private KeyCode pauseKey;
+    [SerializeField] private Button continueButton;
+    [SerializeField] private Button quitButton;
 
     private bool isMenuActive;
     private float restartHoldTime;
@@ -24,6 +27,8 @@ public class GameManagerScript : MonoBehaviour
         Instance = this;
         isMenuActive = false;
         restartHoldTime = 0f;
+        continueButton.onClick.AddListener(continuePressed);
+        quitButton.onClick.AddListener(quitPressed);
     }
 
     private void Start()
@@ -90,6 +95,20 @@ public class GameManagerScript : MonoBehaviour
     {
         fadeIn = false;
         fadeOut = true;
+    }
+
+    public void continuePressed()   
+    {
+        Time.timeScale = 1f;
+        isMenuActive = false;
+        pauseMenu.SetActive(isMenuActive);
+        playerScript.EnablePlayerInput();
+    }
+
+    public void quitPressed()  
+    {
+        playerScript.EnablePlayerInput();
+        SceneManager.LoadScene("MainMenu");  //Quit button in pause menu returns to main menu
     }
 
 }
