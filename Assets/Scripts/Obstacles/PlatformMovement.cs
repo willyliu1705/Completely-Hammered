@@ -5,24 +5,42 @@ using UnityEngine;
 public class PlatformMovement : MonoBehaviour
 {
 
-    [SerializeField] private GameObject[] Dests;
-    private int DestIndex = 0;
+    [SerializeField] private GameObject[] nodes;
+    [SerializeField] private Rigidbody2D rb2D;
+    [SerializeField] private float speed;
+    private int nextNode = 0;
+    private bool isReturning = false;
 
-    [SerializeField] private float speed = 2f;
+    private Rigidbody2D playerRb;
 
-    [SerializeField] Transform platform;
-
-    // Update is called once per frame
-    private void Update()
+    private void Awake()
     {
-        if (Vector2.Distance(Dests[DestIndex].transform.position, platform.position) < .1f)
+        Vector2 direction = nodes[nextNode].transform.position - transform.position;
+        GetComponent<Rigidbody2D>().velocity = direction.normalized * speed;
+    }
+
+    private void FixedUpdate()
+    {
+        if (Vector2.Distance(nodes[nextNode].transform.position, transform.position) < speed * Time.deltaTime)
         {
-            DestIndex++;
-            if (DestIndex >= Dests.Length)
-            {
-                DestIndex = 0;
-            }
+            if (nextNode >= nodes.Length - 1) { isReturning = true; }
+            else if (nextNode <= 0) { isReturning = false; }
+            nextNode = isReturning ? --nextNode: ++nextNode;
+
+            Vector2 previousVelocity = rb2D.velocity;
+            rb2D.velocity = (nodes[nextNode].transform.position - transform.position).normalized * speed;
+            Vector2 deltaVelocity = rb2D.velocity - previousVelocity;
+            if (playerRb != null) { playerRb.velocity += deltaVelocity; }
         }
-        platform.position = Vector2.MoveTowards(platform.position, Dests[DestIndex].transform.position, Time.deltaTime * speed);
+    }
+
+    public void AttachRb(Rigidbody2D rb)
+    {
+        playerRb = rb;
+    }
+
+    public void DetachRb()
+    {
+        playerRb = null;
     }
 }
