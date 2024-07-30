@@ -189,7 +189,7 @@ MonoBehaviour:
   airAcceleration: 20
   dragCoefficient: 10
   maxHorizontalSpeed: 30
-  strongThreshold: 0.75
+  strongThreshold: 0.72
   weakHammerForce: 19
   strongHammerForce: 26
   hammerCooldown: 0.1
