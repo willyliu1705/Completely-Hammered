@@ -183,26 +183,26 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   raycastGroundLength: 0.07
-  raycastHammerLength: 0.5
+  raycastHammerLength: 0.75
   walkSpeed: 7
   groundAcceleration: 40
   airAcceleration: 20
   dragCoefficient: 10
   maxHorizontalSpeed: 30
-  strongThreshold: 1
+  strongThreshold: 0.73
   weakHammerForce: 19
   strongHammerForce: 26
   hammerCooldown: 0.1
   coyoteTimeBuffer: 0.06
   aimBuffer: 0.06
   timeToApplyDrag: 0.2
-  smackVelocity: 0
   moveLeft: 97
   moveRight: 100
   swingLeft: 276
   swingRight: 275
   swingDown: 274
   swingUp: 273
+  smackVelocity: 0
 --- !u!95 &-1364503559642567146
 Animator:
   serializedVersion: 5
