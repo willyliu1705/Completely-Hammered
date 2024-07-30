@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -212,7 +213,8 @@ public class Player : MonoBehaviour
         else if (collision.gameObject.tag == "Moving Platform")
         {
             platformRb2D = collision.gameObject.GetComponent<Rigidbody2D>();
-            if (collision.gameObject.TryGetComponent(out PlatformMovement platform))
+            bool playerIsAbove = (bc2D.bounds.center.y - bc2D.bounds.extents.y) > collision.transform.position.y;
+            if (playerIsAbove && collision.gameObject.TryGetComponent(out PlatformMovement platform))
             {
                 platform.AttachRb(rb2D);
             }
