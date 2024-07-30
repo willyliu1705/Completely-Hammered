@@ -240,13 +240,10 @@ public class Player : MonoBehaviour
             audioManager.Play("death");
             rb2D.velocity = Vector2.zero;
             isAlive = false;
-
-            GameManagerScript.Instance.StartFadeIn();
-
             StartCoroutine(ReloadSceneAfterDelay());
         }
-        //code for hard impact sound
         else if (collision.gameObject.tag == "Moving Platform")
+        {
             platformRb2D = collision.gameObject.GetComponent<Rigidbody2D>();
             bool playerIsAbove = (bc2D.bounds.center.y - bc2D.bounds.extents.y) > collision.transform.position.y;
             if (playerIsAbove && collision.gameObject.TryGetComponent(out PlatformMovement platform))
