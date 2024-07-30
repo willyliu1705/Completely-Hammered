@@ -3977,11 +3977,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2950658408173242032, guid: 414cea756afb3da4f86e122a1adff653, type: 3}
       propertyPath: m_Color.b
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2950658408173242032, guid: 414cea756afb3da4f86e122a1adff653, type: 3}
       propertyPath: m_Color.g
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2950658408173242032, guid: 414cea756afb3da4f86e122a1adff653, type: 3}
       propertyPath: m_Color.r
@@ -4001,7 +4001,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4040118520775932617, guid: 414cea756afb3da4f86e122a1adff653, type: 3}
       propertyPath: m_Name
-      value: Blue Switch
+      value: Green Switch
       objectReference: {fileID: 0}
     - target: {fileID: 6222737588899697927, guid: 414cea756afb3da4f86e122a1adff653, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4053,11 +4053,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7835068219739421124, guid: 414cea756afb3da4f86e122a1adff653, type: 3}
       propertyPath: m_Color.b
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7835068219739421124, guid: 414cea756afb3da4f86e122a1adff653, type: 3}
       propertyPath: m_Color.g
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7835068219739421124, guid: 414cea756afb3da4f86e122a1adff653, type: 3}
       propertyPath: m_Color.r
@@ -5887,11 +5887,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2950658408173242032, guid: 414cea756afb3da4f86e122a1adff653, type: 3}
       propertyPath: m_Color.b
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2950658408173242032, guid: 414cea756afb3da4f86e122a1adff653, type: 3}
       propertyPath: m_Color.g
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2950658408173242032, guid: 414cea756afb3da4f86e122a1adff653, type: 3}
       propertyPath: m_Color.r
@@ -5911,7 +5911,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4040118520775932617, guid: 414cea756afb3da4f86e122a1adff653, type: 3}
       propertyPath: m_Name
-      value: Green Switch
+      value: Blue Switch
       objectReference: {fileID: 0}
     - target: {fileID: 6222737588899697927, guid: 414cea756afb3da4f86e122a1adff653, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5963,11 +5963,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7835068219739421124, guid: 414cea756afb3da4f86e122a1adff653, type: 3}
       propertyPath: m_Color.b
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7835068219739421124, guid: 414cea756afb3da4f86e122a1adff653, type: 3}
       propertyPath: m_Color.g
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7835068219739421124, guid: 414cea756afb3da4f86e122a1adff653, type: 3}
       propertyPath: m_Color.r
