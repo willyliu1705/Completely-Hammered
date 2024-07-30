@@ -87,46 +87,9 @@ public class Player : MonoBehaviour
             isCharging = true;
             chargeStartTime = Time.time;
             audioManager.Play("swingCharge");
-
-            if (Input.GetKey(swingLeft) && Input.GetKey(swingDown))
-            {
-                aimAxes += Vector2.left + Vector2.down;
-                if (aimAxes.x * aimAxes.y != 0)
-                {
-                    bufferedAimAxes = aimAxes;
-                }
-                aimBufferTime = Time.time;
-            }
-            else if (Input.GetKey(swingRight) && Input.GetKey(swingDown))
-            {
-                aimAxes += Vector2.right + Vector2.down;
-                if (aimAxes.x * aimAxes.y != 0)
-                {
-                    bufferedAimAxes = aimAxes;
-                }
-                aimBufferTime = Time.time;
-            }
-            else if (Input.GetKey(swingLeft) && Input.GetKey(swingRight))
-            {
-                aimAxes += Vector2.left + Vector2.right;
-                if (aimAxes.x * aimAxes.y != 0)
-                {
-                    bufferedAimAxes = aimAxes;
-                }
-                aimBufferTime = Time.time;
-            }
-            else
-            {
-                if (Input.GetKey(swingLeft)) aimAxes += Vector2.left;
-
-                if (Input.GetKey(swingRight)) aimAxes += Vector2.right;
-
-                if (Input.GetKey(swingDown)) aimAxes += Vector2.down;
-
-                if (Input.GetKey(swingUp)) aimAxes += Vector2.up;
-            }
         }
-        else if ((Input.GetKey(swingLeft) || Input.GetKey(swingRight) || Input.GetKey(swingDown) || Input.GetKey(swingUp)) && isCharging)
+
+        if ((Input.GetKey(swingLeft) || Input.GetKey(swingRight) || Input.GetKey(swingDown) || Input.GetKey(swingUp)) && isCharging)
         {
             if (Input.GetKeyDown(swingLeft)) aimAxes += Vector2.left;
             if (Input.GetKeyDown(swingRight)) aimAxes += Vector2.right;
@@ -173,6 +136,18 @@ public class Player : MonoBehaviour
         }
         anim2D.SetBool("isCharging", isCharging);
 
+        chargeDuration = Time.time - chargeStartTime;
+        timeSinceLastSwing = Time.time - previousSwingTime;
+
+        isGroundedFloor = IsGrounded(-rb2D.transform.up);
+        if (isGroundedFloor)
+        {
+            wasGroundedFloor = true;
+        }
+        else
+        {
+            StartCoroutine(SetWasGroundedAfterDelay(false));
+        }
 
         if (swing && timeSinceLastSwing >= hammerCooldown)
         {
@@ -183,7 +158,6 @@ public class Player : MonoBehaviour
 
             if (CanHammer(aimAxes) || wasGroundedFloor && aimAxes.y < 0)
             {
-                Debug.Log("swing hammer");
                 Swing();
             }
             else
@@ -193,6 +167,8 @@ public class Player : MonoBehaviour
             aimAxes = Vector2.zero;
         }
         swing = false;
+
+        LimitSpeed();
     }
 
     private void FixedUpdate()
@@ -204,27 +180,12 @@ public class Player : MonoBehaviour
             return;
         }
 
-
-        chargeDuration = Time.time - chargeStartTime;
-        isGroundedFloor = IsGrounded(-rb2D.transform.up);
-        if (isGroundedFloor)
-        {
-            wasGroundedFloor = true;
-        }
-        else
-        {
-            StartCoroutine(SetWasGroundedAfterDelay(false));
-        }
-
         Move();
 
-        timeSinceLastSwing = Time.time - previousSwingTime;
         if (timeSinceLastSwing >= timeToApplyDrag && isGroundedFloor)
         {
             ApplyDrag();
         }
-
-        LimitSpeed();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -246,7 +207,6 @@ public class Player : MonoBehaviour
         {
             audioManager.Play("wallHit");
         }
-
     }
 
     private IEnumerator ReloadSceneAfterDelay()
@@ -273,7 +233,6 @@ public class Player : MonoBehaviour
 
     private void Move()
     {
-        sprite.color = Color.white;
         float acceleration = isGroundedFloor ? groundAcceleration : airAcceleration;
         if (walkSpeed - rb2D.velocity.x * moveAxis < 0) { acceleration = 0; }
         rb2D.AddForce(new Vector2(moveAxis, 0f) * acceleration);
@@ -288,12 +247,10 @@ public class Player : MonoBehaviour
         {
             anim2D.SetBool("isIdle", true);
         }
-
     }
 
     private void Swing()
     {
-        Debug.Log("Swing");
         previousSwingTime = Time.time;
 
         Vector2 swingAxes = aimAxes;
@@ -315,13 +272,11 @@ public class Player : MonoBehaviour
         // holding the bar for more than `strongThreshold` seconds leads to strong hammer force
         if (chargeDuration < strongThreshold)
         {
-            sprite.color = Color.yellow;
             rb2D.AddForce(-swingAxes * weakHammerForce, ForceMode2D.Impulse);
             audioManager.Play("swingWeak");
         }
         else
         {
-            sprite.color = Color.red;
             rb2D.AddForce(-swingAxes * strongHammerForce, ForceMode2D.Impulse);
             audioManager.Play("swingStrong");
         }
@@ -331,7 +286,6 @@ public class Player : MonoBehaviour
 
     public void SwingFinished()
     {
-        Debug.Log("finished swing");
         anim2D.SetBool("shouldSwing", false);
     }
 
