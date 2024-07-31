@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class ParallaxController : MonoBehaviour
 {
-
-
     Transform cam; // Main Camera
     Vector3 camStartPos;
     float distance; // distance between the camera start position and its current position
@@ -62,6 +60,4 @@ public class ParallaxController : MonoBehaviour
             Debug.Log($"Layer {i}: Distance = {distance}, Speed = {speed}");
         }
     }
-
-
 }
