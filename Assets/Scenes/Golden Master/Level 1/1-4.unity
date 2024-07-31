@@ -1320,7 +1320,7 @@ PrefabInstance:
       objectReference: {fileID: 993959839}
     - target: {fileID: 1476783179371272231, guid: ac6e15be550ad644f8c291cea875aac1, type: 3}
       propertyPath: goScreen
-      value: MovementTutorial5
+      value: 1-5
       objectReference: {fileID: 0}
     - target: {fileID: 2031561551875448502, guid: ac6e15be550ad644f8c291cea875aac1, type: 3}
       propertyPath: m_LocalScale.y
