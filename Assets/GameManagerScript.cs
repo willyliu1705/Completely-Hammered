@@ -108,6 +108,7 @@ public class GameManagerScript : MonoBehaviour
     public void quitPressed()  
     {
         playerScript.EnablePlayerInput();
+        Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");  //Quit button in pause menu returns to main menu
     }
 

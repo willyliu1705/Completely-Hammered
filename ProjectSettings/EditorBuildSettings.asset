@@ -26,7 +26,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Tutorial1.unity
     guid: 7212457a9b8d686488812536787dfa61
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Beta/Tutorial/MovementTutorial1.unity
     guid: ea164426c0e477445a1a3d83fcb77597
   - enabled: 0
@@ -71,5 +71,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/UI Scenes/MainMenu.unity
     guid: f74d5221701c04c60a004c69ff5aa74f
+  - enabled: 1
+    path: Assets/Scenes/UI Scenes/LevelSelector.unity
+    guid: 2ea341365391a4c1886dd739db71023e
+  - enabled: 1
+    path: Assets/Scenes/UI Scenes/Options.unity
+    guid: a92967e747035a24693b0d1c878d1900
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 420499bb50e15a647adf3fd3633f3ab6, type: 2}
