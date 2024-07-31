@@ -320,7 +320,7 @@ public class Player : MonoBehaviour
         }
         else if (walkSpeed - relativeVelocity.x * moveAxis < 0)
         {
-            rb2D.AddForce(new Vector2(-relativeVelocity.x * dragCoefficient, 0f));
+            rb2D.AddForce(new Vector2(-relativeVelocity.x * dragCoefficient/5, 0f));
         }
     }
 
