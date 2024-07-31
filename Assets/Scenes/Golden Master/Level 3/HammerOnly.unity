@@ -170,6 +170,63 @@ Transform:
   - {fileID: 1032328229}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &407227445
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3999938066750828480, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
+      propertyPath: m_Name
+      value: AudioManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837439559652577341, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.48088628
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837439559652577341, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.22684082
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837439559652577341, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.03973891
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837439559652577341, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837439559652577341, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837439559652577341, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837439559652577341, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837439559652577341, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837439559652577341, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837439559652577341, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
 --- !u!1001 &704688686
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -178,6 +235,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4872392604381332109, guid: 77235fd4a065ab249aecae5e997446ff, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -1.3417969
+      objectReference: {fileID: 0}
+    - target: {fileID: 5673154586001484036, guid: 77235fd4a065ab249aecae5e997446ff, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7060200597915126188, guid: 77235fd4a065ab249aecae5e997446ff, type: 3}
       propertyPath: m_Name
       value: Game Manager
@@ -1611,6 +1676,10 @@ PrefabInstance:
     - target: {fileID: 28138829477256185, guid: 4a8dbee5dd3915a4b8bf1c58c5c2ca2f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3548789014471159235, guid: 4a8dbee5dd3915a4b8bf1c58c5c2ca2f, type: 3}
+      propertyPath: goScreen
+      value: HammerOnly2
       objectReference: {fileID: 0}
     - target: {fileID: 7259520311960542496, guid: 4a8dbee5dd3915a4b8bf1c58c5c2ca2f, type: 3}
       propertyPath: m_Name
@@ -101933,7 +102002,7 @@ Transform:
   m_GameObject: {fileID: 2046285602}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -81.6, y: 10, z: -10}
+  m_LocalPosition: {x: 2.4, y: 8.8, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -102005,3 +102074,4 @@ SceneRoots:
   - {fileID: 256094536}
   - {fileID: 704688686}
   - {fileID: 1988534202}
+  - {fileID: 407227445}
