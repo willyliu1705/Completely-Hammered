@@ -89,13 +89,21 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: musicHammerTime
     clip: {fileID: 8300000, guid: bf1e50f2477301e40b832b506782e111, type: 3}
-    volume: 1
+    volume: 0.3
     pitch: 1
     loop: 1
     source: {fileID: 0}
   - name: musicWhirOfInvention
     clip: {fileID: 8300000, guid: c8ff64d50582a524a94db73083611628, type: 3}
-    volume: 1
+    volume: 0.3
     pitch: 1
     loop: 1
     source: {fileID: 0}
+  - name: musicMainMenu
+    clip: {fileID: 8300000, guid: 46613e1a9c6c90b44922f1969e6da877, type: 3}
+    volume: 0.3
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  SFXClips: []
+  MusicClips: []
