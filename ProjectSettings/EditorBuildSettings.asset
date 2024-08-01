@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/UI Scenes/MainMenu.unity
+    guid: f74d5221701c04c60a004c69ff5aa74f
+  - enabled: 1
     path: Assets/Scenes/Golden Master/LevelSelect.unity
     guid: efde4cb4fe0d5994a8adf5df56d75c2c
   - enabled: 1
@@ -74,9 +77,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Golden Master/Level 3/Moving Spikes.unity
     guid: a0aed343e8dab0d4dad37e642bb47418
-  - enabled: 1
-    path: Assets/Scenes/UI Scenes/MainMenu.unity
-    guid: f74d5221701c04c60a004c69ff5aa74f
   - enabled: 1
     path: Assets/Scenes/UI Scenes/Options.unity
     guid: a92967e747035a24693b0d1c878d1900
