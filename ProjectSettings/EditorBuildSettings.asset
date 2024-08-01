@@ -27,7 +27,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Golden Master/Level 1/1-6.unity
     guid: 9b26c781208e73c42b1aa02fba0ecbf4
   - enabled: 1
-    path: Assets/Scenes/Golden Master/Level 1/Tutorial1-2.unity
+    path: Assets/Scenes/Golden Master/Level 1/1-7.unity
     guid: 364a9aa7ce4d3834b8569192d6c38477
   - enabled: 1
     path: Assets/Scenes/Golden Master/Level 1/MovementTutorial7.unity
