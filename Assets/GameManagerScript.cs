@@ -29,6 +29,13 @@ public class GameManagerScript : MonoBehaviour
         restartHoldTime = 0f;
         continueButton.onClick.AddListener(continuePressed);
         quitButton.onClick.AddListener(quitPressed);
+
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        if (currentSceneIndex > PlayerPrefs.GetInt("maxSceneIndex"))
+        {
+            PlayerPrefs.SetInt("maxSceneIndex", currentSceneIndex);
+        }
+        PlayerPrefs.Save();
     }
 
     private void Start()
