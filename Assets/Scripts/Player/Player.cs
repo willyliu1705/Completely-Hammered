@@ -19,7 +19,8 @@ public class Player : MonoBehaviour
     [SerializeField] private float walkSpeed;
     [SerializeField] private float groundAcceleration;
     [SerializeField] private float airAcceleration;
-    [SerializeField] private float dragCoefficient;
+    [SerializeField] private float staticDragCoefficient;
+    [SerializeField] private float kineticDragCoefficient;
     [SerializeField] private float maxHorizontalSpeed;
     [SerializeField] private float strongThreshold;
     [SerializeField] private float weakHammerForce;
@@ -316,11 +317,11 @@ public class Player : MonoBehaviour
     {
         if (relativeVelocity.x * moveAxis <= 0)
         {
-            rb2D.AddForce(new Vector2(-relativeVelocity.x * dragCoefficient, 0f));
+            rb2D.AddForce(new Vector2(-relativeVelocity.x * staticDragCoefficient, 0f));
         }
         else if (walkSpeed - relativeVelocity.x * moveAxis < 0)
         {
-            rb2D.AddForce(new Vector2(-relativeVelocity.x * dragCoefficient/5, 0f));
+            rb2D.AddForce(new Vector2(-relativeVelocity.x * kineticDragCoefficient, 0f));
         }
     }
 
