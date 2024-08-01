@@ -66,7 +66,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: -1000
   far clip plane: 1000
   field of view: 60
   orthographic: 1
@@ -150,3 +150,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12746249b29ac65439882c438cf1e042, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultAspectRatio: 1.7777778
