@@ -60,9 +60,19 @@ public class AudioManager : MonoBehaviour
             s.source.Stop();
         }
     }
-
+    Sound bgm;
     public void PlayMusic(string name)
     {
+        if(bgm != null){
+            if (bgm.name == name){
+                return;
+            }
+        }
+        foreach (Sound s in sounds){
+            if (s.name == name){
+                bgm = s;
+            }
+        }
         StopMusic();
         Play(name);
     }
