@@ -14,6 +14,8 @@ public class GameManagerScript : MonoBehaviour
     [SerializeField] private KeyCode pauseKey;
     [SerializeField] private Button continueButton;
     [SerializeField] private Button quitButton;
+    //[SerializeField] private AudioManager audioManager;
+    private AudioSource[] audioSources;
 
     private bool isMenuActive;
     private float restartHoldTime;
@@ -61,11 +63,13 @@ public class GameManagerScript : MonoBehaviour
             {
                 Time.timeScale = 0f;
                 playerScript.DisablePlayerInput();
+                PauseAudio();
             }
             else
             {
                 Time.timeScale = 1f;
                 playerScript.EnablePlayerInput();
+                UnpauseAudio();
             }
         }
 
@@ -103,6 +107,8 @@ public class GameManagerScript : MonoBehaviour
         isMenuActive = false;
         pauseMenu.SetActive(isMenuActive);
         playerScript.EnablePlayerInput();
+
+        UnpauseAudio();
     }
 
     public void quitPressed()  
@@ -110,6 +116,26 @@ public class GameManagerScript : MonoBehaviour
         playerScript.EnablePlayerInput();
         Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");  //Quit button in pause menu returns to main menu
+    }
+
+    private void PauseAudio()
+    {
+        audioSources = FindObjectsOfType<AudioSource>();
+        foreach (AudioSource audio in audioSources)
+        {
+            audio.Pause();
+        }
+    }
+
+    private void UnpauseAudio()
+    {
+        if (audioSources != null)
+        {
+            foreach (AudioSource audio in audioSources)
+            {
+                audio.UnPause();
+            }
+        }
     }
 
 }

@@ -99,3 +99,21 @@ MonoBehaviour:
     pitch: 1
     loop: 1
     source: {fileID: 0}
+  SFXClips:
+  - {fileID: 8300000, guid: 78fc765989794b44fa991847849c2cc2, type: 3}
+  - {fileID: 8300000, guid: ba58746f12a1d024386a8c6edb011462, type: 3}
+  - {fileID: 8300000, guid: 4660e277334a48e4ca37da0ec99863d9, type: 3}
+  - {fileID: 8300000, guid: 1cc9830bcd820b344acefee82cc98309, type: 3}
+  - {fileID: 8300000, guid: add83719d9cb0e34082a80fb7f343044, type: 3}
+  - {fileID: 8300000, guid: eec5be7b97558dd4896ae604393f5ca5, type: 3}
+  - {fileID: 8300000, guid: 5d05fe990e85fdb4e86e0d7b16d5847e, type: 3}
+  - {fileID: 8300000, guid: db52971886c002c4f9934c7047c49082, type: 3}
+  - {fileID: 8300000, guid: f9f159239e9af5f4b9d82556bfd1b937, type: 3}
+  - {fileID: 8300000, guid: 4941f9ab34c3ef640afe078da5951b2f, type: 3}
+  - {fileID: 8300000, guid: ea5902edaa1456d46a51c554e5df5984, type: 3}
+  - {fileID: 8300000, guid: 6aae92d7881030b44a5290de6874fee3, type: 3}
+  - {fileID: 8300000, guid: 24d92051969fb7a4181e0a0dcec44f15, type: 3}
+  - {fileID: 8300000, guid: 11e078d2a61f5cb4ba10c0b201fd27f5, type: 3}
+  MusicClips:
+  - {fileID: 8300000, guid: bf1e50f2477301e40b832b506782e111, type: 3}
+  - {fileID: 8300000, guid: c8ff64d50582a524a94db73083611628, type: 3}
