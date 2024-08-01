@@ -5855,6 +5855,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 899303108967029259, guid: 77235fd4a065ab249aecae5e997446ff, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 899303108967029259, guid: 77235fd4a065ab249aecae5e997446ff, type: 3}
+      propertyPath: m_ScreenMatchMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4872392604381332109, guid: 77235fd4a065ab249aecae5e997446ff, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -1.3417969
