@@ -105,5 +105,11 @@ MonoBehaviour:
     pitch: 1
     loop: 1
     source: {fileID: 0}
+  - name: musicTutorial
+    clip: {fileID: 8300000, guid: 128bf594940c81f4d8da39690f51414d, type: 3}
+    volume: 0.3
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
   SFXClips: []
   MusicClips: []
