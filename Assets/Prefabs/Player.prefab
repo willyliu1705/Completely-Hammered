@@ -202,7 +202,7 @@ MonoBehaviour:
   swingRight: 275
   swingDown: 274
   swingUp: 273
-  smackVelocity: 4
+  smackVelocity: 100
 --- !u!95 &-1364503559642567146
 Animator:
   serializedVersion: 5
