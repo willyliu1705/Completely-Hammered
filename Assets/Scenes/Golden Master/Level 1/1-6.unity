@@ -7602,7 +7602,7 @@ GameObject:
   - component: {fileID: 1536630447}
   - component: {fileID: 1536630446}
   m_Layer: 0
-  m_Name: Walk Text
+  m_Name: Air Hammer Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

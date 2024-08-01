@@ -204,7 +204,7 @@ GameObject:
   - component: {fileID: 784800631}
   - component: {fileID: 784800630}
   m_Layer: 0
-  m_Name: Walk Text
+  m_Name: Momentum Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

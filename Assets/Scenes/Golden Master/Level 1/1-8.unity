@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 18617297}
   - component: {fileID: 18617296}
   m_Layer: 0
-  m_Name: Hammer Text
+  m_Name: Chain Swings Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1214,7 +1214,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 28138829477256185, guid: 4a8dbee5dd3915a4b8bf1c58c5c2ca2f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 28138829477256185, guid: 4a8dbee5dd3915a4b8bf1c58c5c2ca2f, type: 3}
       propertyPath: m_LocalPosition.z
