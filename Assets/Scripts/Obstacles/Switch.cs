@@ -20,6 +20,7 @@ public class Switch : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         On = !On;
+        FindObjectOfType<AudioManager>().Play("switchClick");
     }
     void Update()
     {
