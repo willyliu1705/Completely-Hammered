@@ -186,6 +186,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Game Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 5673154586001484036, guid: 77235fd4a065ab249aecae5e997446ff, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8214941243894606416, guid: 77235fd4a065ab249aecae5e997446ff, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.3417767
@@ -6192,7 +6196,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4082536576649058124, guid: f319ef98000f79d4cb45eecebac27048, type: 3}
       propertyPath: orthographic size
-      value: 12
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 8919515639028678252, guid: f319ef98000f79d4cb45eecebac27048, type: 3}
       propertyPath: m_Name
