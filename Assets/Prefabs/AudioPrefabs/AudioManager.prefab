@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sounds:
   - name: death
-    clip: {fileID: 8300000, guid: ba58746f12a1d024386a8c6edb011462, type: 3}
+    clip: {fileID: 8300000, guid: 69f77749503e6454eb65520c71f6b8e2, type: 3}
     volume: 1
     pitch: 1
     loop: 0
@@ -89,13 +89,33 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: musicHammerTime
     clip: {fileID: 8300000, guid: bf1e50f2477301e40b832b506782e111, type: 3}
-    volume: 1
+    volume: 0.3
     pitch: 1
     loop: 1
     source: {fileID: 0}
   - name: musicWhirOfInvention
     clip: {fileID: 8300000, guid: c8ff64d50582a524a94db73083611628, type: 3}
-    volume: 1
+    volume: 0.3
     pitch: 1
     loop: 1
     source: {fileID: 0}
+  - name: musicMainMenu
+    clip: {fileID: 8300000, guid: 46613e1a9c6c90b44922f1969e6da877, type: 3}
+    volume: 0.3
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: musicTutorial
+    clip: {fileID: 8300000, guid: d4daa7f4e831fe242bfd678d096f4f55, type: 3}
+    volume: 0.3
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: wallHit
+    clip: {fileID: 8300000, guid: 5d05fe990e85fdb4e86e0d7b16d5847e, type: 3}
+    volume: 0.3
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  SFXClips: []
+  MusicClips: []
