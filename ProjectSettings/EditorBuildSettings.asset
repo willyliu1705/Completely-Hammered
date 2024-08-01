@@ -27,7 +27,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Tutorial1.unity
     guid: 7212457a9b8d686488812536787dfa61
   - enabled: 0
-    path: Assets/Scenes/Beta/Tutorial/MovementTutorial1.unity
+    path: Assets/Scenes/Tileset Scenes/Background Tutorial Test.unity
     guid: ea164426c0e477445a1a3d83fcb77597
   - enabled: 0
     path: Assets/Scenes/Beta/Tutorial/Tutorial1-2.unity

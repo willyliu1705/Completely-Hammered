@@ -13,11 +13,12 @@ public class ParallaxController : MonoBehaviour
     float farthestBack;
     [Range(0.01f, 0.05f)]
     public float parallaxSpeed;
+    [SerializeField] public GameObject player;
 
     // Start is called before the first frame update
     void Start()
     {
-        cam = Camera.main.transform;
+        cam = player.transform;
         camStartPos = cam.position;
 
         int backCount = transform.childCount;
