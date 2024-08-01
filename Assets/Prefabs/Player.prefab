@@ -188,6 +188,8 @@ MonoBehaviour:
   groundAcceleration: 40
   airAcceleration: 20
   dragCoefficient: 10
+  staticDragCoefficient: 10
+  kineticDragCoefficient: 1
   maxHorizontalSpeed: 30
   strongThreshold: 0.73
   weakHammerForce: 19
