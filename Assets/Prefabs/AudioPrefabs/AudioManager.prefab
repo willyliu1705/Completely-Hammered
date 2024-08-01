@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sounds:
   - name: death
-    clip: {fileID: 8300000, guid: ba58746f12a1d024386a8c6edb011462, type: 3}
+    clip: {fileID: 8300000, guid: 69f77749503e6454eb65520c71f6b8e2, type: 3}
     volume: 1
     pitch: 1
     loop: 0
@@ -107,6 +107,12 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: musicTutorial
     clip: {fileID: 8300000, guid: 128bf594940c81f4d8da39690f51414d, type: 3}
+    volume: 0.3
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: wallHit
+    clip: {fileID: 8300000, guid: 5d05fe990e85fdb4e86e0d7b16d5847e, type: 3}
     volume: 0.3
     pitch: 1
     loop: 1
