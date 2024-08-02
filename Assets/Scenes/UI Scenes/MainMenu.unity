@@ -731,6 +731,14 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6112631441941317724, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
+      propertyPath: SFXClips.Array.data[12]
+      value: 
+      objectReference: {fileID: 8300000, guid: 22c2fe538d67a3f408f86c9177152381, type: 3}
+    - target: {fileID: 6112631441941317724, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
+      propertyPath: SFXClips.Array.data[13]
+      value: 
+      objectReference: {fileID: 8300000, guid: 7f7c62f82109f5d4fad0e48862f2787d, type: 3}
+    - target: {fileID: 6112631441941317724, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
       propertyPath: SFXClips.Array.data[14]
       value: 
       objectReference: {fileID: 8300000, guid: ad8a7d8e69c401241b76acf6be9aeeff, type: 3}
@@ -753,7 +761,7 @@ PrefabInstance:
     - target: {fileID: 6112631441941317724, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
       propertyPath: sounds.Array.data[13].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 24d92051969fb7a4181e0a0dcec44f15, type: 3}
+      objectReference: {fileID: 8300000, guid: 22c2fe538d67a3f408f86c9177152381, type: 3}
     - target: {fileID: 6112631441941317724, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
       propertyPath: sounds.Array.data[13].name
       value: stepOne
@@ -761,7 +769,7 @@ PrefabInstance:
     - target: {fileID: 6112631441941317724, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
       propertyPath: sounds.Array.data[14].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 11e078d2a61f5cb4ba10c0b201fd27f5, type: 3}
+      objectReference: {fileID: 8300000, guid: 7f7c62f82109f5d4fad0e48862f2787d, type: 3}
     - target: {fileID: 6112631441941317724, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
       propertyPath: sounds.Array.data[14].name
       value: stepTwo
