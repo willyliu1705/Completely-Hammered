@@ -36,6 +36,13 @@ public class GameManagerScript : MonoBehaviour
         restartHoldTime = 0f;
         continueButton.onClick.AddListener(continuePressed);
         quitButton.onClick.AddListener(quitPressed);
+
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        if (currentSceneIndex > PlayerPrefs.GetInt("maxSceneIndex"))
+        {
+            PlayerPrefs.SetInt("maxSceneIndex", currentSceneIndex);
+        }
+        PlayerPrefs.Save();
         optionsButton.onClick.AddListener(optionsPressed);
         backButton.onClick.AddListener(exitOptions);
     }
@@ -109,7 +116,7 @@ public class GameManagerScript : MonoBehaviour
         fadeOut = true;
     }
 
-    public void continuePressed()   
+    public void continuePressed()
     {
         Time.timeScale = 1f;
         isMenuActive = false;
@@ -119,7 +126,7 @@ public class GameManagerScript : MonoBehaviour
         AudioManager.instance.UnpauseAudio();
     }
 
-    public void quitPressed()  
+    public void quitPressed()
     {
         playerScript.EnablePlayerInput();
         Time.timeScale = 1f;

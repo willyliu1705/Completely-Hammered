@@ -14,12 +14,14 @@ public class Player : MonoBehaviour
     [SerializeField] private SpriteRenderer sprite;
     [SerializeField] private LayerMask groundLayerMask;
     [SerializeField] private LayerMask hammerOnlyLayerMask;
+    [SerializeField] private SpriteRenderer arrow;
     [SerializeField] private float raycastGroundLength;
     [SerializeField] private float raycastHammerLength;
     [SerializeField] private float walkSpeed;
     [SerializeField] private float groundAcceleration;
     [SerializeField] private float airAcceleration;
-    [SerializeField] private float dragCoefficient;
+    [SerializeField] private float staticDragCoefficient;
+    [SerializeField] private float kineticDragCoefficient;
     [SerializeField] private float maxHorizontalSpeed;
     [SerializeField] private float strongThreshold;
     [SerializeField] private float weakHammerForce;
@@ -69,6 +71,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        arrow.gameObject.SetActive(false);
         if (!isAlive || !inputActive)
         {
             return;
@@ -128,6 +131,14 @@ public class Player : MonoBehaviour
                 }
                 aimBufferTime = Time.time;
             }
+
+            Vector3 arrowAngles = arrow.transform.eulerAngles;
+            int newArrowAngle = (int) (Mathf.Atan2(aimAxes.y, aimAxes.x) * Mathf.Rad2Deg);
+            arrow.transform.eulerAngles = new Vector3(arrowAngles.x, arrowAngles.y, newArrowAngle);
+            if (aimAxes != Vector2.zero)
+            {
+                arrow.gameObject.SetActive(true);
+            }   
         }
 
         if (!Input.GetKey(swingLeft) && !Input.GetKey(swingRight) && !Input.GetKey(swingDown) && !Input.GetKey(swingUp) &&
@@ -141,6 +152,8 @@ public class Player : MonoBehaviour
 
         chargeDuration = Time.time - chargeStartTime;
         timeSinceLastSwing = Time.time - previousSwingTime;
+
+        arrow.color = chargeDuration < strongThreshold ? Color.white : Color.red;
 
         isGroundedFloor = IsGrounded(-rb2D.transform.up);
         if (isGroundedFloor)
@@ -262,8 +275,7 @@ public class Player : MonoBehaviour
 
         if (moveAxis != 0)
         {
-            // Set the localScale based on moveAxis direction
-            sprite.transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * Mathf.Sign(moveAxis), transform.localScale.y, transform.localScale.z);
+            sprite.flipX = moveAxis < 0;
             anim2D.SetBool("isIdle", false);
         }
         else
@@ -316,11 +328,11 @@ public class Player : MonoBehaviour
     {
         if (relativeVelocity.x * moveAxis <= 0)
         {
-            rb2D.AddForce(new Vector2(-relativeVelocity.x * dragCoefficient, 0f));
+            rb2D.AddForce(new Vector2(-relativeVelocity.x * staticDragCoefficient, 0f));
         }
         else if (walkSpeed - relativeVelocity.x * moveAxis < 0)
         {
-            rb2D.AddForce(new Vector2(-relativeVelocity.x * dragCoefficient/5, 0f));
+            rb2D.AddForce(new Vector2(-relativeVelocity.x * kineticDragCoefficient, 0f));
         }
     }
 
