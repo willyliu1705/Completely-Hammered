@@ -80,5 +80,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Golden Master/Level 3/Moving Spikes Hard.unity
     guid: 2f7fff5b61459d84b8526f1b67aeb9c0
+  - enabled: 1
+    path: Assets/Scenes/Golden Master/Level 3/HammerOnlyTutorial.unity
+    guid: 6b84481644731ae47b78cfbde21594af
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 420499bb50e15a647adf3fd3633f3ab6, type: 2}
