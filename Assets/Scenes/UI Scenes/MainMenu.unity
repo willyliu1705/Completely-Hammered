@@ -727,9 +727,21 @@ PrefabInstance:
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 6112631441941317724, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
+      propertyPath: MusicClips.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6112631441941317724, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
       propertyPath: SFXClips.Array.data[14]
       value: 
       objectReference: {fileID: 8300000, guid: ad8a7d8e69c401241b76acf6be9aeeff, type: 3}
+    - target: {fileID: 6112631441941317724, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
+      propertyPath: MusicClips.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: d4daa7f4e831fe242bfd678d096f4f55, type: 3}
+    - target: {fileID: 6112631441941317724, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
+      propertyPath: MusicClips.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: 46613e1a9c6c90b44922f1969e6da877, type: 3}
     - target: {fileID: 6112631441941317724, guid: fb856a02b76607d43b1aab8efe60e87e, type: 3}
       propertyPath: sounds.Array.data[12].clip
       value: 
