@@ -1850,8 +1850,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Hold to charge a strong swing
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
-  m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ad1ed618fb4d0ca40bc6da327f36545f, type: 2}
+  m_sharedMaterial: {fileID: 8468182681814285439, guid: ad1ed618fb4d0ca40bc6da327f36545f, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1940,7 +1940,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
+  - {fileID: 8468182681814285439, guid: ad1ed618fb4d0ca40bc6da327f36545f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2021,8 +2021,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Tap for a weak hammer swing
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
-  m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ad1ed618fb4d0ca40bc6da327f36545f, type: 2}
+  m_sharedMaterial: {fileID: 8468182681814285439, guid: ad1ed618fb4d0ca40bc6da327f36545f, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2111,7 +2111,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
+  - {fileID: 8468182681814285439, guid: ad1ed618fb4d0ca40bc6da327f36545f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
