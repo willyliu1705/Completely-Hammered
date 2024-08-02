@@ -21,7 +21,6 @@ public class GameManagerScript : MonoBehaviour
     [SerializeField] private GameObject optionsPanel;
     [SerializeField] private GameObject soundPanel;
     [SerializeField] private GameObject controlsPanel;
-    private AudioSource[] audioSources;
 
     private bool isMenuActive;
     private float restartHoldTime;
@@ -71,14 +70,14 @@ public class GameManagerScript : MonoBehaviour
             {
                 Time.timeScale = 0f;
                 playerScript.DisablePlayerInput();
-                PauseAudio();
+                AudioManager.instance.PauseAudio();
             }
             else
             {
                 options.SetActive(false);
                 Time.timeScale = 1f;
                 playerScript.EnablePlayerInput();
-                UnpauseAudio();
+                AudioManager.instance.UnpauseAudio();
             }
         }
 
@@ -117,7 +116,7 @@ public class GameManagerScript : MonoBehaviour
         pauseMenu.SetActive(isMenuActive);
         playerScript.EnablePlayerInput();
 
-        UnpauseAudio();
+        AudioManager.instance.UnpauseAudio();
     }
 
     public void quitPressed()  
@@ -140,28 +139,6 @@ public class GameManagerScript : MonoBehaviour
         options.SetActive(false);
         pauseMenu.SetActive(true);
     }
-
-
-    private void PauseAudio()
-    {
-        audioSources = FindObjectsOfType<AudioSource>();
-        foreach (AudioSource audio in audioSources)
-        {
-            audio.Pause();
-        }
-    }
-
-    private void UnpauseAudio()
-    {
-        if (audioSources != null)
-        {
-            foreach (AudioSource audio in audioSources)
-            {
-                audio.UnPause();
-            }
-        }
-    }
-
     private void showOptionsPanel()
     {
         optionsPanel.SetActive(true);
