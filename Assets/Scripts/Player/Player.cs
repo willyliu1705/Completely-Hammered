@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -45,6 +46,7 @@ public class Player : MonoBehaviour
     private float timeSinceLastSwing;
     private bool isGroundedFloor;
     private bool wasGroundedFloor;
+    private int moveSoundTimer;
 
     private float aimBufferTime;
     private Vector2 aimAxes;
@@ -65,6 +67,7 @@ public class Player : MonoBehaviour
         isAlive = true;
         inputActive = true;
         isCharging = false;
+        moveSoundTimer = 0;
     }
 
     private void Update()
@@ -82,6 +85,18 @@ public class Player : MonoBehaviour
         if (Input.GetKey(moveRight))
         {
             moveAxis = 1f;
+        }
+
+        if(moveAxis != 0 && isGroundedFloor)
+        {
+            moveSoundTimer++;
+            if (moveSoundTimer >= 250)
+            {
+                int r = UnityEngine.Random.Range(0, 2);
+                if (r == 0) audioManager.Play("stepOne");
+                else audioManager.Play("stepTwo");
+                moveSoundTimer = 0;
+            }
         }
 
         if ((Input.GetKeyDown(swingLeft) || Input.GetKeyDown(swingRight) || Input.GetKeyDown(swingDown) || Input.GetKeyDown(swingUp)) && !isCharging)
