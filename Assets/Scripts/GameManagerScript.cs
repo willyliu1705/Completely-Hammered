@@ -77,14 +77,12 @@ public class GameManagerScript : MonoBehaviour
             {
                 Time.timeScale = 0f;
                 playerScript.DisablePlayerInput();
-                AudioManager.instance.PauseAudio();
             }
             else
             {
                 options.SetActive(false);
                 Time.timeScale = 1f;
                 playerScript.EnablePlayerInput();
-                AudioManager.instance.UnpauseAudio();
             }
         }
 
@@ -123,7 +121,6 @@ public class GameManagerScript : MonoBehaviour
         pauseMenu.SetActive(isMenuActive);
         playerScript.EnablePlayerInput();
 
-        AudioManager.instance.UnpauseAudio();
     }
 
     public void quitPressed()
