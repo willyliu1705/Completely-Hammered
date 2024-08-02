@@ -17,7 +17,7 @@ TagManager:
   - Water
   - UI
   - Ground
-  - Background
+  - Wall
   - Lethal
   - HammerOnly
   - 

@@ -106,22 +106,6 @@ public class AudioManager : MonoBehaviour
 
     }
 
-    public void PauseAudio()
-    {
-        foreach (Sound s in sounds)
-        {
-            s.source.Pause();
-        }
-    }
-
-    public void UnpauseAudio()
-    {
-        foreach(Sound s in sounds)
-        {
-            s.source.UnPause();
-        }
-    }
-
 
 
 }
