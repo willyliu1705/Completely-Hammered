@@ -37,9 +37,11 @@ public class Options : MonoBehaviour
         float sfxvol = PlayerPrefs.GetFloat("SFXKey", 1f);
 
         musicSlider.value = musicvol;
-        musicNumber.text = musicvol.ToString("0.0");
+        int musicPercentage = Mathf.RoundToInt(musicvol * 100);
+        musicNumber.text = musicPercentage.ToString();
         sfxSlider.value = sfxvol;
-        sfxNumber.text = sfxvol.ToString("0.0");
+        int sfxPercentage = Mathf.RoundToInt(sfxvol * 100);
+        sfxNumber.text = sfxPercentage.ToString();
     }
 
     public void DefaultVolume()
@@ -50,8 +52,9 @@ public class Options : MonoBehaviour
         musicSlider.value = defaultVolume;
         sfxSlider.value = defaultVolume;
 
-        musicNumber.text = defaultVolume.ToString("0.0");
-        sfxNumber.text = defaultVolume.ToString("0.0");
+        int defaultPercentage = Mathf.RoundToInt(defaultVolume * 100);
+        musicNumber.text = defaultPercentage.ToString();
+        sfxNumber.text = defaultPercentage.ToString();
 
         ApplyMusicVolume();
         ApplySFXVolume();
@@ -61,13 +64,15 @@ public class Options : MonoBehaviour
     public void ChangeMusicVolume(float v)
     {
         tempMusicVol = v;
-        musicNumber.text = v.ToString("0.0");
+        int musicPercentage = Mathf.RoundToInt(v * 100);
+        musicNumber.text = musicPercentage.ToString();
     }
 
     public void ChangeSFXVolume(float v)
     {
         tempSFXVol = v;
-        sfxNumber.text = v.ToString("0.0");
+        int sfxPercentage = Mathf.RoundToInt(v * 100);
+        sfxNumber.text = sfxPercentage.ToString();
     }
 
     public void ApplyMusicVolume()
@@ -105,6 +110,11 @@ public class Options : MonoBehaviour
                 s.source.volume = sfxVolume;
             }
         }
+    }
+
+    public void returnMain()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 
 }

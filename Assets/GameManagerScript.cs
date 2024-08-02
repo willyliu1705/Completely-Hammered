@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -11,6 +12,15 @@ public class GameManagerScript : MonoBehaviour
     [SerializeField] private Player playerScript;
     [SerializeField] private KeyCode restartKey;
     [SerializeField] private KeyCode pauseKey;
+    [SerializeField] private Button continueButton;
+    [SerializeField] private Button quitButton;
+    [SerializeField] private Button optionsButton;
+    [SerializeField] private Button backButton;
+    [SerializeField] private GameObject options;
+    [SerializeField] private Options opt;
+    [SerializeField] private GameObject optionsPanel;
+    [SerializeField] private GameObject soundPanel;
+    [SerializeField] private GameObject controlsPanel;
 
     private bool isMenuActive;
     private float restartHoldTime;
@@ -24,6 +34,10 @@ public class GameManagerScript : MonoBehaviour
         Instance = this;
         isMenuActive = false;
         restartHoldTime = 0f;
+        continueButton.onClick.AddListener(continuePressed);
+        quitButton.onClick.AddListener(quitPressed);
+        optionsButton.onClick.AddListener(optionsPressed);
+        backButton.onClick.AddListener(exitOptions);
     }
 
     private void Start()
@@ -56,11 +70,14 @@ public class GameManagerScript : MonoBehaviour
             {
                 Time.timeScale = 0f;
                 playerScript.DisablePlayerInput();
+                AudioManager.instance.PauseAudio();
             }
             else
             {
+                options.SetActive(false);
                 Time.timeScale = 1f;
                 playerScript.EnablePlayerInput();
+                AudioManager.instance.UnpauseAudio();
             }
         }
 
@@ -90,6 +107,43 @@ public class GameManagerScript : MonoBehaviour
     {
         fadeIn = false;
         fadeOut = true;
+    }
+
+    public void continuePressed()   
+    {
+        Time.timeScale = 1f;
+        isMenuActive = false;
+        pauseMenu.SetActive(isMenuActive);
+        playerScript.EnablePlayerInput();
+
+        AudioManager.instance.UnpauseAudio();
+    }
+
+    public void quitPressed()  
+    {
+        playerScript.EnablePlayerInput();
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MainMenu");  //Quit button in pause menu returns to main menu
+    }
+
+    private void optionsPressed()
+    {
+        options.SetActive(true);
+        showOptionsPanel();
+        opt.DisplayVolume();
+        pauseMenu.SetActive(false);
+    }
+
+    private void exitOptions()
+    {
+        options.SetActive(false);
+        pauseMenu.SetActive(true);
+    }
+    private void showOptionsPanel()
+    {
+        optionsPanel.SetActive(true);
+        soundPanel.SetActive(false);
+        controlsPanel.SetActive(false);
     }
 
 }
