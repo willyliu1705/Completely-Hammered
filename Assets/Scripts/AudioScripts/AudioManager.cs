@@ -96,11 +96,11 @@ public class AudioManager : MonoBehaviour
         {
             if (MusicClips.Contains(s.clip))
             {
-                s.source.volume = musicVolume;
+                s.source.volume = musicVolume * s.volume;
             }
             else
             {
-                s.source.volume = sfxVolume;
+                s.source.volume = sfxVolume * s.volume;
             }
         }
 
