@@ -4463,7 +4463,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3548789014471159235, guid: 4a8dbee5dd3915a4b8bf1c58c5c2ca2f, type: 3}
       propertyPath: goScreen
-      value: HammerOnly
+      value: HammerOnlyTutorial
       objectReference: {fileID: 0}
     - target: {fileID: 7259520311960542496, guid: 4a8dbee5dd3915a4b8bf1c58c5c2ca2f, type: 3}
       propertyPath: m_Name
