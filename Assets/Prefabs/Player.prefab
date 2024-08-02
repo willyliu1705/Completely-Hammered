@@ -189,8 +189,8 @@ MonoBehaviour:
   walkSpeed: 7
   groundAcceleration: 40
   airAcceleration: 20
-  staticDragCoefficient: 0
-  kineticDragCoefficient: 0
+  staticDragCoefficient: 10
+  kineticDragCoefficient: 1
   maxHorizontalSpeed: 30
   strongThreshold: 0.73
   weakHammerForce: 19
