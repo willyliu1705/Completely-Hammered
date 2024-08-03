@@ -8,7 +8,7 @@ public class TimerToggle : MonoBehaviour
     [SerializeField] private Toggle toggle;
     private int timerToggle => PlayerPrefs.GetInt("TimerToggle");
 
-    public void Awake()
+    public void Update()
     {
         if (timerToggle == 1)
         {
