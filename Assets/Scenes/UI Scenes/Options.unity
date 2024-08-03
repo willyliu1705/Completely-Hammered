@@ -539,6 +539,22 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -3.8
       objectReference: {fileID: 0}
+    - target: {fileID: 2019464073854014822, guid: 8965a7404b75f9146a1444dcf4069f39, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 980723778}
+    - target: {fileID: 2019464073854014822, guid: 8965a7404b75f9146a1444dcf4069f39, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ToggleTimer
+      objectReference: {fileID: 0}
+    - target: {fileID: 2019464073854014822, guid: 8965a7404b75f9146a1444dcf4069f39, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: TimerToggle, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2019464073854014822, guid: 8965a7404b75f9146a1444dcf4069f39, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 2024018624170743705, guid: 8965a7404b75f9146a1444dcf4069f39, type: 3}
       propertyPath: m_fontAsset
       value: 
@@ -1394,6 +1410,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02fe130838e8621448124e1f06ac3566, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &980723778 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8022817735479819546, guid: 8965a7404b75f9146a1444dcf4069f39, type: 3}
+  m_PrefabInstance: {fileID: 980723774}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b925fc9a944c2714f99ca68eaeaccdb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &997233038
