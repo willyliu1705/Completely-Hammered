@@ -31,6 +31,12 @@ public class Options : MonoBehaviour
         DisplayVolume();
     }
 
+    public void ResetData()
+    {
+        PlayerPrefs.DeleteAll();
+        PlayerPrefs.SetInt("maxSceneIndex", SceneManager.GetActiveScene().buildIndex);
+    }
+
     public void DisplayVolume()
     {
         float musicvol = PlayerPrefs.GetFloat("MusicKey", 1f);
