@@ -26,7 +26,6 @@ public class GameManagerScript : MonoBehaviour
 
     private bool isMenuActive;
     private float restartHoldTime;
-    private float timePlayed;
 
     public Image image;
     private bool fadeIn; //go from light to dark
@@ -53,7 +52,6 @@ public class GameManagerScript : MonoBehaviour
     private void Start()
     {
         StartFadeOut();
-        timePlayed = PlayerPrefs.GetFloat("timePlayed");
     }
 
     private void Update()
@@ -103,11 +101,10 @@ public class GameManagerScript : MonoBehaviour
         }
 
         image.color = color;
-        timePlayed += Time.deltaTime;
-        PlayerPrefs.SetFloat("timePlayed", timePlayed);
+        PlayerPrefs.SetFloat("timePlayed", PlayerPrefs.GetFloat("timePlayed") + Time.deltaTime);
         if(PlayerPrefs.GetInt("TimerToggle") == 1)
         {
-            timePlayedText.text = TimeSpan.FromSeconds(timePlayed).ToString("m\\:ss\\.ff");
+            timePlayedText.text = TimeSpan.FromSeconds(PlayerPrefs.GetFloat("timePlayed")).ToString("m\\:ss\\.ff");
         }
         else
         {
