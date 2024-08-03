@@ -211,6 +211,7 @@ GameObject:
   - component: {fileID: 256094092}
   - component: {fileID: 256094094}
   - component: {fileID: 256094093}
+  - component: {fileID: 256094095}
   m_Layer: 5
   m_Name: Time
   m_TagString: Untagged
@@ -334,6 +335,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 256094091}
   m_CullTransparentMesh: 1
+--- !u!114 &256094095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 256094091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c790b4b4d738b4542a06e191f6c31f01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 256094093}
 --- !u!1 &281918925
 GameObject:
   m_ObjectHideFlags: 0
@@ -887,7 +901,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -71.29, y: 85}
+  m_AnchoredPosition: {x: -71.29, y: 70}
   m_SizeDelta: {x: 302.58, y: 45.0379}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1306666674
@@ -910,7 +924,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: wow, you win!
+  m_text: You Win!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ad1ed618fb4d0ca40bc6da327f36545f, type: 2}
   m_sharedMaterial: {fileID: 8468182681814285439, guid: ad1ed618fb4d0ca40bc6da327f36545f, type: 2}
