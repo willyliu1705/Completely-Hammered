@@ -92,4 +92,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Golden Master/Level 3/3-9.unity
     guid: 2f7fff5b61459d84b8526f1b67aeb9c0
+  - enabled: 1
+    path: Assets/Scenes/UI Scenes/WinScreen.unity
+    guid: 406ddf85212e08d4883dcfa2d7e0ef66
   m_configObjects: {}

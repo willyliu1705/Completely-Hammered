@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime;
@@ -21,9 +22,11 @@ public class GameManagerScript : MonoBehaviour
     [SerializeField] private GameObject optionsPanel;
     [SerializeField] private GameObject soundPanel;
     [SerializeField] private GameObject controlsPanel;
+    [SerializeField] private Text timePlayedText;
 
     private bool isMenuActive;
     private float restartHoldTime;
+    private float timePlayed;
 
     public Image image;
     private bool fadeIn; //go from light to dark
@@ -50,6 +53,7 @@ public class GameManagerScript : MonoBehaviour
     private void Start()
     {
         StartFadeOut();
+        timePlayed = PlayerPrefs.GetFloat("timePlayed");
     }
 
     private void Update()
@@ -99,7 +103,16 @@ public class GameManagerScript : MonoBehaviour
         }
 
         image.color = color;
-
+        timePlayed += Time.deltaTime;
+        PlayerPrefs.SetFloat("timePlayed", timePlayed);
+        if(PlayerPrefs.GetInt("TimerToggle") == 1)
+        {
+            timePlayedText.text = TimeSpan.FromSeconds(timePlayed).ToString("m\\:ss\\.ff");
+        }
+        else
+        {
+            timePlayedText.text = "";
+        }
     }
 
     public void StartFadeIn()

@@ -5,18 +5,16 @@ using UnityEngine;
 
 public class Switch : MonoBehaviour
 {
-
-    [SerializeField] GameObject SwitchObj;
-    [SerializeField] Transform[] TriggerDests;
-
-    [SerializeField] Transform TriggeredObject;
-
+    [SerializeField] private SpriteRenderer button;
+    [SerializeField] private Sprite buttonOff;
+    [SerializeField] private Sprite buttonOn;
+    [SerializeField] private Transform[] triggerDests;
+    [SerializeField] private Transform triggeredObject;
 
     [SerializeField] private float speed = 2f;
 
     public bool On = false;
 
-    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         On = !On;
@@ -26,11 +24,13 @@ public class Switch : MonoBehaviour
     {
         if (On)
         {
-            TriggeredObject.position = Vector2.MoveTowards(TriggeredObject.position, TriggerDests[1].transform.position, Time.deltaTime * speed);
+            if (button != null) { button.sprite = buttonOn; }
+            triggeredObject.position = Vector2.MoveTowards(triggeredObject.position, triggerDests[1].transform.position, Time.deltaTime * speed);
         }
         else
         {
-            TriggeredObject.position = Vector2.MoveTowards(TriggeredObject.position, TriggerDests[0].transform.position, Time.deltaTime * speed);
+            if (button != null) { button.sprite = buttonOff; }
+            triggeredObject.position = Vector2.MoveTowards(triggeredObject.position, triggerDests[0].transform.position, Time.deltaTime * speed);
         }
     }
 }
