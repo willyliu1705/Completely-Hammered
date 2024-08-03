@@ -11,9 +11,6 @@ public class Sound
     [Range(0f,1f)]
     public float volume;
 
-    [Range(0f, 1f)]
-    public float menu_volume;
-
     [Range(.1f,3f)]
     public float pitch;
 
