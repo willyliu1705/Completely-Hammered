@@ -1,22 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class TimerToggle : MonoBehaviour
 {
-    [SerializeField] private Toggle toggle;
+    [SerializeField] private TextMeshProUGUI buttonText;
     private int timerToggle => PlayerPrefs.GetInt("TimerToggle");
 
-    public void Update()
+    public void Awake()
     {
         if (timerToggle == 1)
         {
-            toggle.isOn = true;
+            buttonText.text = "Disable Timer";
         }
         else
         {
-            toggle.isOn = false;
+            buttonText.text = "Enable Timer";
         }
     }
 
@@ -25,10 +26,12 @@ public class TimerToggle : MonoBehaviour
         if (timerToggle == 1)
         {
             PlayerPrefs.SetInt("TimerToggle", 0);
+            buttonText.text = "Enable Timer";
         }
         else
         {
             PlayerPrefs.SetInt("TimerToggle", 1);
+            buttonText.text = "Disable Timer";
         }
     }
 }
