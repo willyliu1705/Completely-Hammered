@@ -105,7 +105,14 @@ public class GameManagerScript : MonoBehaviour
         image.color = color;
         timePlayed += Time.deltaTime;
         PlayerPrefs.SetFloat("timePlayed", timePlayed);
-        timePlayedText.text = TimeSpan.FromSeconds(timePlayed).ToString("m\\:ss\\.ff");
+        if(PlayerPrefs.GetInt("TimerToggle") == 1)
+        {
+            timePlayedText.text = TimeSpan.FromSeconds(timePlayed).ToString("m\\:ss\\.ff");
+        }
+        else
+        {
+            timePlayedText.text = "";
+        }
     }
 
     public void StartFadeIn()
