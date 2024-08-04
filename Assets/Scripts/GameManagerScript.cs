@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -22,7 +23,7 @@ public class GameManagerScript : MonoBehaviour
     [SerializeField] private GameObject optionsPanel;
     [SerializeField] private GameObject soundPanel;
     [SerializeField] private GameObject controlsPanel;
-    [SerializeField] private Text timePlayedText;
+    [SerializeField] private TextMeshProUGUI timer;
 
     private bool isMenuActive;
     private float restartHoldTime;
@@ -104,11 +105,11 @@ public class GameManagerScript : MonoBehaviour
         PlayerPrefs.SetFloat("timePlayed", PlayerPrefs.GetFloat("timePlayed") + Time.deltaTime);
         if(PlayerPrefs.GetInt("TimerToggle") == 1)
         {
-            timePlayedText.text = TimeSpan.FromSeconds(PlayerPrefs.GetFloat("timePlayed")).ToString("m\\:ss\\.ff");
+            timer.text = TimeSpan.FromSeconds(PlayerPrefs.GetFloat("timePlayed")).ToString("m\\:ss\\.ff");
         }
         else
         {
-            timePlayedText.text = "";
+            timer.text = "";
         }
     }
 
