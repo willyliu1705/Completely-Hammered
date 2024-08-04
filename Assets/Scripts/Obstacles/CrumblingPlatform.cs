@@ -12,6 +12,10 @@ public class CrumblingPlatform : MonoBehaviour, IHammerable
     [SerializeField] public Collider2D platform;
     private Vector2 center;
     private Vector2 size;
+    private bool isBreaking;
+    private bool isRespawning;
+    private float breakTimer;
+    private float respawnTimer;
 
 
     private void Start()
@@ -20,29 +24,41 @@ public class CrumblingPlatform : MonoBehaviour, IHammerable
         size = platform.bounds.size;
     }
 
+    void Update()
+    {
+        if (isBreaking)
+        {
+            breakTimer += Time.deltaTime;
+            if(breakTimer >= destroytime) { Crumble(); }
+        }
+        else if(isRespawning)
+        {
+            respawnTimer += Time.deltaTime;
+            if (respawnTimer >= respawntime && IsAreaClear()) { Respawn(); }
+
+        }
+    }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Player" && collision.transform.position.y > transform.position.y)
         {
-            StartCoroutine(RespawnPlatform());
+            isBreaking = true;
         }
     }
 
-    IEnumerator RespawnPlatform()
+    private void Crumble()
     {
-        yield return new WaitForSeconds(destroytime);
+        isBreaking = false;
+        isRespawning = true;
+        breakTimer = 0f;
         Toggle(false);
-
-        yield return new WaitForSeconds(respawntime);
-
-        if (IsAreaClear())
-        {
-            Toggle(true);
-        }
-        else
-        {
-            StartCoroutine(CheckClear());
-        }
+    }
+    private void Respawn()
+    {
+        isRespawning = false;
+        respawnTimer = 0f;
+        Toggle(true);
     }
 
     private bool IsAreaClear()
@@ -58,15 +74,6 @@ public class CrumblingPlatform : MonoBehaviour, IHammerable
         return true;
     }
 
-    private IEnumerator CheckClear()
-    {
-        while (!IsAreaClear())
-        {
-            yield return new WaitForSeconds(0.5f);
-        }
-        Toggle(true);
-    }
-
     private void Toggle(bool b)
     {
         if (!b && sprite.enabled && platform.enabled)
@@ -79,7 +86,6 @@ public class CrumblingPlatform : MonoBehaviour, IHammerable
 
     public void OnHammer()
     {
-        Toggle(false);
-        StartCoroutine(RespawnPlatform());
+        Crumble();
     }
 }
