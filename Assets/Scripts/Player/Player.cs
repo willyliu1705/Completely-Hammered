@@ -213,7 +213,6 @@ public class Player : MonoBehaviour
         {
             ApplyDrag();
         }
-        Debug.Log(rb2D.velocity.y);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

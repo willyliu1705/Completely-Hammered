@@ -6,6 +6,5 @@ public class LoadSceneScript : MonoBehaviour
     public static void LoadScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
-        Debug.Log("Hey");
     }
 }

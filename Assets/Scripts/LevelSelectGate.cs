@@ -6,6 +6,8 @@ public class LevelSelectGate : MonoBehaviour
 {
     [SerializeField] private int firstSceneIndex;
     [SerializeField] private GameObject completeText;
+    [SerializeField] GameObject subLevelSelectScreen;
+    [SerializeField] GameObject[] levels;
 
     void Awake()
     {
@@ -14,5 +16,19 @@ public class LevelSelectGate : MonoBehaviour
             gameObject.SetActive(false);
             Instantiate(completeText, transform.position + transform.up * -4.5f + transform.right * -6f, transform.rotation);
         }
+    }
+
+    public void ToggleLevelSelectScreen()
+    {
+        subLevelSelectScreen.SetActive(!subLevelSelectScreen.activeSelf);
+        for(int i = 0; i <= PlayerPrefs.GetInt("maxSceneIndex") - firstSceneIndex; i++)
+        {
+            levels[i].SetActive(true);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        ToggleLevelSelectScreen();
     }
 }
