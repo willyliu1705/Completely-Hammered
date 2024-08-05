@@ -34,7 +34,7 @@ public class Options : MonoBehaviour
     public void ResetData()
     {
         PlayerPrefs.DeleteAll();
-        PlayerPrefs.SetInt("maxSceneIndex", SceneManager.GetActiveScene().buildIndex);
+        PlayerPrefs.Save();
     }
 
     public void DisplayVolume()
@@ -120,6 +120,7 @@ public class Options : MonoBehaviour
 
     public void returnMain()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");
     }
 

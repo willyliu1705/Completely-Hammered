@@ -10,20 +10,14 @@ using UnityEngine.UI;
 public class GameManagerScript : MonoBehaviour
 {
     public static GameManagerScript Instance;
-    [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private GameObject pause;
     [SerializeField] private Player playerScript;
     [SerializeField] private KeyCode restartKey;
     [SerializeField] private KeyCode pauseKey;
-    [SerializeField] private Button continueButton;
-    [SerializeField] private Button quitButton;
-    [SerializeField] private Button optionsButton;
-    [SerializeField] private Button backButton;
-    [SerializeField] private GameObject options;
-    [SerializeField] private Options opt;
-    [SerializeField] private GameObject optionsPanel;
-    [SerializeField] private GameObject soundPanel;
-    [SerializeField] private GameObject controlsPanel;
-    [SerializeField] private TextMeshProUGUI timer;
+    [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private GameObject optionsMenu;
+    [SerializeField] private GameObject timer;
+    [SerializeField] private TextMeshProUGUI timerText;
 
     private bool isMenuActive;
     private float restartHoldTime;
@@ -37,8 +31,6 @@ public class GameManagerScript : MonoBehaviour
         Instance = this;
         isMenuActive = false;
         restartHoldTime = 0f;
-        continueButton.onClick.AddListener(continuePressed);
-        quitButton.onClick.AddListener(quitPressed);
 
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         if (currentSceneIndex > PlayerPrefs.GetInt("maxSceneIndex"))
@@ -46,13 +38,12 @@ public class GameManagerScript : MonoBehaviour
             PlayerPrefs.SetInt("maxSceneIndex", currentSceneIndex);
         }
         PlayerPrefs.Save();
-        optionsButton.onClick.AddListener(optionsPressed);
-        backButton.onClick.AddListener(exitOptions);
     }
 
     private void Start()
     {
         StartFadeOut();
+        timer.SetActive(PlayerPrefs.GetInt("TimerToggle") == 1);
     }
 
     private void Update()
@@ -74,6 +65,7 @@ public class GameManagerScript : MonoBehaviour
         if (Input.GetKeyDown(pauseKey))
         {
             isMenuActive = !isMenuActive;
+            pause.SetActive(isMenuActive);
             pauseMenu.SetActive(isMenuActive);
 
             if (isMenuActive)
@@ -83,7 +75,7 @@ public class GameManagerScript : MonoBehaviour
             }
             else
             {
-                options.SetActive(false);
+                optionsMenu.SetActive(false);
                 Time.timeScale = 1f;
                 playerScript.EnablePlayerInput();
             }
@@ -105,12 +97,13 @@ public class GameManagerScript : MonoBehaviour
         PlayerPrefs.SetFloat("timePlayed", PlayerPrefs.GetFloat("timePlayed") + Time.deltaTime);
         if(PlayerPrefs.GetInt("TimerToggle") == 1)
         {
-            timer.text = TimeSpan.FromSeconds(PlayerPrefs.GetFloat("timePlayed")).ToString("m\\:ss\\.ff");
+            timerText.text = TimeSpan.FromSeconds(PlayerPrefs.GetFloat("timePlayed")).ToString("hh\\:mm\\:ss\\.ff");
         }
-        else
-        {
-            timer.text = "";
-        }
+    }
+
+    public void ToggleGameTimer()
+    {
+        timer.SetActive(!timer.activeSelf);
     }
 
     public void StartFadeIn()
@@ -130,6 +123,7 @@ public class GameManagerScript : MonoBehaviour
         Time.timeScale = 1f;
         isMenuActive = false;
         pauseMenu.SetActive(isMenuActive);
+        pause.SetActive(isMenuActive);
         playerScript.EnablePlayerInput();
 
     }
@@ -141,24 +135,16 @@ public class GameManagerScript : MonoBehaviour
         SceneManager.LoadScene("MainMenu");  //Quit button in pause menu returns to main menu
     }
 
-    private void optionsPressed()
+    public void optionsPressed()
     {
-        options.SetActive(true);
-        showOptionsPanel();
-        opt.DisplayVolume();
+        optionsMenu.SetActive(true);
         pauseMenu.SetActive(false);
     }
 
-    private void exitOptions()
+    public void exitOptions()
     {
-        options.SetActive(false);
+        optionsMenu.SetActive(false);
         pauseMenu.SetActive(true);
-    }
-    private void showOptionsPanel()
-    {
-        optionsPanel.SetActive(true);
-        soundPanel.SetActive(false);
-        controlsPanel.SetActive(false);
     }
 
 }

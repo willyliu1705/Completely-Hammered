@@ -48,84 +48,84 @@ MonoBehaviour:
   - name: death
     clip: {fileID: 8300000, guid: 69f77749503e6454eb65520c71f6b8e2, type: 3}
     volume: 1
-    menu_volume: 0
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: jump
     clip: {fileID: 8300000, guid: 6aae92d7881030b44a5290de6874fee3, type: 3}
     volume: 1
-    menu_volume: 0
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: swingStrong
     clip: {fileID: 8300000, guid: 78fc765989794b44fa991847849c2cc2, type: 3}
     volume: 1
-    menu_volume: 0
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: swingCharge
     clip: {fileID: 8300000, guid: add83719d9cb0e34082a80fb7f343044, type: 3}
     volume: 1
-    menu_volume: 0
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: swingWeak
     clip: {fileID: 8300000, guid: db52971886c002c4f9934c7047c49082, type: 3}
     volume: 1
-    menu_volume: 0
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: swingMiss
     clip: {fileID: 8300000, guid: f9f159239e9af5f4b9d82556bfd1b937, type: 3}
     volume: 1
-    menu_volume: 0
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: platformCrumble
     clip: {fileID: 8300000, guid: 4941f9ab34c3ef640afe078da5951b2f, type: 3}
     volume: 1
-    menu_volume: 0
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: musicHammerTime
     clip: {fileID: 8300000, guid: bf1e50f2477301e40b832b506782e111, type: 3}
     volume: 0.3
-    menu_volume: 0
     pitch: 1
     loop: 1
     source: {fileID: 0}
   - name: musicWhirOfInvention
     clip: {fileID: 8300000, guid: c8ff64d50582a524a94db73083611628, type: 3}
     volume: 0.3
-    menu_volume: 0
     pitch: 1
     loop: 1
     source: {fileID: 0}
   - name: musicMainMenu
     clip: {fileID: 8300000, guid: 46613e1a9c6c90b44922f1969e6da877, type: 3}
     volume: 0.3
-    menu_volume: 0
     pitch: 1
     loop: 1
     source: {fileID: 0}
   - name: musicTutorial
     clip: {fileID: 8300000, guid: d4daa7f4e831fe242bfd678d096f4f55, type: 3}
     volume: 0.3
-    menu_volume: 0
     pitch: 1
     loop: 1
     source: {fileID: 0}
   - name: wallHit
     clip: {fileID: 8300000, guid: 5d05fe990e85fdb4e86e0d7b16d5847e, type: 3}
     volume: 0.3
-    menu_volume: 0
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: stepOne
+    clip: {fileID: 8300000, guid: 22c2fe538d67a3f408f86c9177152381, type: 3}
+    volume: 0.3
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: stepTwo
+    clip: {fileID: 8300000, guid: 7f7c62f82109f5d4fad0e48862f2787d, type: 3}
+    volume: 0.3
     pitch: 1
     loop: 0
     source: {fileID: 0}

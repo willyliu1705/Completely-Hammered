@@ -90,18 +90,6 @@ public class Player : MonoBehaviour
             moveAxis = 1f;
         }
 
-        if(moveAxis != 0 && isGroundedFloor)
-        {
-            moveSoundTimer++;
-            if (moveSoundTimer >= 250)
-            {
-                int r = UnityEngine.Random.Range(0, 2);
-                if (r == 0) audioManager.Play("stepOne");
-                else audioManager.Play("stepTwo");
-                moveSoundTimer = 0;
-            }
-        }
-
         if ((Input.GetKeyDown(swingLeft) || Input.GetKeyDown(swingRight) || Input.GetKeyDown(swingDown) || Input.GetKeyDown(swingUp)) && !isCharging)
         {
             aimAxes = Vector2.zero;
@@ -200,6 +188,13 @@ public class Player : MonoBehaviour
         swing = false;
 
         LimitSpeed();
+    }
+
+    public void MoveSound()
+    {
+        int r = UnityEngine.Random.Range(0, 2);
+        if (r == 0) audioManager.Play("stepOne");
+        else audioManager.Play("stepTwo");
     }
 
     private void FixedUpdate()
