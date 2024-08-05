@@ -1902,8 +1902,6 @@ TextureImporter:
       outline: []
       physicsShape:
       - - {x: 8, y: 16}
-        - {x: 8, y: 10}
-        - {x: 8, y: -8}
         - {x: 8, y: -16}
         - {x: 16, y: -16}
         - {x: 16, y: 16}
@@ -1954,8 +1952,6 @@ TextureImporter:
       outline: []
       physicsShape:
       - - {x: 8, y: 16}
-        - {x: 8, y: 10}
-        - {x: 8, y: -8}
         - {x: 8, y: -16}
         - {x: 16, y: -16}
         - {x: 16, y: 16}
@@ -2256,8 +2252,6 @@ TextureImporter:
       outline: []
       physicsShape:
       - - {x: 8, y: 16}
-        - {x: 8, y: 10}
-        - {x: 8, y: -8}
         - {x: 8, y: -16}
         - {x: 16, y: -16}
         - {x: 16, y: 16}
