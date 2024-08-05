@@ -103,7 +103,7 @@ public class GameManagerScript : MonoBehaviour
             }
             else
             {
-                timerText.text = time.ToString("hh\\:mm\\:ss\\.ff");
+                timerText.text = time.ToString("h\\:mm\\:ss\\.ff");
             }
         }
     }
