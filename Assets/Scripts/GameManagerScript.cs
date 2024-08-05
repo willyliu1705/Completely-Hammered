@@ -97,7 +97,14 @@ public class GameManagerScript : MonoBehaviour
         PlayerPrefs.SetFloat("timePlayed", PlayerPrefs.GetFloat("timePlayed") + Time.deltaTime);
         if(PlayerPrefs.GetInt("TimerToggle") == 1)
         {
-            timerText.text = TimeSpan.FromSeconds(PlayerPrefs.GetFloat("timePlayed")).ToString("hh\\:mm\\:ss\\.ff");
+            TimeSpan time = TimeSpan.FromSeconds(PlayerPrefs.GetFloat("timePlayed"));
+            if (PlayerPrefs.GetFloat("timePlayed") < 3600) {
+                timerText.text = time.ToString("m\\:ss\\.ff");
+            }
+            else
+            {
+                timerText.text = time.ToString("hh\\:mm\\:ss\\.ff");
+            }
         }
     }
 
