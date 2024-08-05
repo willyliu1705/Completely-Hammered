@@ -192,6 +192,7 @@ MonoBehaviour:
   staticDragCoefficient: 10
   kineticDragCoefficient: 1
   maxHorizontalSpeed: 30
+  maxVerticalSpeed: 40
   strongThreshold: 0.73
   weakHammerForce: 19
   strongHammerForce: 26

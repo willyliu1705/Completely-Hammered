@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float staticDragCoefficient;
     [SerializeField] private float kineticDragCoefficient;
     [SerializeField] private float maxHorizontalSpeed;
+    [SerializeField] private float maxVerticalSpeed;
     [SerializeField] private float strongThreshold;
     [SerializeField] private float weakHammerForce;
     [SerializeField] private float strongHammerForce;
@@ -212,6 +213,7 @@ public class Player : MonoBehaviour
         {
             ApplyDrag();
         }
+        Debug.Log(rb2D.velocity.y);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -348,10 +350,13 @@ public class Player : MonoBehaviour
 
     private void LimitSpeed()
     {
-        float maxSpeed = maxHorizontalSpeed;
-        if (Mathf.Abs(rb2D.velocity.x) >= maxSpeed)
+        if (Mathf.Abs(rb2D.velocity.x) >= maxHorizontalSpeed)
         {
-            rb2D.velocity = new Vector2(Mathf.Sign(rb2D.velocity.x) * maxSpeed, rb2D.velocity.y);
+            rb2D.velocity = new Vector2(Mathf.Sign(rb2D.velocity.x) * maxHorizontalSpeed, rb2D.velocity.y);
+        }
+        if (Mathf.Abs(rb2D.velocity.y) >= maxVerticalSpeed)
+        {
+            rb2D.velocity = new Vector2(rb2D.velocity.x, Mathf.Sign(rb2D.velocity.y) * maxVerticalSpeed);
         }
     }
 
