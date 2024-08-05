@@ -10,6 +10,11 @@ public class FinalTImeScript : MonoBehaviour
     [SerializeField] private TextMeshProUGUI text;
     private void Awake()
     {
-        text.text = "Time: " + TimeSpan.FromSeconds(PlayerPrefs.GetFloat("timePlayed")).ToString("m\\:ss\\.ff");
+        text.text = "Time: " + TimeSpan.FromSeconds(PlayerPrefs.GetFloat("timePlayed")).ToString("hh\\:mm\\:ss\\.ff");
+    }
+
+    public void ResetTime()
+    {
+        PlayerPrefs.SetFloat("timePlayed", 0);
     }
 }
