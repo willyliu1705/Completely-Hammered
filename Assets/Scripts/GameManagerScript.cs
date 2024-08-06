@@ -11,7 +11,7 @@ public class GameManagerScript : MonoBehaviour
 {
     public static GameManagerScript Instance;
     [SerializeField] private GameObject pause;
-    [SerializeField] private Player playerScript;
+    public Player player;
     [SerializeField] private KeyCode restartKey;
     [SerializeField] private KeyCode pauseKey;
     [SerializeField] private GameObject pauseMenu;
@@ -35,6 +35,7 @@ public class GameManagerScript : MonoBehaviour
 
     private void Start()
     {
+        player = FindFirstObjectByType<Player>();
         StartFadeOut();
         timer.SetActive(PlayerPrefs.GetInt("TimerToggle") == 1);
     }
@@ -64,13 +65,13 @@ public class GameManagerScript : MonoBehaviour
             if (isMenuActive)
             {
                 Time.timeScale = 0f;
-                playerScript.DisablePlayerInput();
+                player.DisablePlayerInput();
             }
             else
             {
                 optionsMenu.SetActive(false);
                 Time.timeScale = 1f;
-                playerScript.EnablePlayerInput();
+                player.EnablePlayerInput();
             }
         }
 
@@ -124,13 +125,13 @@ public class GameManagerScript : MonoBehaviour
         isMenuActive = false;
         pauseMenu.SetActive(isMenuActive);
         pause.SetActive(isMenuActive);
-        playerScript.EnablePlayerInput();
+        player.EnablePlayerInput();
 
     }
 
     public void quitPressed()
     {
-        playerScript.EnablePlayerInput();
+        player.EnablePlayerInput();
         Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");  //Quit button in pause menu returns to main menu
     }

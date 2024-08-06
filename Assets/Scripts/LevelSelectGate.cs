@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelSelectGate : MonoBehaviour
 {
@@ -21,16 +22,31 @@ public class LevelSelectGate : MonoBehaviour
     public void ToggleLevelSelectScreen()
     {
         subLevelSelectScreen.SetActive(!subLevelSelectScreen.activeSelf);
-        print(PlayerPrefs.GetInt("maxSceneIndex"));
-        print(firstSceneIndex);
+        if (subLevelSelectScreen.activeSelf)
+        {
+            GameManagerScript.Instance.player.DisablePlayerInput();
+            Debug.Log("disabling player input");
+        }
+        else
+        {
+            GameManagerScript.Instance.player.EnablePlayerInput();
+            Debug.Log("enabling player input");
+        }
         for (int i = 0; i < Mathf.Min(PlayerPrefs.GetInt("maxSceneIndex") - firstSceneIndex + 2, levels.Length); i++)
         {
             levels[i].SetActive(true);
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void OnGateTriggerCollision()
     {
-        ToggleLevelSelectScreen();
+        if (PlayerPrefs.GetInt("maxSceneIndex") < firstSceneIndex)
+        {
+            SceneManager.LoadScene(firstSceneIndex);
+        }
+        else
+        {
+            ToggleLevelSelectScreen();
+        }
     }
 }

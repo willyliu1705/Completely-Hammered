@@ -8,6 +8,6 @@ public class GateTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        gate.ToggleLevelSelectScreen();
+        gate.OnGateTriggerCollision();
     }
 }
