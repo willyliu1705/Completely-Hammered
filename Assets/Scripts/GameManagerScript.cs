@@ -31,13 +31,6 @@ public class GameManagerScript : MonoBehaviour
         Instance = this;
         isMenuActive = false;
         restartHoldTime = 0f;
-
-        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        if (currentSceneIndex > PlayerPrefs.GetInt("maxSceneIndex"))
-        {
-            PlayerPrefs.SetInt("maxSceneIndex", currentSceneIndex);
-        }
-        PlayerPrefs.Save();
     }
 
     private void Start()

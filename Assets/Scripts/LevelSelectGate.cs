@@ -11,7 +11,7 @@ public class LevelSelectGate : MonoBehaviour
 
     void Awake()
     {
-        if (PlayerPrefs.GetInt("maxSceneIndex") >= firstSceneIndex - 1)
+        if (PlayerPrefs.GetInt("maxSceneIndex", 3) >= firstSceneIndex - 1)
         {
             gameObject.SetActive(false);
             Instantiate(completeText, transform.position + transform.up * -4.5f + transform.right * -6f, transform.rotation);
@@ -21,7 +21,9 @@ public class LevelSelectGate : MonoBehaviour
     public void ToggleLevelSelectScreen()
     {
         subLevelSelectScreen.SetActive(!subLevelSelectScreen.activeSelf);
-        for (int i = 0; i < Mathf.Min(PlayerPrefs.GetInt("maxSceneIndex") - firstSceneIndex, levels.Length) + 1; i++)
+        print(PlayerPrefs.GetInt("maxSceneIndex"));
+        print(firstSceneIndex);
+        for (int i = 0; i < Mathf.Min(PlayerPrefs.GetInt("maxSceneIndex") - firstSceneIndex + 2, levels.Length); i++)
         {
             levels[i].SetActive(true);
         }

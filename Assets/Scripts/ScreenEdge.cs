@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ScreenEdge : MonoBehaviour
 {
@@ -8,6 +9,12 @@ public class ScreenEdge : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Loader.Load(goScreen);
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        if (currentSceneIndex > PlayerPrefs.GetInt("maxSceneIndex"))
+        {
+            PlayerPrefs.SetInt("maxSceneIndex", currentSceneIndex);
+        }
+        PlayerPrefs.Save();
     }
 
     public string GoScreen()
