@@ -67,6 +67,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         audioManager = FindFirstObjectByType<AudioManager>().GetComponent<AudioManager>();
+        audioManager.Stop("swingCharge");
         isAlive = true;
         inputActive = true;
         isCharging = false;
