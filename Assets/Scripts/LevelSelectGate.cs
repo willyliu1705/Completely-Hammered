@@ -21,7 +21,8 @@ public class LevelSelectGate : MonoBehaviour
     public void ToggleLevelSelectScreen()
     {
         subLevelSelectScreen.SetActive(!subLevelSelectScreen.activeSelf);
-        for(int i = 0; i <= PlayerPrefs.GetInt("maxSceneIndex") - firstSceneIndex; i++)
+        levels[0].SetActive(true);
+        for (int i = 1; i < Mathf.Min(PlayerPrefs.GetInt("maxSceneIndex") - firstSceneIndex, levels.Length); i++)
         {
             levels[i].SetActive(true);
         }

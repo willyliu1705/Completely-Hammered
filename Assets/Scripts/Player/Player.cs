@@ -145,12 +145,13 @@ public class Player : MonoBehaviour
             }   
         }
 
-        if (!Input.GetKey(swingLeft) && !Input.GetKey(swingRight) && !Input.GetKey(swingDown) && !Input.GetKey(swingUp) &&
-            (Input.GetKeyUp(swingLeft) || Input.GetKeyUp(swingRight) || Input.GetKeyUp(swingDown) || Input.GetKeyUp(swingUp)))
+        if (!Input.GetKey(swingLeft) && !Input.GetKey(swingRight) && !Input.GetKey(swingDown) && !Input.GetKey(swingUp))
         {
             isCharging = false;
-            swing = true;
-            audioManager.Stop("swingCharge");
+            if((Input.GetKeyUp(swingLeft) || Input.GetKeyUp(swingRight) || Input.GetKeyUp(swingDown) || Input.GetKeyUp(swingUp)){
+                swing = true;
+                audioManager.Stop("swingCharge");
+            }
         }
         anim2D.SetBool("isCharging", isCharging);
 
