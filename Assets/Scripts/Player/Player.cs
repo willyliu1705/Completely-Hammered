@@ -32,6 +32,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float coyoteTimeBuffer;
     [SerializeField] private float aimBuffer;
     [SerializeField] private float timeToApplyDrag;
+    [SerializeField] private float hammerDelay;
 
     [SerializeField] private KeyCode moveLeft;
     [SerializeField] private KeyCode moveRight;
@@ -41,15 +42,11 @@ public class Player : MonoBehaviour
     [SerializeField] private KeyCode swingUp;
 
     private float moveAxis;
-    private bool swing;
     private bool isCharging;
-    private float chargeStartTime;
-    private float previousSwingTime;
-    private float chargeDuration;
-    private float timeSinceLastSwing;
+    private float chargeTime;
+    private float swingTime;
     private bool isGroundedFloor;
     private bool wasGroundedFloor;
-    private int moveSoundTimer;
 
     private float aimBufferTime;
     private Vector2 aimAxes;
@@ -70,95 +67,21 @@ public class Player : MonoBehaviour
         isAlive = true;
         inputActive = true;
         isCharging = false;
-        moveSoundTimer = 0;
+        chargeTime = strongThreshold;
     }
 
     private void Update()
     {
-        arrow.gameObject.SetActive(false);
         if (!isAlive || !inputActive)
         {
             return;
         }
+        swingTime -= Time.deltaTime;
 
-        moveAxis = 0f;
-        if (Input.GetKey(moveLeft))
-        {
-            moveAxis = -1f;
-        }
-        if (Input.GetKey(moveRight))
-        {
-            moveAxis = 1f;
-        }
+        //read move inputs
+        Walk();
 
-        if ((Input.GetKeyDown(swingLeft) || Input.GetKeyDown(swingRight) || Input.GetKeyDown(swingDown) || Input.GetKeyDown(swingUp)) && !isCharging)
-        {
-            aimAxes = Vector2.zero;
-            isCharging = true;
-            chargeStartTime = Time.time;
-            audioManager.Play("swingCharge");
-        }
-
-        if ((Input.GetKey(swingLeft) || Input.GetKey(swingRight) || Input.GetKey(swingDown) || Input.GetKey(swingUp)) && isCharging)
-        {
-            if (Input.GetKeyDown(swingLeft)) aimAxes += Vector2.left;
-            if (Input.GetKeyDown(swingRight)) aimAxes += Vector2.right;
-            if (Input.GetKeyDown(swingDown)) aimAxes += Vector2.down;
-            if (Input.GetKeyDown(swingUp)) aimAxes += Vector2.up;
-
-            if (Input.GetKeyUp(swingLeft)) aimAxes -= Vector2.left;
-            if (Input.GetKeyUp(swingRight)) aimAxes -= Vector2.right;
-            if (Input.GetKeyUp(swingDown)) aimAxes -= Vector2.down;
-            if (Input.GetKeyUp(swingUp)) aimAxes -= Vector2.up;
-
-            if (Input.GetKey(swingLeft) && Input.GetKey(swingDown))
-            {
-                if (aimAxes.x * aimAxes.y != 0)
-                {
-                    bufferedAimAxes = aimAxes;
-                }
-                aimBufferTime = Time.time;
-            }
-            else if (Input.GetKey(swingRight) && Input.GetKey(swingDown))
-            {
-                if (aimAxes.x * aimAxes.y != 0)
-                {
-                    bufferedAimAxes = aimAxes;
-                }
-                aimBufferTime = Time.time;
-            }
-            else if (Input.GetKey(swingLeft) && Input.GetKey(swingRight))
-            {
-                if (aimAxes.x * aimAxes.y != 0)
-                {
-                    bufferedAimAxes = aimAxes;
-                }
-                aimBufferTime = Time.time;
-            }
-
-            Vector3 arrowAngles = arrow.transform.eulerAngles;
-            int newArrowAngle = (int) (Mathf.Atan2(aimAxes.y, aimAxes.x) * Mathf.Rad2Deg);
-            arrow.transform.eulerAngles = new Vector3(arrowAngles.x, arrowAngles.y, newArrowAngle);
-            if (aimAxes != Vector2.zero)
-            {
-                arrow.gameObject.SetActive(true);
-            }   
-        }
-
-        if (!Input.GetKey(swingLeft) && !Input.GetKey(swingRight) && !Input.GetKey(swingDown) && !Input.GetKey(swingUp) &&
-            (Input.GetKeyUp(swingLeft) || Input.GetKeyUp(swingRight) || Input.GetKeyUp(swingDown) || Input.GetKeyUp(swingUp)))
-        {
-            isCharging = false;
-            swing = true;
-            audioManager.Stop("swingCharge");
-        }
-        anim2D.SetBool("isCharging", isCharging);
-
-        chargeDuration = Time.time - chargeStartTime;
-        timeSinceLastSwing = Time.time - previousSwingTime;
-
-        arrow.color = chargeDuration < strongThreshold ? Color.white : Color.red;
-
+        //check if the player is grounded
         isGroundedFloor = IsGrounded(-rb2D.transform.up);
         if (isGroundedFloor)
         {
@@ -169,33 +92,112 @@ public class Player : MonoBehaviour
             StartCoroutine(SetWasGroundedAfterDelay(false));
         }
 
-        if (swing && timeSinceLastSwing >= hammerCooldown)
+        //check if the player is charging
+        if (Input.GetKey(swingLeft) || Input.GetKey(swingRight) || Input.GetKey(swingDown) || Input.GetKey(swingUp))
         {
-            if (Time.time - aimBufferTime <= aimBuffer)
+            CheckAim();
+            if (!isCharging)
             {
-                aimAxes = bufferedAimAxes;
+                audioManager.Play("swingCharge");
+                chargeTime = strongThreshold;
             }
+            isCharging = true;
+            chargeTime -= Time.deltaTime;
+            Debug.Log(aimAxes);
 
-            if (CanHammer(aimAxes) || wasGroundedFloor && aimAxes.y < 0)
+
+            if (Input.GetKey(swingLeft) && Input.GetKey(swingDown))
             {
-                Swing();
+                if (aimAxes.x * aimAxes.y != 0)
+                {
+                    bufferedAimAxes = aimAxes;
+                }
+                aimBufferTime = aimBuffer;
+            }
+            else if (Input.GetKey(swingRight) && Input.GetKey(swingDown))
+            {
+                if (aimAxes.x * aimAxes.y != 0)
+                {
+                    bufferedAimAxes = aimAxes;
+                }
+                aimBufferTime = aimBuffer;
             }
             else
             {
-                audioManager.Play("swingMiss");
+                aimBufferTime -= Time.deltaTime;
             }
-            aimAxes = Vector2.zero;
-        }
-        swing = false;
 
+            Vector3 arrowAngles = arrow.transform.eulerAngles;
+            int newArrowAngle = (int)(Mathf.Atan2(aimAxes.y, aimAxes.x) * Mathf.Rad2Deg);
+            arrow.transform.eulerAngles = new Vector3(arrowAngles.x, arrowAngles.y, newArrowAngle);
+            if (aimAxes != Vector2.zero)
+            {
+                arrow.gameObject.SetActive(true);
+                arrow.color = chargeTime <= 0 ? Color.red : Color.white;
+            }
+            anim2D.SetBool("isCharging", isCharging);
+        }
+        //the player is not charging
+        else
+        {
+            isCharging = false;
+            audioManager.Stop("swingCharge");
+            anim2D.SetBool("isCharging", isCharging);
+            arrow.gameObject.SetActive(false);
+            aimBufferTime -= Time.deltaTime;
+
+            //check if player can swing
+            if (swingTime <= 0 && !isCharging &&
+                (Input.GetKeyUp(swingLeft) || Input.GetKeyUp(swingRight) || Input.GetKeyUp(swingUp) || Input.GetKeyUp(swingDown)))
+            {
+                if (aimBufferTime > 0)
+                {
+                    aimAxes = bufferedAimAxes;
+                }
+
+                if (CanHammer(aimAxes) || wasGroundedFloor && aimAxes.y < 0)
+                {
+                    Debug.Log("Swing");
+                    Swing();
+                    swingTime = hammerCooldown;
+                }
+                else
+                {
+                    audioManager.Play("swingMiss");
+                }
+
+                aimAxes = Vector2.zero;
+            }
+        }
+        
         LimitSpeed();
     }
 
-    public void MoveSound()
+    void CheckAim()
     {
-        int r = UnityEngine.Random.Range(0, 2);
-        if (r == 0) audioManager.Play("stepOne");
-        else audioManager.Play("stepTwo");
+        Debug.Log("CheckAim");
+        if (Input.GetKeyDown(swingLeft)) { aimAxes += Vector2.left;  }
+        if (Input.GetKeyDown(swingRight)) { aimAxes += Vector2.right; }
+        if (Input.GetKeyDown(swingDown)) { aimAxes += Vector2.down;  }
+        if (Input.GetKeyDown(swingUp)) { aimAxes += Vector2.up; }
+
+        if (Input.GetKeyUp(swingLeft)) { aimAxes -= Vector2.left; }
+        if (Input.GetKeyUp(swingRight)) { aimAxes -= Vector2.right; }
+        if (Input.GetKeyUp(swingDown)) { aimAxes -= Vector2.down; }
+        if (Input.GetKeyUp(swingUp)) { aimAxes -= Vector2.up; }
+    }
+
+    public void Walk()
+    {
+        moveAxis = 0f;
+        if (Input.GetKey(moveLeft))
+        {
+            moveAxis += -1f;
+        }
+        if (Input.GetKey(moveRight))
+        {
+            moveAxis += 1f;
+        }
     }
 
     private void FixedUpdate()
@@ -209,7 +211,7 @@ public class Player : MonoBehaviour
 
         Move();
 
-        if (timeSinceLastSwing >= timeToApplyDrag && isGroundedFloor)
+        if (swingTime <= -timeToApplyDrag && isGroundedFloor)
         {
             ApplyDrag();
         }
@@ -297,8 +299,17 @@ public class Player : MonoBehaviour
 
     private void Swing()
     {
-        previousSwingTime = Time.time;
+        anim2D.SetBool("shouldSwing", true);
+        StartCoroutine(ApplySwingForce(aimAxes, chargeTime <=0));
+    }
 
+    public void SwingFinished()
+    {
+        anim2D.SetBool("shouldSwing", false);
+    }
+    IEnumerator ApplySwingForce(Vector2 aimAxes, bool strongSwing)
+    {
+        yield return new WaitForSeconds(hammerDelay);
         Vector2 swingAxes = aimAxes;
         if (swingAxes.x * swingAxes.y != 0)
         {
@@ -316,25 +327,17 @@ public class Player : MonoBehaviour
         }
 
         // holding the bar for more than `strongThreshold` seconds leads to strong hammer force
-        if (chargeDuration < strongThreshold)
-        {
-            rb2D.AddForce(-swingAxes * weakHammerForce, ForceMode2D.Impulse);
-            audioManager.Play("swingWeak");
-        }
-        else
+        if (strongSwing)
         {
             rb2D.AddForce(-swingAxes * strongHammerForce, ForceMode2D.Impulse);
             audioManager.Play("swingStrong");
         }
-
-        anim2D.SetBool("shouldSwing", true);
+        else
+        {
+            rb2D.AddForce(-swingAxes * weakHammerForce, ForceMode2D.Impulse);
+            audioManager.Play("swingWeak");
+        }
     }
-
-    public void SwingFinished()
-    {
-        anim2D.SetBool("shouldSwing", false);
-    }
-
     private void ApplyDrag()
     {
         if (relativeVelocity.x * moveAxis <= 0)

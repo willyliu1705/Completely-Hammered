@@ -196,10 +196,11 @@ MonoBehaviour:
   strongThreshold: 0.73
   weakHammerForce: 19
   strongHammerForce: 26
-  hammerCooldown: 0.1
+  hammerCooldown: 0.25
   coyoteTimeBuffer: 0.06
-  aimBuffer: 0.06
+  aimBuffer: 0.2
   timeToApplyDrag: 0.2
+  hammerDelay: 0
   moveLeft: 97
   moveRight: 100
   swingLeft: 276
