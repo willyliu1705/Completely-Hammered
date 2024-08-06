@@ -22,7 +22,7 @@ public class LevelSelectGate : MonoBehaviour
     {
         subLevelSelectScreen.SetActive(!subLevelSelectScreen.activeSelf);
         levels[0].SetActive(true);
-        for (int i = 1; i < Mathf.Min(PlayerPrefs.GetInt("maxSceneIndex") - firstSceneIndex, levels.Length); i++)
+        for (int i = 1; i <= Mathf.Min(PlayerPrefs.GetInt("maxSceneIndex") - firstSceneIndex, levels.Length); i++)
         {
             levels[i].SetActive(true);
         }
