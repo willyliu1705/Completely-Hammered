@@ -148,7 +148,7 @@ public class Player : MonoBehaviour
         if (!Input.GetKey(swingLeft) && !Input.GetKey(swingRight) && !Input.GetKey(swingDown) && !Input.GetKey(swingUp))
         {
             isCharging = false;
-            if((Input.GetKeyUp(swingLeft) || Input.GetKeyUp(swingRight) || Input.GetKeyUp(swingDown) || Input.GetKeyUp(swingUp)){
+            if((Input.GetKeyUp(swingLeft) || Input.GetKeyUp(swingRight) || Input.GetKeyUp(swingDown) || Input.GetKeyUp(swingUp))){
                 swing = true;
                 audioManager.Stop("swingCharge");
             }
